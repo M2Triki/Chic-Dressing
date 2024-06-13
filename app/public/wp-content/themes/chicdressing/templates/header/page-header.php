@@ -8,7 +8,7 @@
 				<?php if ( has_custom_logo() ) :
 
 				$custom_logo_id = get_theme_mod( 'custom_logo' );
-				$custom_logo 	= wp_get_attachment_image_src( $custom_logo_id , 'full' );
+				$custom_logo 	= wp_get_attachment_image_src( $custom_logo_id , 'large' );
 
 				?>
 

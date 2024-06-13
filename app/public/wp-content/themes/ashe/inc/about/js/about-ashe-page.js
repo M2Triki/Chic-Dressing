@@ -44,4 +44,11 @@ jQuery( document ).ready( function ($) {
         }
     );
 
+    $( '#ashe-woocommerce-install').on('click', function() {
+        $(this).html('Installing Woocommerce...');
+    });
+
+    $( '#ashe-woocommerce-activate').on('click', function() {
+        $(this).html('Activating Woocommerce...');
+    });
 });

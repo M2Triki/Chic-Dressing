@@ -57,7 +57,16 @@ if ( ! empty( $template )
 					echo do_shortcode( '[fl_builder_insert_layout id="' . $template . '"]' );
 
 					// Else.
+				} else if ( class_exists( 'SiteOrigin_Panels' ) && get_post_meta( $template, 'panels_data', true ) ) {
+
+					echo SiteOrigin_Panels::renderer()->render( $template );
+
 				} else {
+
+					// If Gutenberg.
+					if ( ocean_is_block_template( $template ) ) {
+						$get_content = apply_filters( 'oceanwp_topbar_template_content', do_blocks( $get_content ) );
+					}
 
 					// Display template content.
 					echo do_shortcode( $get_content );

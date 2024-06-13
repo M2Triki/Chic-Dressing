@@ -11,7 +11,7 @@ jQuery(document).ready(function($) {
             royal_elementor     = $('#royal_elementor_addons').is( ':checked' ),
             contact_from_7      = $('#contact_from_7').is( ':checked' ),
             instagram_feed      = $('#instagram_feed').is( ':checked' ),
-            wysija_newsletter   = $('#wysija_newsletter').is( ':checked' ),
+            mailchimp_newsletter   = $('#mailchimp_newsletter').is( ':checked' ),
             recent_posts        = $('#recent_posts').is( ':checked' );
 
         var elementor_active = false,
@@ -24,7 +24,7 @@ jQuery(document).ready(function($) {
         var startImport = true;
 
         // Activate Elementor
-        if ( true == elementor ) {
+        if ( true == elementor && 1 == 2 ) {
             wp.updates.installPlugin({
                 slug: 'elementor',
                 success: function() {
@@ -96,18 +96,18 @@ jQuery(document).ready(function($) {
         }
             
         // Activate Mailpoet 2
-        if ( true == wysija_newsletter ) {
+        if ( true == mailchimp_newsletter ) {
             wp.updates.installPlugin({
-                slug: 'wysija-newsletters',
+                slug: 'mailchimp-for-wp',
                 success: function() {
-                    ajaxPluginInstall( 'ashextra_wysija_newsletter_activation', wysija_newsletter );
+                    ajaxPluginInstall( 'ashextra_mailchimp_newsletter_activation', mailchimp_newsletter );
                     newsletter_active = true;
                 },
                 error: function( xhr, ajaxOptions, thrownerror ) {
                     console.log(xhr.errorCode)
                     newsletter_active = true;
                     if ( 'folder_exists' === xhr.errorCode ) {
-                        ajaxPluginInstall( 'ashextra_wysija_newsletter_activation', wysija_newsletter );
+                        ajaxPluginInstall( 'ashextra_mailchimp_newsletter_activation', mailchimp_newsletter );
                     }
                 },
             });
@@ -132,12 +132,12 @@ jQuery(document).ready(function($) {
         }
 
         var pluginsInstalled = setInterval(function() {
-            if ( elementor ) {
-                startImport = false;
-                if  ( elementor_active ) {
-                    startImport = true;
-                }
-            }
+            // if ( elementor ) {
+            //     startImport = false;
+            //     if  ( elementor_active ) {
+            //         startImport = true;
+            //     }
+            // }
 
             if ( royal_elementor ) {
                 startImport = false;
@@ -160,7 +160,7 @@ jQuery(document).ready(function($) {
                 }
             }
 
-            if ( wysija_newsletter ) {
+            if ( mailchimp_newsletter ) {
                 startImport = false;
                 if  ( newsletter_active ) {
                     startImport = true;
@@ -193,7 +193,10 @@ jQuery(document).ready(function($) {
                             importButton.remove( '.dashicons' );
                             importButton.text( 'Import Completed!' );
                             importButton.attr( 'disabled', 'disabled' );
-                            $( '.after-import-notice' ).show();
+                            // $( '.after-import-notice' ).show();
+                            var getURL  = window.location.href,    
+                                baseURL = getURL.substring(0, getURL.indexOf('/wp-admin') + 9);
+                                window.location.replace( baseURL + '/admin.php?page=ashe-extra-sub' );
                         }, 5000 );
                     },
                     error: function(MLHttpRequest, textStatus, errorThrown){
@@ -218,6 +221,7 @@ jQuery(document).ready(function($) {
             {
                 action: action,
                 ashextra_plugin_checked: plugin,
+                nonce: ashePluginOptions.nonce
             },
             function(response) {}
         )

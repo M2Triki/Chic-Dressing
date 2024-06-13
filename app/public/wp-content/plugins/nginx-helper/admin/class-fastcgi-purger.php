@@ -48,7 +48,7 @@ class FastCGI_Purger extends Purger {
 		switch ( $nginx_helper_admin->options['purge_method'] ) {
 
 			case 'unlink_files':
-				$_url_purge_base = "http://localhost/" . $parse['path'];
+				$_url_purge_base = $parse['scheme'] . '://' . $parse['host'] . $parse['path'];
 				$_url_purge      = $_url_purge_base;
 
 				if ( ! empty( $parse['query'] ) ) {
@@ -57,7 +57,7 @@ class FastCGI_Purger extends Purger {
 
 				$this->delete_cache_file_for( $_url_purge );
 
-				if ( $feed && NGINX_FEED_PURGE ) {
+				if ( $feed && ! empty( $nginx_helper_admin->options['purge_feeds'] ) ) {
 
 					$feed_url = rtrim( $_url_purge_base, '/' ) . '/feed/';
 					$this->delete_cache_file_for( $feed_url );
@@ -70,32 +70,21 @@ class FastCGI_Purger extends Purger {
 			case 'get_request':
 				// Go to default case.
 			default:
-				$_url_purge_base = "http://localhost" . $parse['path'];
+				$_url_purge_base = $this->purge_base_url() . $parse['path'];
 				$_url_purge      = $_url_purge_base;
 
 				if ( isset( $parse['query'] ) && '' !== $parse['query'] ) {
 					$_url_purge .= '?' . $parse['query'];
 				}
 
-				$args = array(
-					'headers' => array(
-						'Host' => $parse['host'],
-						'X-Purge-Cache' => 'true'
-					),
-					'cookies' => array(
-						'trial_bypass' => 'true'
-					),
-					'timeout' => 30
-				);
+				$this->do_remote_get( $_url_purge );
 
-				$this->do_remote_get( $_url_purge, $args);
-
-				if ( $feed && NGINX_FEED_PURGE) {
+				if ( $feed && ! empty( $nginx_helper_admin->options['purge_feeds'] ) ) {
 
 					$feed_url = rtrim( $_url_purge_base, '/' ) . '/feed/';
-					$this->do_remote_get( $feed_url, $args );
-					$this->do_remote_get( $feed_url . 'atom/', $args );
-					$this->do_remote_get( $feed_url . 'rdf/', $args );
+					$this->do_remote_get( $feed_url );
+					$this->do_remote_get( $feed_url . 'atom/' );
+					$this->do_remote_get( $feed_url . 'rdf/' );
 
 				}
 				break;
@@ -127,7 +116,7 @@ class FastCGI_Purger extends Purger {
 		switch ( $nginx_helper_admin->options['purge_method'] ) {
 
 			case 'unlink_files':
-				$_url_purge_base = "http://localhost/";
+				$_url_purge_base = $parse['scheme'] . '://' . $parse['host'];
 
 				if ( is_array( $purge_urls ) && ! empty( $purge_urls ) ) {
 
@@ -176,32 +165,10 @@ class FastCGI_Purger extends Purger {
 	 * Purge everything.
 	 */
 	public function purge_all() {
-		// OP cache
-    	opcache_reset();
 
-		// New Method fcgi
-        $_url_purge      = "http://localhost/purge-all";
-        $this->do_remote_get( $_url_purge );
-
-
-		// Pagespeed
-		// $_url_purge_pagespeed = "http://localhost/pagespeed_admin/cache?purge=*";
-        // $this->do_remote_get(  $_url_purge_pagespeed );
-
-		// better to use touch than admin
-		touch('/tmp/pagespeed/cache.flush');
-
-		// Cache objet WordPress
-		wp_cache_flush();
-
-
-		// Old Method
-		// $this->unlink_recursive( RT_WP_NGINX_HELPER_CACHE_PATH, false );
-
-		// Logs
+		$this->unlink_recursive( RT_WP_NGINX_HELPER_CACHE_PATH, false );
 		$this->log( '* * * * *' );
 		$this->log( '* Purged Everything!' );
-		// $this ->log($_url_purge);
 		$this->log( '* * * * *' );
 
 		/**
@@ -235,7 +202,7 @@ class FastCGI_Purger extends Purger {
 		// Prevent users from inserting a trailing '/' that could break the url purging.
 		$path = trim( $path, '/' );
 
-		$purge_url_base = "http://localhost/" . $path;
+		$purge_url_base = $parse['scheme'] . '://' . $parse['host'] . '/' . $path;
 
 		/**
 		 * Filter to change purge URL base for FastCGI cache.

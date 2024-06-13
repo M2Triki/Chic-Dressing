@@ -323,6 +323,32 @@ class SB_Instagram_Settings {
 	 * @return mixed
 	 */
 	public function filter_for_builder( $settings, $atts ) {
+
+		if ( ! isset( $atts['media'] ) ) {
+			if( isset( $settings['reelsposts'] ) ) {
+				$include_reels = $settings['reelsposts'] !== 'false' && ! empty( $settings['reelsposts'] ) ? true : false;
+			} else {
+				$include_reels = $settings['media'] === 'all' ? true : false;
+				$settings['reelsposts'] = $include_reels ? true : false;
+			}
+
+			$settings['media'] = $include_reels ? 'all' : array( 'photos', 'videos' );
+		} else {
+			$include_reels = $settings['media'] === 'all' && strpos( $settings['videotypes'], 'reels' ) !== false;
+		}
+
+		if ( ! isset( $atts['videotypes'] ) ) {
+
+			$video_types = array();
+			if ( $include_reels ) {
+				$video_types[] = 'reels';
+				$video_types[] = 'regular';
+			} else {
+				$video_types[] = 'regular';
+			}
+			$settings['videotypes'] = implode( ',', $video_types );
+		}
+
 		if ( isset( $atts['ajaxtheme'] ) ) {
 			$settings['ajaxtheme'] = $atts['ajaxtheme'] === 'true';
 		} else {
@@ -361,6 +387,9 @@ class SB_Instagram_Settings {
 	 * @return mixed
 	 */
 	public function filter_atts_for_legacy( $atts ) {
+		if ( ! is_array( $atts ) ) {
+			$atts = array();
+		}
 		if ( ! empty( $atts['from_update'] ) ) {
 			unset( $atts['from_update'] );
 			return $atts;
@@ -482,6 +511,111 @@ class SB_Instagram_Settings {
 	 */
 	public static function get_public_db_settings_keys() {
 		$public = array(
+			//New settings
+			'type',
+			'user',
+			'order',
+			'id',
+			'hashtag',
+			'tagged',
+			'width',
+			'widthunit',
+			'height',
+			'heightunit',
+			'widthresp',
+			'sortby',
+			'captionlinks',
+			'offset',
+			'num',
+			'apinum',
+			'disablelightbox',
+			'apinum',
+			'nummobile',
+			'numtablet',
+			'cols',
+			'colsmobile',
+			'colstablet',
+			'disablemobile',
+			'colstablet',
+			'imagepadding',
+			'imagepaddingunit',
+			'layout',
+			'lightboxcomments',
+			'numcomments',
+			'hovereffect',
+			'hovercolor',
+			'hovertextcolor',
+			'hoverdisplay',
+			'background',
+			'imageres',
+			'videotypes',
+			'showcaption',
+			'captionlength',
+			'hovercaptionlength',
+			'captioncolor',
+			'captionsize',
+			'showlikes',
+			'likessize',
+			'hidephotos',
+			'showbutton',
+			'buttoncolor',
+			'buttonhovercolor',
+			'buttontextcolor',
+			'buttontext',
+			'showfollow',
+			'followcolor',
+			'followhovercolor',
+			'followtextcolor',
+			'followtext',
+			'showheader',
+			'headertextsize',
+			'headercolor',
+			'headerstyle',
+			'showfollowers',
+			'showbio',
+			'custombio',
+			'customavatar',
+			'headerprimarycolor',
+			'headersecondarycolor',
+			'headersize',
+			'stories',
+			'storiestime',
+			'class',
+			'ajaxtheme',
+			'excludewords',
+			'includewords',
+			'maxrequests',
+			'carouselrows',
+			'carouselloop',
+			'carouselarrows',
+			'carouselpag',
+			'carouselautoplay',
+			'carouseltime',
+			'highlighttype',
+			'highlightoffset',
+			'highlightpattern',
+			'highlighthashtag',
+			'highlightids',
+			'whitelist',
+			'highlighttype',
+			'autoscroll',
+			'autoscrolldistance',
+			'permanent',
+			'user',
+			'feedid',
+			'resizeprocess',
+			'mediavine',
+			'customtemplates',
+			'gdpr',
+			'colorpalette',
+			'feed',
+			'minnum',
+			'disable_resize',
+			'addModerationModeLink',
+			'caching_type',
+			'ajax_post_load',
+			'reelsposts',
+
 			'sb_instagram_user_id',
 			'sb_instagram_cache_time',
 			'sb_instagram_cache_time_unit',
@@ -1324,6 +1458,13 @@ class SB_Instagram_Settings {
 
 		$settings['sb_instagram_cache_time']      = isset( $db['sb_instagram_cache_time'] ) ? $db['sb_instagram_cache_time'] : 1;
 		$settings['sb_instagram_cache_time_unit'] = isset( $db['sb_instagram_cache_time_unit'] ) ? $db['sb_instagram_cache_time_unit'] : 'hours';
+
+		// use our new colsmobile and colstablet instead of disable mobile if from the DB setting
+		if ( ! empty( $settings['disablemobile'] ) ) {
+			$settings['colstablet']    = $settings['cols'];
+			$settings['colsmobile']    = $settings['cols'];
+			$settings['disablemobile'] = false;
+		}
 
 		return $settings;
 	}

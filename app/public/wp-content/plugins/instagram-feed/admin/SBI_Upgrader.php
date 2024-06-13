@@ -63,6 +63,7 @@ class SBI_Upgrader {
 			'author'     => 'SmashBalloon',
 			'url'        => home_url(),
 			'beta'       => false,
+			'nocache'    => '1',
 		);
 
 		$api_url = trailingslashit( self::STORE_URL );
@@ -84,7 +85,7 @@ class SBI_Upgrader {
 	 */
 	public static function maybe_upgrade_redirect() {
 		$home_url = home_url();
-		check_ajax_referer( 'sbi_admin_nonce' , 'nonce');
+		check_ajax_referer( 'sbi-admin' , 'nonce');
 
 		if ( ! sbi_current_user_can( 'manage_instagram_feed_options' ) ) {
 			wp_send_json_error();
@@ -97,7 +98,7 @@ class SBI_Upgrader {
 		if ( SBI_Upgrader::is_dev_url( home_url() ) ) {
 			wp_send_json_success( array(
 				'url' => self::INSTALL_INSTRUCTIONS,
-			) );
+				) );
 		}
 		// Check license key.
 		$license = ! empty( $_POST['license_key'] ) ? sanitize_key( $_POST['license_key'] ) : '';
@@ -110,14 +111,14 @@ class SBI_Upgrader {
 			'plugin_slug' => 'pro',
 			'plugin_path' => plugin_basename( __FILE__ ),
 			'plugin_url'  => trailingslashit( WP_PLUGIN_URL ) . 'pro',
-			'home_url'  => $home_url,
+			'home_url'    => $home_url,
 			'version'     => '1.0',
 			'key'         => $license,
 		);
-		$url = add_query_arg( $args, self::CHECK_URL );
+		$url  = add_query_arg( $args, self::CHECK_URL );
 
 		$remote_request_args = array(
-			'timeout'     => '20',
+			'timeout' => '20',
 		);
 
 		$response = wp_remote_get( $url, $remote_request_args );
@@ -126,7 +127,6 @@ class SBI_Upgrader {
 			$body = wp_remote_retrieve_body( $response );
 
 			$check_key_response = json_decode( $body, true );
-
 			if ( empty( $check_key_response['license_data'] ) ) {
 
 				wp_send_json_error( array(
@@ -159,25 +159,27 @@ class SBI_Upgrader {
 
 			// Redirect.
 			$oth = hash( 'sha512', wp_rand() );
+			$hashed_oth = hash_hmac( 'sha512', $oth, wp_salt() );
+
 			update_option( 'sbi_one_click_upgrade', $oth );
-			$version  = '1.0';
-			$version_info     = SBI_Upgrader::get_version_info( $license_data );
-			$file = '';
+			$version      = '1.0';
+			$version_info = SBI_Upgrader::get_version_info( $license_data );
+			$file         = '';
 			if ( isset( $version_info->package ) ) {
 				$file = $version_info->package;
 			}
 			$siteurl  = admin_url();
 			$endpoint = admin_url( 'admin-ajax.php' );
 			$redirect = admin_url( 'admin.php?page=' . self::REDIRECT );
-			$url = add_query_arg( array(
-				'key'      => $license,
-				'oth'      => $oth,
-				'endpoint' => $endpoint,
-				'version'  => $version,
-				'siteurl'  => $siteurl,
-				'homeurl'  => $home_url,
-				'redirect' => rawurldecode( base64_encode( $redirect ) ),
-				'file'     => rawurldecode( base64_encode( $file ) ),
+			$url      = add_query_arg( array(
+				'key'         => $license,
+				'oth'         => $hashed_oth,
+				'endpoint'    => $endpoint,
+				'version'     => $version,
+				'siteurl'     => $siteurl,
+				'homeurl'     => $home_url,
+				'redirect'    => rawurldecode( base64_encode( $redirect ) ),
+				'file'        => rawurldecode( base64_encode( $file ) ),
 				'plugin_name' => self::NAME,
 			), self::UPGRADE_URL );
 			wp_send_json_success( array(
@@ -194,7 +196,7 @@ class SBI_Upgrader {
 	 *
 	 * @since 4.0
 	 */
-	function install_upgrade() {
+	public static function install_upgrade() {
 		$error = esc_html__( 'Could not install upgrade. Please download from smashballoon.com and install manually.', 'instagram-feed' );
 		// verify params present (oth & download link).
 		$post_oth = ! empty( $_REQUEST['oth'] ) ? sanitize_text_field( $_REQUEST['oth'] ) : '';
@@ -210,7 +212,7 @@ class SBI_Upgrader {
 			wp_send_json_error( $error );
 		}
 
-		if ( ! hash_equals( $oth, $post_oth ) ) {
+		if ( hash_hmac( 'sha512', $oth, wp_salt() ) !== $post_oth ) {
 			wp_send_json_error( $error );
 		}
 
@@ -270,7 +272,7 @@ class SBI_Upgrader {
 				$file = $version_info->package;
 			}
 		} else {
-			wp_send_json_error( new WP_Error( '403', esc_html__( 'You are not licensed.', 'instagram-feed' ) ) );
+			wp_send_json_error( new \WP_Error( '403', esc_html__( 'You are not licensed.', 'instagram-feed' ) ) );
 		}
 
 		if ( ! empty( $file ) ) {
@@ -325,7 +327,7 @@ class SBI_Upgrader {
 				if ( ! filter_var( $host, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE ) ) {
 					$is_local_url = true;
 				}
-			} else if ( 'localhost' === $host ) {
+			} elseif ( 'localhost' === $host ) {
 				$is_local_url = true;
 			}
 
@@ -363,6 +365,10 @@ class SBI_Upgrader {
 	 */
 	public static function get_error_message( $response ) {
 		$message = '';
+		if ( isset( $response['license_data']['license'] )  && $response['license_data']['license'] === 'invalid'){
+			$message = __( 'This license is NOT valid.', 'instagram-feed' );
+		}
+
 		if ( isset( $response['error'] ) ) {
 			$error = sanitize_text_field( $response['error'] );
 			switch ( $error ) {
@@ -373,9 +379,6 @@ class SBI_Upgrader {
 					$message = __( 'We encountered a problem unlocking the PRO features. Please install the PRO version manually.', 'instagram-feed' );
 			}
 
-		} elseif ( isset( $response['license_data'] ) ) {
-			$error   = SBI_Global_Settings::get_license_error_message( $response['license_data'] );
-			$message = $error['errorMsg'];
 		}
 
 		return $message;

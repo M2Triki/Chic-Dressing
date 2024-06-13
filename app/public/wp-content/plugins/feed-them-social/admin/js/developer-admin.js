@@ -3,7 +3,10 @@ jQuery(document).ready(function() {
         console.log('Developer Clear Cache Function');
      
         jQuery.ajax({
-            data: {action: "fts_clear_cache_ajax" },
+            data: {
+                action: "fts_clear_cache_ajax",
+                _wpnonce: ftsAjax.clearCacheNonce
+            },
             type: 'POST',
             url: ftsAjax.ajaxurl,
             success: function( response ) { 
@@ -16,4 +19,5 @@ jQuery(document).ready(function() {
 			}
         }); // end of ajax()
         return false;
-}); // end of document.ready
+});
+// end of document.ready

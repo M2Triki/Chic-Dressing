@@ -35,7 +35,7 @@ if ( 'on' === get_theme_mod( 'ocean_error_page_blank', 'off' ) ) { ?>
 
 			<div id="outer-wrap" class="site clr">
 
-				<a class="skip-link screen-reader-text" href="#main"><?php oceanwp_theme_strings( 'owp-string-header-skip-link', 'oceanwp' ); ?></a>
+				<a class="skip-link screen-reader-text" href="#main"><?php echo esc_html( oceanwp_theme_strings( 'owp-string-header-skip-link', false ) ); ?></a>
 
 				<?php do_action( 'ocean_before_wrap' ); ?>
 
@@ -85,7 +85,16 @@ if ( 'on' === get_theme_mod( 'ocean_error_page_blank', 'off' ) ) { ?>
 
 													echo do_shortcode( '[fl_builder_insert_layout id="' . $get_id . '"]' );
 
+												} else if ( class_exists( 'SiteOrigin_Panels' ) && get_post_meta( $get_id, 'panels_data', true ) ) {
+
+													echo SiteOrigin_Panels::renderer()->render( $get_id );
+
 												} else {
+
+													// If Gutenberg.
+													if ( ocean_is_block_template( $get_id ) ) {
+														$get_content = apply_filters( 'ocean_error_page_template_content', do_blocks( $get_content ) );
+													}
 
 													// Display template content.
 													echo do_shortcode( $get_content );
@@ -100,7 +109,7 @@ if ( 'on' === get_theme_mod( 'ocean_error_page_blank', 'off' ) ) { ?>
 													if ( ! empty( $logo_404 ) ) {
 														?>
 
-														<img src="<?php echo esc_url( $logo_404 ); ?>" alt="<?php esc_html_e( '404 Logo', 'oceanwp' ); ?>" title="<?php esc_html_e( '404 Logo', 'oceanwp' ); ?>" />
+														<img src="<?php echo esc_url( $logo_404 ); ?>" alt="<?php esc_attr_e( '404 Logo', 'oceanwp' ); ?>" title="<?php esc_attr_e( '404 Logo', 'oceanwp' ); ?>" />
 													<?php } ?>
 
 													<h2 class="error-title"><?php esc_html_e( 'This page could not be found!', 'oceanwp' ); ?></h2>

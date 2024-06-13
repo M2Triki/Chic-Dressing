@@ -35,8 +35,8 @@
 */
 
 class FeedThemSocialTruncateHTML {
-
-    public static function fts_custom_trim_words($html, $limit, $ellipsis = '...') {
+    // https://php.watch/versions/8.1/ReturnTypeWillChange
+    public static function fts_custom_trim_words($html, $limit, $ellipsis = null) {
 
         if($limit <= 0 || $limit >= self::countWords(strip_tags($html)))
             return $html;
@@ -50,7 +50,7 @@ class FeedThemSocialTruncateHTML {
         // Restore error level
         libxml_use_internal_errors($internalErrors);
 
-        $body = $dom->getElementsByTagName("body")->item(0);
+        $body = $dom->getElementsByTagName( 'body' )->item(0);
 
         $it = new FeedThemSocialDOMWordsIterator($body);
 
@@ -171,11 +171,13 @@ final class FeedThemSocialDOMWordsIterator implements Iterator {
     }
 
     // Implementation of Iterator interface
+    #[\ReturnTypeWillChange]
     function key()
     {
         return $this->key;
     }
 
+    #[\ReturnTypeWillChange]
     function next()
     {
         if (!$this->current) return;
@@ -214,17 +216,20 @@ final class FeedThemSocialDOMWordsIterator implements Iterator {
         return $this->next();
     }
 
+    #[\ReturnTypeWillChange]
     function current()
     {
         if ($this->current) return $this->words[$this->offset][0];
         return NULL;
     }
 
+    #[\ReturnTypeWillChange]
     function valid()
     {
         return !!$this->current;
     }
 
+    #[\ReturnTypeWillChange]
     function rewind()
     {
         $this->offset = -1; $this->words = array();

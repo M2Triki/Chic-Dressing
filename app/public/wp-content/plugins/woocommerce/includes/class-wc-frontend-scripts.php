@@ -6,6 +6,8 @@
  * @version 2.3.0
  */
 
+ // phpcs:disable WooCommerce.Commenting.CommentHooks.MissingHookComment
+
 use Automattic\Jetpack\Constants;
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -55,7 +57,14 @@ class WC_Frontend_Scripts {
 	public static function get_styles() {
 		$version = Constants::get_constant( 'WC_VERSION' );
 
-		return apply_filters(
+		/**
+		 * Filter list of WooCommerce styles to enqueue.
+		 *
+		 * @since 2.1.0
+		 * @param array List of default WooCommerce styles.
+		 * @return array List of styles to enqueue.
+		 */
+		$styles = apply_filters(
 			'woocommerce_enqueue_styles',
 			array(
 				'woocommerce-layout'      => array(
@@ -79,8 +88,16 @@ class WC_Frontend_Scripts {
 					'media'   => 'all',
 					'has_rtl' => true,
 				),
+				'woocommerce-blocktheme'  => wc_current_theme_is_fse_theme() ? array(
+					'src'     => self::get_asset_url( 'assets/css/woocommerce-blocktheme.css' ),
+					'deps'    => '',
+					'version' => $version,
+					'media'   => 'all',
+					'has_rtl' => true,
+				) : false,
 			)
 		);
+		return is_array( $styles ) ? array_filter( $styles ) : array();
 	}
 
 	/**
@@ -103,7 +120,7 @@ class WC_Frontend_Scripts {
 	 * @param  string   $version   String specifying script version number, if it has one, which is added to the URL as a query string for cache busting purposes. If version is set to false, a version number is automatically added equal to current installed WordPress version. If set to null, no version is added.
 	 * @param  boolean  $in_footer Whether to enqueue the script before </body> instead of in the <head>. Default 'false'.
 	 */
-	private static function register_script( $handle, $path, $deps = array( 'jquery' ), $version = WC_VERSION, $in_footer = true ) {
+	private static function register_script( $handle, $path, $deps = array( 'jquery' ), $version = WC_VERSION, $in_footer = array( 'strategy' => 'defer' ) ) {
 		self::$scripts[] = $handle;
 		wp_register_script( $handle, $path, $deps, $version, $in_footer );
 	}
@@ -118,7 +135,7 @@ class WC_Frontend_Scripts {
 	 * @param  string   $version   String specifying script version number, if it has one, which is added to the URL as a query string for cache busting purposes. If version is set to false, a version number is automatically added equal to current installed WordPress version. If set to null, no version is added.
 	 * @param  boolean  $in_footer Whether to enqueue the script before </body> instead of in the <head>. Default 'false'.
 	 */
-	private static function enqueue_script( $handle, $path = '', $deps = array( 'jquery' ), $version = WC_VERSION, $in_footer = true ) {
+	private static function enqueue_script( $handle, $path = '', $deps = array( 'jquery' ), $version = WC_VERSION, $in_footer = array( 'strategy' => 'defer' ) ) {
 		if ( ! in_array( $handle, self::$scripts, true ) && $path ) {
 			self::register_script( $handle, $path, $deps, $version, $in_footer );
 		}
@@ -413,7 +430,6 @@ class WC_Frontend_Scripts {
 
 		// Global frontend scripts.
 		self::enqueue_script( 'woocommerce' );
-		self::enqueue_script( 'wc-cart-fragments' );
 
 		// CSS Styles.
 		$enqueue_styles = self::get_styles();
@@ -476,8 +492,8 @@ class WC_Frontend_Scripts {
 				break;
 			case 'wc-geolocation':
 				$params = array(
-					'wc_ajax_url'  => WC_AJAX::get_endpoint( '%%endpoint%%' ),
-					'home_url'     => remove_query_arg( 'lang', home_url() ), // FIX for WPML compatibility.
+					'wc_ajax_url' => WC_AJAX::get_endpoint( '%%endpoint%%' ),
+					'home_url'    => remove_query_arg( 'lang', home_url() ), // FIX for WPML compatibility.
 				);
 				break;
 			case 'wc-single-product':
@@ -525,7 +541,9 @@ class WC_Frontend_Scripts {
 					'checkout_url'              => WC_AJAX::get_endpoint( 'checkout' ),
 					'is_checkout'               => is_checkout() && empty( $wp->query_vars['order-pay'] ) && ! isset( $wp->query_vars['order-received'] ) ? 1 : 0,
 					'debug_mode'                => Constants::is_true( 'WP_DEBUG' ),
-					'i18n_checkout_error'       => esc_attr__( 'Error processing checkout. Please try again.', 'woocommerce' ),
+					/* translators: %s: Order history URL on My Account section */
+					'i18n_checkout_error'       => sprintf( esc_attr__( 'There was an error processing your order. Please check for any charges in your payment method and review your <a href="%s">order history</a> before placing the order again.', 'woocommerce' ), esc_url( wc_get_account_endpoint_url( 'orders' ) ) ),
+
 				);
 				break;
 			case 'wc-address-i18n':

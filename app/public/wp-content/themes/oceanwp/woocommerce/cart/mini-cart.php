@@ -13,8 +13,8 @@
  * the readme will list any important changes.
  *
  * @see     https://docs.woocommerce.com/document/template-structure/
- * @package WooCommerce/Templates
- * @version 5.2.0
+ * @package WooCommerce\Templates
+ * @version 7.9.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -53,12 +53,12 @@ do_action( 'woocommerce_before_mini_cart' ); ?>
 							<div>
 								<?php if ( empty( $product_permalink ) ) : ?>
 									<h3>
-										<?php echo $product_name; ?>
+										<?php echo wp_kses_post( $product_name ); ?>
 									</h3>
 								<?php else : ?>
 									<h3>
 										<a href="<?php echo esc_url( $product_permalink ); ?>">
-											<?php echo $product_name; ?>
+											<?php echo wp_kses_post( $product_name ); ?>
 										</a>
 									</h3>
 								<?php endif; ?>
@@ -109,7 +109,20 @@ do_action( 'woocommerce_before_mini_cart' ); ?>
 
 <?php else : ?>
 
-	<p class="woocommerce-mini-cart__empty-message"><?php esc_html_e( 'No products in the cart.', 'oceanwp' ); ?></p>
+	<p class="woocommerce-mini-cart__empty-message">
+		<?php esc_html_e( 'No products in the cart.', 'oceanwp' ); ?>
+		<a class="owp-cart-shop-link" href="<?php echo esc_url( apply_filters( 'woocommerce_return_to_shop_redirect', wc_get_page_permalink( 'shop' ) ) ); ?>" >
+		<?php
+				/**
+				 * Filter "Return To Shop" text.
+				 *
+				 * @since 3.2.2
+				 * @param string $default_text Default text.
+				 */
+				echo esc_html( apply_filters( 'oceanwp_mini_cart_shop_link', __( 'Add Products', 'oceanwp' ) ) );
+			?>
+		</a>
+	</p>
 
 <?php endif; ?>
 

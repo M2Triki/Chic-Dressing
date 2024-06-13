@@ -46,8 +46,8 @@ class WC_API_Taxes extends WC_API_Resource {
 		# GET/PUT/DELETE /taxes/<id>
 		$routes[ $this->base . '/(?P<id>\d+)' ] = array(
 			array( array( $this, 'get_tax' ), WC_API_Server::READABLE ),
-			array( array( $this, 'edit_tax' ), WC_API_SERVER::EDITABLE | WC_API_SERVER::ACCEPT_DATA ),
-			array( array( $this, 'delete_tax' ), WC_API_SERVER::DELETABLE ),
+			array( array( $this, 'edit_tax' ), WC_API_Server::EDITABLE | WC_API_Server::ACCEPT_DATA ),
+			array( array( $this, 'delete_tax' ), WC_API_Server::DELETABLE ),
 		);
 
 		# GET/POST /taxes/classes
@@ -63,7 +63,7 @@ class WC_API_Taxes extends WC_API_Resource {
 
 		# GET /taxes/classes/<slug>
 		$routes[ $this->base . '/classes/(?P<slug>\w[\w\s\-]*)' ] = array(
-			array( array( $this, 'delete_tax_class' ), WC_API_SERVER::DELETABLE ),
+			array( array( $this, 'delete_tax_class' ), WC_API_Server::DELETABLE ),
 		);
 
 		# POST|PUT /taxes/bulk
@@ -411,7 +411,7 @@ class WC_API_Taxes extends WC_API_Resource {
 
 		// Filter by tax class
 		if ( ! empty( $args['tax_rate_class'] ) ) {
-			$tax_rate_class = 'standard' !== $args['tax_rate_class'] ? sanitize_title( $args['tax_rate_class'] ) : '';
+			$tax_rate_class = esc_sql( 'standard' !== $args['tax_rate_class'] ? sanitize_title( $args['tax_rate_class'] ) : '' );
 			$query .= " AND tax_rate_class = '$tax_rate_class'";
 		}
 
@@ -419,7 +419,7 @@ class WC_API_Taxes extends WC_API_Resource {
 		$order_by = ' ORDER BY tax_rate_order';
 
 		// Pagination
-		$per_page   = isset( $args['posts_per_page'] ) ? $args['posts_per_page'] : get_option( 'posts_per_page' );
+		$per_page   = absint( isset( $args['posts_per_page'] ) ? $args['posts_per_page'] : get_option( 'posts_per_page' ) );
 		$offset     = 1 < $args['paged'] ? ( $args['paged'] - 1 ) * $per_page : 0;
 		$pagination = sprintf( ' LIMIT %d, %d', $offset, $per_page );
 

@@ -27,7 +27,7 @@ class SBI_oEmbeds {
 	 *
 	 * @since 4.0
 	 */
-	function __construct(){
+	public function __construct(){
 		$this->init();
 	}
 
@@ -52,7 +52,7 @@ class SBI_oEmbeds {
 	 *
 	 * @since 4.0
 	 */
-	function register_menu() {
+	public function register_menu() {
         $cap = current_user_can( 'manage_instagram_feed_options' ) ? 'manage_instagram_feed_options' : 'manage_options';
         $cap = apply_filters( 'sbi_settings_pages_capability', $cap );
 
@@ -86,9 +86,10 @@ class SBI_oEmbeds {
 		$oembed_settings['disabled'] = true;
 		update_option( 'sbi_oembed_token', $oembed_settings );
 
-		new SBI_Response( true, array(
+		$response = new SBI_Response( true, array(
 			'connectionUrl' => $this->get_connection_url()
 		) );
+		$response->send();
 	}
 
 	/**
@@ -109,9 +110,10 @@ class SBI_oEmbeds {
 		$oembed_settings['disabled'] = true;
 		update_option( 'cff_oembed_token', $oembed_settings );
 
-		new SBI_Response( true, array(
+		$response = new SBI_Response( true, array(
 			'connectionUrl' => $this->get_connection_url()
 		) );
+		$response->send();
 	}
 
    	/**
@@ -138,12 +140,12 @@ class SBI_oEmbeds {
 		);
 
 		wp_enqueue_script(
-			'feed-vue',
-			'https://cdn.jsdelivr.net/npm/vue@2.6.12',
-			null,
-			'2.6.12',
-			true
-		);
+            'sb-vue',
+            SBI_PLUGIN_URL . 'js/vue.min.js',
+            null,
+            '2.6.12',
+            true
+        );
 
 		wp_enqueue_script(
 			'oembeds-app',
@@ -181,7 +183,7 @@ class SBI_oEmbeds {
 			'genericText'       => array(
 				'help' => __( 'Help', 'instagram-feed' ),
 				'title' => __( 'oEmbeds', 'instagram-feed' ),
-				'description' => __( 'Use Smash Balloon to power any Instagram or Instagram oEmbeds across your site. Just click the button below and we\'ll do the rest.                ', 'instagram-feed' ),
+				'description' => __( 'Use Smash Balloon to power any Instagram or Facebook oEmbeds across your site. Just click the button below and we\'ll do the rest.                ', 'instagram-feed' ),
 				'instagramOEmbeds' => __( 'Instagram oEmbeds are currently not being handled by Smash Balloon', 'instagram-feed' ),
 				'instagramOEmbedsEnabled' => __( 'Instagram oEmbeds are turned on', 'instagram-feed' ),
 				'facebookOEmbeds' => __( 'Facebook oEmbeds are currently not being handled by Smash Balloon', 'instagram-feed' ),
@@ -207,11 +209,11 @@ class SBI_oEmbeds {
 			),
 			'modal' => array(
 				'title' => __( 'Enable Facebook oEmbeds', 'instagram-feed' ),
-				'description' => __( 'To enable Instagram oEmbeds our Custom Facebok Feed plugin is required. Click the button below to Install it and enable Instagram oEmbeds.', 'instagram-feed' ),
+				'description' => __( 'To enable Facebook oEmbeds our Custom Facebook Feed plugin is required. Click the button below to Install it and enable Facebook oEmbeds.', 'instagram-feed' ),
 				'install' => __( 'Install Plugin', 'instagram-feed' ),
 				'activate' => __( 'Activate Plugin', 'instagram-feed' ),
 				'cancel' => __( 'Cancel', 'instagram-feed' ),
-				'instaIcon' => SBI_PLUGIN_URL . 'admin/assets/img/instagram-color-icon.svg',
+				'instaIcon' => SBI_PLUGIN_URL . 'admin/assets/img/facebook-color-icon.svg',
 				'timesIcon' => '<svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M14.2084 2.14275L12.8572 0.791504L7.50008 6.14859L2.143 0.791504L0.791748 2.14275L6.14883 7.49984L0.791748 12.8569L2.143 14.2082L7.50008 8.85109L12.8572 14.2082L14.2084 12.8569L8.85133 7.49984L14.2084 2.14275Z" fill="#141B38"/></svg>',
 				'plusIcon' => '<svg width="13" height="12" viewBox="0 0 13 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12.0832 6.83317H7.08317V11.8332H5.4165V6.83317H0.416504V5.1665H5.4165V0.166504H7.08317V5.1665H12.0832V6.83317Z" fill="white"/></svg>'
 			),
@@ -229,6 +231,9 @@ class SBI_oEmbeds {
 
 			update_option( 'cff_oembed_token', $newly_retrieved_oembed_connection_data );
 			update_option( 'sbi_oembed_token', $newly_retrieved_oembed_connection_data );
+
+			// If the access token is new or has changed, then we need to clear the cache.
+			$this->clear_oembed_cache();
 		} elseif ( ! empty( $newly_retrieved_oembed_connection_data ) ) {
 			$return['newOembedData'] = $newly_retrieved_oembed_connection_data;
 		}
@@ -253,6 +258,65 @@ class SBI_oEmbeds {
 	}
 
 	/**
+	 * Clear instagram oembed transients and cache
+	 *
+	 * @since 6.1.2
+	 */
+	public static function clear_oembed_cache() {
+
+		// get _transient_oembed_* options from wp_options.
+		global $wpdb;
+		$table_name        = $wpdb->prefix . 'options';
+		$transient_options = $wpdb->get_results(
+			$wpdb->prepare(
+				"SELECT option_name, option_value FROM $table_name WHERE option_name LIKE %s AND option_value LIKE %s",
+				'_transient_oembed_%',
+				'%fbtrace_id%'
+			)
+		);
+
+		foreach ( $transient_options as $value ) {
+			$option_name  = $value->option_name;
+			delete_option( $option_name );
+
+			// find the _transient_timeout_oembed_* options and delete them.
+			$option_key    = substr( $option_name, 18 );
+			$timeout_key   = '_transient_timeout_oembed_' . $option_key;
+			$timeout_value = get_option( $timeout_key );
+			if ( is_numeric( $timeout_value ) ) {
+				delete_option( $timeout_key );
+			}
+		}
+
+		// get _oembed_* options from wp_postmeta.
+		$postmeta_table = $wpdb->prefix . 'postmeta';
+		$oembed_options = $wpdb->get_results(
+			$wpdb->prepare(
+				"SELECT post_id, meta_key, meta_value FROM $postmeta_table WHERE meta_key LIKE %s AND meta_value LIKE %s",
+				'_oembed_%',
+				'{{unknown}}'
+			)
+		);
+
+		foreach ( $oembed_options as $value ) {
+			$post_id    = $value->post_id;
+			$meta_key   = $value->meta_key;
+			$meta_value = $value->meta_value;
+			$meta_value = maybe_unserialize( $meta_value );
+
+			delete_post_meta( $post_id, $meta_key );
+
+			// get the cache key.
+			$cache_key        = substr( $meta_key, 8 );
+			$cache_meta_key   = '_oembed_time_' . $cache_key;
+			$cache_meta_value = get_post_meta( $post_id, $cache_meta_key, true );
+			if ( is_numeric( $cache_meta_value ) ) {
+				delete_post_meta( $post_id, $cache_meta_key );
+			}
+		}
+	}
+
+	/**
 	 * Connection URLs are based on the website connecting accounts so that is
 	 * configured here and returned
 	 *
@@ -263,20 +327,17 @@ class SBI_oEmbeds {
 	public static function get_connection_url() {
 
 		$admin_url_state = admin_url( 'admin.php?page=sbi-oembeds-manager' );
+		$nonce           = wp_create_nonce('sbi_con');
 		//If the admin_url isn't returned correctly then use a fallback
 		if( $admin_url_state == '/wp-admin/admin.php?page=sbi-oembeds-manager' ){
 			$admin_url_state = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
 		}
 
-		if ( class_exists( '\CustomFacebookFeed\CFF_Oembed' ) ) {
-			$cff_oembed_token = \CustomFacebookFeed\CFF_Oembed::last_access_token();
-
-			if ( ! empty( $cff_oembed_token ) ) {
-				return add_query_arg( 'transfer', '1', $admin_url_state );
-			}
-		}
-
-		return 'https://www.facebook.com/dialog/oauth?client_id=254638078422287&redirect_uri=https://api.smashballoon.com/v2/instagram-graph-api-redirect.php&scope=pages_show_list&state=' . $admin_url_state;
+		return array(
+			'connect' => SBI_OEMBED_CONNECT_URL,
+			'sbi_con' => $nonce,
+			'stateURL' => $admin_url_state
+		);
 	}
 
 	/**
@@ -294,9 +355,16 @@ class SBI_oEmbeds {
 		if ( ! $screen ) {
 			return false;
 		}
-		if ( $screen->id !== 'instagram-feed_page_sbi-oembeds-manager') {
+		if( ! isset( $_GET['page'] ) && 'sbi-oembeds-manager' !== $_GET['page'] ) {
 			return false;
 		}
+
+		global $sbi_notices;
+		$oembed_success_notice = $sbi_notices->get_notice('oembed_api_change_reconnect');
+		if ($oembed_success_notice) {
+			$sbi_notices->remove_notice('oembed_api_change_reconnect');
+		}
+
 		if ( ! empty( $_GET['transfer'] ) ) {
 			if ( class_exists( '\CustomFacebookFeed\CFF_Oembed' ) ) {
 				$cff_oembed_token = \CustomFacebookFeed\CFF_Oembed::last_access_token();
@@ -307,27 +375,48 @@ class SBI_oEmbeds {
 
 				return $return;
 			}
-		} if ( isset( $_GET['sbi_access_token'] ) ) {
+		}
+
+		if ( isset( $_GET['sbi_access_token'] ) ) {
 			$access_token = sbi_sanitize_alphanumeric_and_equals( $_GET['sbi_access_token'] );
 
 			$return = [];
 
 			$valid_new_access_token = ! empty( $access_token ) && strlen( $access_token ) > 20 && $saved_access_token_data !== $access_token ? $access_token : false;
 			if ( $valid_new_access_token ) {
-				$url = esc_url_raw( 'https://graph.instagram.com/me/accounts?limit=500&access_token=' . $valid_new_access_token );
-				$pages_data_connection = wp_remote_get( $url );
 				$return['access_token'] = $valid_new_access_token;
-				$return['disabled'] = false;
-				if ( ! is_wp_error( $pages_data_connection ) && isset( $pages_data_connection['body'] ) ) {
-					$pages_data = json_decode( $pages_data_connection['body'], true );
-					if ( isset( $pages_data['data'][0]['access_token'] ) ) {
-						$return['expiration_date'] = 'never';
-					} else {
-						$return['expiration_date'] = time() + (60 * DAY_IN_SECONDS);
-					}
-				} else {
-					$return['expiration_date'] = 'unknown';
-				}
+				$return['disabled']     = false;
+				$return['expiration_date'] = 'never';
+
+				$message  = '<p><strong>' . __('oEmbed account successfully connected. You are all set to continue creating oEmbeds.', 'instagram-feed') . '</strong></p>';
+
+				$success_args = array(
+					'class'     => 'sbi-admin-notices',
+					'message'     => $message,
+					'dismissible' => true,
+					'dismiss'     => array(
+						'class' => 'sbi-notice-dismiss',
+						'icon'  => SBI_PLUGIN_URL . 'admin/assets/img/sbi-dismiss-icon.svg',
+						'tag'   => 'a',
+						'href' => '#',
+					),
+					'priority'    => 1,
+					'page'        => array(
+						'sbi-oembeds-manager',
+					),
+					'icon' => array(
+						'src'  => SBI_PLUGIN_URL . 'admin/assets/img/sbi-exclamation.svg',
+						'wrap' => '<span class="sb-notice-icon"><img {src}></span>',
+					),
+					'styles' => array(
+						'display' => 'flex',
+						'justify-content' => 'space-between',
+						'gap' => '2rem',
+					),
+					'wrap_schema' => '<div {id} {class}>{icon}<div class="sbi-notice-wrap" {styles}><div class="sbi-notice-body">{message}</div>{dismiss}</div></div>',
+				);
+
+				$sbi_notices->add_notice('oembed_api_change_reconnect', 'information', $success_args);
 			} else {
 				if ( $saved_access_token_data === $access_token ) {
 					$return['error'] = 'Not New';
@@ -395,7 +484,8 @@ class SBI_oEmbeds {
 			return [
 				'nextStep' => 'none',
 				'plugin' => 'none',
-				'action' => 'none'
+				'action' => 'none',
+				'referrer' => 'oembeds'
 			];
 		}
 
@@ -404,14 +494,16 @@ class SBI_oEmbeds {
 				return [
 					'nextStep' => 'pro_activate',
 					'plugin' => 'custom-facebook-feed-pro/custom-facebook-feed.php',
-					'action' => 'sbi_activate_addon'
+					'action' => 'sbi_activate_addon',
+					'referrer' => 'oembeds'
 				];
 			}
 			if ( strpos( $plugin['Name'], 'Custom Facebook Feed' ) !== false ) {
 				return [
 					'nextStep' => 'free_activate',
 					'plugin' => 'custom-facebook-feed/custom-facebook-feed.php',
-					'action' => 'sbi_activate_addon'
+					'action' => 'sbi_activate_addon',
+					'referrer' => 'oembeds'
 				];
 			}
 		}
@@ -419,7 +511,8 @@ class SBI_oEmbeds {
 		return [
 			'nextStep' => 'free_install',
 			'plugin' => 'https://downloads.wordpress.org/plugin/custom-facebook-feed.zip',
-			'action' => 'sbi_install_addon'
+			'action' => 'sbi_install_addon',
+			'referrer' => 'oembeds'
 		];
 	}
 
@@ -429,6 +522,6 @@ class SBI_oEmbeds {
 	 * @since 4.0
 	 */
 	public function oembeds_manager(){
-		return \InstagramFeed\SBI_View::render( 'oembeds.index' );
+		\InstagramFeed\SBI_View::render( 'oembeds.index' );
 	}
 }

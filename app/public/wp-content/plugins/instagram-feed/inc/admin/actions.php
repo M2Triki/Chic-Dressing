@@ -1,4 +1,5 @@
 <?php
+use InstagramFeed\Admin\SBI_Callout;
 /**
  * Includes functions related to actions while in the admin area.
  *
@@ -17,7 +18,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 function sb_instagram_menu() {
 	$cap = current_user_can( 'manage_instagram_feed_options' ) ? 'manage_instagram_feed_options' : 'manage_options';
-
 	$cap = apply_filters( 'sbi_settings_pages_capability', $cap );
 
 	global $sb_instagram_posts_manager;
@@ -26,17 +26,24 @@ function sb_instagram_menu() {
 		$notice = ' <span class="update-plugins sbi-error-alert sbi-notice-alert"><span>!</span></span>';
 	}
 
-	$sbi_notifications = new SBI_Notifications();
-	$notifications = $sbi_notifications->get();
+	$notifications = false;
+	if ( class_exists( '\SBI_Notifications' ) ) {
+		$sbi_notifications = new \SBI_Notifications();
+		$notifications = $sbi_notifications->get();
+	}
 
 	$notice_bubble = '';
 	if ( empty( $notice ) && ! empty( $notifications ) && is_array( $notifications ) ) {
-		$notice_bubble = ' <span class="sbi-notice-alert"><span>'.count( $notifications ).'</span></span>';
+		$notice_bubble = ' <span class="sbi-notice-alert"><span>' . count( $notifications ) . '</span></span>';
 	}
+	$callout = SBI_Callout::print_callout_ob_html('side-menu');
+	$print_callout = $callout !== false ? $callout : '';
+
+
 
 	add_menu_page(
 		__( 'Instagram Feed', 'instagram-feed' ),
-		__( 'Instagram Feed', 'instagram-feed' ). $notice_bubble . $notice,
+		__( 'Instagram Feed', 'instagram-feed' ). $notice_bubble . $notice . $print_callout,
 		$cap,
 		'sb-instagram-feed',
 		'sb_instagram_settings_page'
@@ -45,11 +52,34 @@ function sb_instagram_menu() {
 	add_submenu_page(
 		'sb-instagram-feed',
 		__( 'Upgrade to Pro', 'instagram-feed' ),
-		__( '<span class="sbi_get_pro">Try the Pro Demo</span>', 'instagram-feed' ),
+		'<span class="sbi_get_pro">' . __( 'Upgrade to Pro', 'instagram-feed' ) . '</span>',
 		$cap,
-		'https://smashballoon.com/instagram-feed/demo/?utm_campaign=instagram-free&utm_source=menu-link&utm_medium=upgrade-link',
+		'https://smashballoon.com/instagram-feed/?utm_campaign=instagram-free&utm_source=menu-link&utm_medium=upgrade-link&utm_content=UpgradeToPro',
 		''
 	);
+
+	if(version_compare(PHP_VERSION, '7.4.0') >= 0 && !is_plugin_active('feeds-for-tiktok/feeds-for-tiktok.php') && !is_plugin_active('tiktok-feeds-pro/tiktok-feeds-pro.php'))
+	{
+		add_submenu_page(
+			'sb-instagram-feed',
+			__( 'TikTok Feeds', 'instagram-feed' ),
+			'<span class="sbi_get_tiktok">' . __( 'TikTok Feeds', 'instagram-feed' ) . '</span>'. '<span class="sbi-notice-alert sbi-new-indicator"><span>New!</span></span>',
+			$cap,
+			'admin.php?page=sbtt',
+			''
+		);
+	}
+
+	if ( version_compare(PHP_VERSION, '7.1.0') >= 0 && !is_plugin_active( 'reviews-feed/sb-reviews.php' ) && !is_plugin_active( 'reviews-feed-pro/sb-reviews-pro.php' )  ) {
+		add_submenu_page(
+			'sb-instagram-feed',
+			__( 'Reviews Feed', 'instagram-feed' ) ,
+			'<span class="sbi_get_sbr">' . __( 'Reviews Feed', 'instagram-feed' ) . '</span>',
+			$cap,
+			'admin.php?page=sbr',
+			''
+		);
+	}
 
 	//Show a Instagram plugin menu item if it isn't already installed
 	if( !is_plugin_active( 'custom-facebook-feed/custom-facebook-feed.php' ) && !is_plugin_active( 'custom-facebook-feed-pro/custom-facebook-feed.php' )  && current_user_can( 'activate_plugins' ) && current_user_can( 'install_plugins' ) ){
@@ -89,8 +119,39 @@ function sb_instagram_menu() {
 }
 add_action( 'admin_menu', 'sb_instagram_menu' );
 
+function sb_menu_notice_bubble() {
+	global $sb_instagram_posts_manager;
+	if ( $sb_instagram_posts_manager->are_critical_errors() ) {
+		return ' <span class="update-plugins sbi-error-alert sbi-notice-alert"><span>!</span></span>';
+	}
+
+	$notifications = false;
+	if ( class_exists( '\SBI_Notifications' ) ) {
+		$sbi_notifications = new \SBI_Notifications();
+		$notifications = $sbi_notifications->get();
+
+		if ( ! empty( $notifications ) && is_array( $notifications ) ) {
+			$notifications = count( $notifications );
+		}
+	}
+
+	global $sbi_notices;
+	$template_notice = $sbi_notices->get_notice('custom_feed_templates');
+	$sbi_statuses = get_option('sbi_statuses', array());
+
+	if ($template_notice && isset($sbi_statuses['custom_templates_notice'])) {
+		$notifications = $notifications ? $notifications + 1 : 1;
+	}
+
+	if ( $notifications ) {
+		return ' <span class="sbi-notice-alert"><span>' . absint( $notifications ) . '</span></span>';
+	}
+
+	return '';
+}
+
 function sbi_add_settings_link( $links ) {
-	$pro_link = '<a href="https://smashballoon.com/instagram-feed/demo/?utm_campaign=instagram-free&utm_source=plugins-page&utm_medium=upgrade-link" target="_blank" style="font-weight: bold; color: #1da867;">' . __( 'Try the Pro Demo', 'instagram-feed' ) . '</a>';
+	$pro_link = '<a href="https://smashballoon.com/instagram-feed/?utm_campaign=instagram-free&utm_source=plugins-page&utm_medium=upgrade-link&utm_content=UpgradeToPro" target="_blank" style="font-weight: bold; color: #1da867;">' . __( 'Upgrade to Pro', 'instagram-feed' ) . '</a>';
 
 	$sbi_settings_link = '<a href="' . esc_url( admin_url( 'admin.php?page=sbi-settings' ) ) . '">' . esc_html__( 'Settings', 'instagram-feed' ) . '</a>';
 	array_unshift( $links, $pro_link, $sbi_settings_link );
@@ -136,6 +197,7 @@ function sb_instagram_admin_scripts() {
 		'plugin_install_activate_btn'     => esc_html__( 'Install and Activate', 'instagram-feed' ),
 		'plugin_install_activate_confirm' => esc_html__( 'needs to be installed and activated to import its forms. Would you like us to install and activate it for you?', 'instagram-feed' ),
 		'plugin_activate_btn'             => esc_html__( 'Activate', 'instagram-feed' ),
+		'oembed_connectionURL'            => sbi_get_oembed_connection_url(),
 	);
 	$strings = apply_filters( 'sbi_admin_strings', $strings );
 	wp_localize_script(
@@ -149,6 +211,22 @@ function sb_instagram_admin_scripts() {
 	wp_enqueue_script( 'wp-color-picker' );
 }
 add_action( 'admin_enqueue_scripts', 'sb_instagram_admin_scripts' );
+
+function sbi_get_oembed_connection_url()
+{
+	$admin_url_state = admin_url('admin.php?page=sbi-oembeds-manager');
+	$nonce           = wp_create_nonce('sbi_con');
+	// If the admin_url isn't returned correctly then use a fallback
+	if ($admin_url_state == '/wp-admin/admin.php?page=sbi-oembeds-manager') {
+		$admin_url_state = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+	}
+
+	return array(
+		'connect' => SBI_OEMBED_CONNECT_URL,
+		'sbi_con' => $nonce,
+		'stateURL' => $admin_url_state
+	);
+}
 
 function sbi_formatted_error( $response ) {
 	if ( isset( $response['error'] ) ) {
@@ -202,60 +280,157 @@ function sbi_connect_new_account( $access_token, $account_id ) {
 	}
 }
 
-add_action( 'sbi_admin_notices', 'sbi_admin_error_notices' );
+add_action( 'admin_init', 'sbi_admin_error_notices' );
 
 function sbi_admin_error_notices() {
 	global $sb_instagram_posts_manager;
-
+	global $sbi_notices;
 
 	if ( isset( $_GET['page'] ) && in_array( $_GET['page'], array( 'sbi-settings' ), true) ) {
 		$errors = $sb_instagram_posts_manager->get_errors();
-		if ( ! empty( $errors ) && (! empty( $errors['database_create'] ) || ! empty( $errors['upload_dir'] )) ) : ?>
-			<div class="sbi-admin-notices sbi-critical-error-notice">
-					<span class="sb-notice-icon sb-error-icon">
-						<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-							<path d="M10 0C4.48 0 0 4.48 0 10C0 15.52 4.48 20 10 20C15.52 20 20 15.52 20 10C20 4.48 15.52 0 10 0ZM11 15H9V13H11V15ZM11 11H9V5H11V11Z" fill="#D72C2C"/>
-						</svg>
-					</span>
-				<div class="sbi-notice-body">
+		if ( ! empty( $errors ) && (! empty( $errors['database_create'] ) || ! empty( $errors['upload_dir'] )) ) :
+			$title = ! empty( $errors['database_create'] ) ? __( 'Instagram Feed was unable to create new database tables.', 'instagram-feed' ) : '';
+			if ( ! empty( $errors['database_create'] ) ) {
+				$id      = 'database_create';
+				$message = '<p>' . $errors['database_create'] . '</p><br><br>';
+				$buttons = array(
+					array(
+						'text'   => __( 'Visit our FAQ page for help', 'instagram-feed' ),
+						'url'    => 'https://smashballoon.com/docs/instagram/',
+						'class'  => 'sbi-license-btn sbi-btn-blue sbi-notice-btn',
+						'target' => '_blank',
+						'tag'    => 'a',
+					),
+					array(
+						'text'  => __( 'Try creating database tables again', 'instagram-feed' ),
+						'class' => 'sbi-retry-db sbi-space-left sbi-btn sbi-notice-btn sbi-btn-grey',
+						'tag'   => 'button',
+					),
+				);
+			} elseif ( ! empty( $errors['upload_dir'] ) ) {
+				$id      = 'upload_dir';
+				$message = '<p>' . $errors['upload_dir'] . '</p><br><br>';
+				$buttons = array(
+					array(
+						'text'   => __( 'Visit our FAQ page for help', 'instagram-feed' ),
+						'url'    => 'https://smashballoon.com/docs/instagram/',
+						'class'  => 'sbi-license-btn sbi-btn-blue sbi-notice-btn',
+						'target' => '_blank',
+						'tag'    => 'a',
+					),
+				);
+			}
 
-					<?php if ( ! empty( $errors['database_create'] ) ) : ?>
-						<h3 class="sb-notice-title">
-							<?php echo esc_html__( 'Instagram Feed was unable to create new database tables.', 'instagram-feed') ; ?>
-						</h3>
-						<p><?php echo wp_kses_post( $errors['database_create'] ); ?></p><br><br>
-						<p class="sbi-error-directions"><a href="https://smashballoon.com/docs/instagram/" class="sbi-license-btn sbi-btn-blue sbi-notice-btn" target="_blank"><?php esc_html_e(  'Visit our FAQ page for help', 'instagram-feed' ); ?></a> <button class="sbi-retry-db sbi-space-left sbi-btn sbi-notice-btn sbi-btn-grey"><?php esc_html_e(  'Try creating database tables again', 'instagram-feed' ); ?></button></p>
-					<?php
-					endif;
-					?>
-					<?php if ( ! empty( $errors['upload_dir'] ) ) : ?>
-						<p><?php echo wp_kses_post( $errors['upload_dir'] ); ?></p><br><br>
+			$error_args = array(
+				'class'              => 'sbi-admin-notices sbi-critical-error-notice',
+				'title'              => array(
+					'text'  => $title,
+					'class' => 'sb-notice-title',
+					'tag'   => 'h3',
+				),
+				'message'            => $message,
+				'dismissible'        => false,
+				'priority'           => 1,
+				'page'               => 'sbi-settings',
+				'buttons'            => $buttons,
+				'buttons_wrap_start' => '<p class="sbi-error-directions">',
+				'buttons_wrap_end'   => '</p>',
+				'icon'               => array(
+					'src'  => SBI_PLUGIN_URL . 'admin/assets/img/sbi-error.svg',
+					'wrap' => '<span class="sb-notice-icon sb-error-icon"><img {src}></span>',
+				),
+				'wrap_schema'        => '<div {id} {class}>{icon}<div class="sbi-notice-body">{title}{message}{buttons}</div></div>',
+			);
 
-						<p class="sbi-error-directions"><a href="https://smashballoon.com/docs/instagram/" class="sbi-license-btn sbi-btn-blue sbi-notice-btn" target="_blank"><?php esc_html_e(  'Visit our FAQ page for help', 'instagram-feed' ); ?></a></p>
+			$sbi_notices->add_notice( $id, 'error', $error_args );
+		endif;
 
-					<?php endif; ?>
-				</div>
-			</div>
+		if ( ! empty( $errors ) && ( ! empty( $errors['unused_feed'] ) ) ) :
+            $title    = __( 'Action Required Within 7 Days:', 'instagram-feed' );
+			$message  = '<p>' . $errors['unused_feed'] . '</p>';
+			$message .= '<p>' . __( 'Or you can simply press the "Fix Usage" button to fix this issue.', 'instagram-feed' ) . '</p><br>';
+			$buttons  = array(
+				array(
+					'text'  => __( 'Fix Usage', 'instagram-feed' ),
+					'class' => 'sbi-reset-unused-feed-usage sbi-space-left sbi-btn sbi-notice-btn sbi-btn-blue',
+					'tag'   => 'button',
+				),
+			);
 
-		<?php endif;
+			$error_args = array(
+				'class'              => 'sbi-admin-notices sbi-critical-error-notice',
+				'title'              => array(
+					'text'  => $title,
+					'class' => 'sb-notice-title',
+					'tag'   => 'h3',
+				),
+				'message'            => $message,
+				'dismissible'        => false,
+				'priority'           => 1,
+				'page'               => 'sbi-settings',
+				'buttons'            => $buttons,
+				'buttons_wrap_start' => '<p class="sbi-error-directions">',
+				'buttons_wrap_end'   => '</p>',
+				'icon'               => array(
+					'src'  => SBI_PLUGIN_URL . 'admin/assets/img/sbi-error.svg',
+					'wrap' => '<span class="sb-notice-icon sb-error-icon"><img {src}></span>',
+				),
+				'wrap_schema'        => '<div {id} {class}>{icon}<div class="sbi-notice-body">{title}{message}{buttons}</div></div>',
+			);
+
+			$sbi_notices->add_notice( 'unused_feed', 'error', $error_args );
+		endif;
+
+		if ( ! empty( $errors ) && ( ! empty( $errors['platform_data_deleted'] ) ) ) :
+            $title    = __( 'All Instagram Data has Been Removed:', 'instagram-feed' );
+			$message  = '<p>' . $errors['platform_data_deleted'] . '</p>';
+			$message .= '<p>' . __( 'To fix your feeds, reconnect all accounts that were in use on the Settings page.', 'instagram-feed' ) . '</p>';
+
+			$error_args = array(
+				'class'       => 'sbi-admin-notices sbi-critical-error-notice',
+				'title'              => array(
+					'text'  => $title,
+					'class' => 'sb-notice-title',
+					'tag'   => 'h3',
+				),
+				'message'     => $message,
+				'dismissible' => false,
+				'priority'    => 1,
+				'page'        => 'sbi-settings',
+				'icon'        => array(
+					'src'  => SBI_PLUGIN_URL . 'admin/assets/img/sbi-error.svg',
+					'wrap' => '<span class="sb-notice-icon sb-error-icon"><img {src}></span>',
+				),
+				'wrap_schema' => '<div {id} {class}>{icon}<div class="sbi-notice-body">{title}{message}</div></div>',
+			);
+
+			$sbi_notices->add_notice( 'platform_data_deleted', 'error', $error_args );
+		endif;
+
 		$errors = $sb_instagram_posts_manager->get_critical_errors();
 		if ( $sb_instagram_posts_manager->are_critical_errors() ) :
-			?>
-			<div class="sbi-admin-notices sbi-critical-error-notice">
-					<span class="sb-notice-icon sb-error-icon">
-						<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-							<path d="M10 0C4.48 0 0 4.48 0 10C0 15.52 4.48 20 10 20C15.52 20 20 15.52 20 10C20 4.48 15.52 0 10 0ZM11 15H9V13H11V15ZM11 11H9V5H11V11Z" fill="#D72C2C"/>
-						</svg>
-					</span>
-				<div class="sbi-notice-body">
-					<h3 class="sb-notice-title">
-						<?php echo esc_html__( 'Instagram Feed is encountering an error and your feeds may not be updating due to the following reasons:', 'instagram-feed') ; ?>
-					</h3>
+			$title   = __( 'Instagram Feed is encountering an error and your feeds may not be updating due to the following reasons:', 'instagram-feed' );
+			$message = '<p>' . $errors . '</p>';
 
-					<p><?php echo wp_kses_post( $errors ); ?></p>
-				</div>
-			</div>
-		<?php
+			$error_args = array(
+				'class'       => 'sbi-admin-notices sbi-critical-error-notice',
+				'title'              => array(
+					'text'  => $title,
+					'class' => 'sb-notice-title',
+					'tag'   => 'h3',
+				),
+				'message'     => $message,
+				'dismissible' => false,
+				'priority'    => 1,
+				'page'        => 'sbi-settings',
+				'icon'        => array(
+					'src'  => SBI_PLUGIN_URL . 'admin/assets/img/sbi-error.svg',
+					'wrap' => '<span class="sb-notice-icon sb-error-icon"><img {src}></span>',
+				),
+				'wrap_schema' => '<div {id} {class}>{icon}<div class="sbi-notice-body">{title}{message}</div></div>',
+			);
+
+			$sbi_notices->add_notice( 'critical_error', 'error', $error_args );
 		endif;
 	}
 }
@@ -270,6 +445,10 @@ function sbi_reset_log() {
 	global $sb_instagram_posts_manager;
 
 	$sb_instagram_posts_manager->remove_all_errors();
+
+	global $sbi_notices;
+	$sbi_notices->remove_notice( 'critical_error' );
+	
 	sbi_clear_caches();
 	wp_send_json_success( '1' );
 }

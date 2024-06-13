@@ -28,10 +28,9 @@ class SWP_Shortcode {
 	 *
 	 */
 	public function __construct() {
-		add_shortcode( 'total_shares', array ( $this, 'post_total_shares' ) );
-		add_shortcode( 'sitewide_shares', array ( $this, 'sitewide_total_shares' ) );
+		add_shortcode( 'total_shares', array( $this, 'post_total_shares' ) );
+		add_shortcode( 'sitewide_shares', array( $this, 'sitewide_total_shares' ) );
 		add_shortcode( 'click_to_tweet', array( $this, 'click_to_tweet' ) );
-
 
 		/**
 		 * These are old legacy shortcodes that have been replaced with the ones seen above.
@@ -88,18 +87,18 @@ class SWP_Shortcode {
 	/**
 	 * The function to build the click to tweets
 	 *
+	 * @since  4.4.0 Update to check for $atts key before use.
 	 * @param  array $atts The shortcode key/value attributes.
 	 * @return string The html of a click to tweet
 	 *
 	 */
-	function click_to_tweet( $atts ) {
+	public function click_to_tweet( $atts ) {
 		global $post;
 
 		// This is the Add Post editor for a new post, so no $post.
-		if ( !is_object( $post ) ) {
+		if ( ! is_object( $post ) ) {
 			return $atts;
 		}
-
 
 		/**
 		 * If they included a link in the tweet text, we need to not pass a URL
@@ -113,11 +112,10 @@ class SWP_Shortcode {
 		 * tweet itself.
 		 *
 		*/
-		$url = '&url=' . SWP_Link_Manager::process_url( get_permalink() , 'twitter' , get_the_ID() );
-		if ( strpos( $atts['tweet'], 'http' ) > -1 ) {
+		$url = '&url=' . SWP_Link_Manager::process_url( get_permalink(), 'twitter', get_the_ID() );
+		if ( ! empty( $atts['tweet'] ) && strpos( $atts['tweet'], 'http' ) > -1 ) {
 			$url = '&url=x';
 		}
-
 
 		// Generate the @via for the author of this $post, or an empty string.
 		$via = SWP_Twitter::get_via_parameter( $post );
@@ -130,10 +128,9 @@ class SWP_Shortcode {
 		 *
 		 */
 		$theme = SWP_Utility::get_option( 'ctt_theme' );
-		if ( !empty( $atts['theme'] ) && $atts['theme'] != 'default' ) {
+		if ( ! empty( $atts['theme'] ) && 'default' !== $atts['theme'] ) {
 			$theme = $atts['theme'];
 		}
-
 
 		/**
 		 * If the Theme is set to false, it means that the user is on the free
@@ -141,10 +138,9 @@ class SWP_Shortcode {
 		 * first/default theme.
 		 *
 		 */
-		if( false === $theme ) {
+		if ( false === $theme ) {
 			$theme = 'style1';
 		}
-
 
 		/**
 		 * This will generate the user's custom Tweet that will be used to
@@ -154,27 +150,26 @@ class SWP_Shortcode {
 		 */
 		$tweet = $this->get_tweet( $atts );
 
-
 		/**
 		 * Now that all the information has been processed, we generate the
 		 * actual string of html that will be returned and output to the screen.
 		 *
 		 */
-		$html = '<div class="sw-tweet-clear"></div>';
-		$html .= '<a class="swp_CTT ' . $theme;
-		$html .= '" href="https://twitter.com/share?text=' . $tweet . $via . $url;
-		$html .= '" data-link="https://twitter.com/share?text=' . $tweet . $via . $url;
-		$html .= '" rel="nofollow noreferrer noopener" target="_blank">';
-			$html .= '<span class="sw-click-to-tweet">';
-				$html .= '<span class="sw-ctt-text">';
-					$html .= $atts['quote'];
-				$html .= '</span>';
-				$html .= '<span class="sw-ctt-btn">';
-					$html .= __( 'Click To Tweet','social-warfare' );
+		$html              = '<div class="sw-tweet-clear"></div>';
+		$html             .= '<a class="swp_CTT ' . $theme;
+		$html             .= '" href="https://twitter.com/share?text=' . $tweet . $via . $url;
+		$html             .= '" data-link="https://twitter.com/share?text=' . $tweet . $via . $url;
+		$html             .= '" rel="nofollow noreferrer noopener" target="_blank">';
+			$html         .= '<span class="sw-click-to-tweet">';
+				$html     .= '<span class="sw-ctt-text">';
+					$html .= ( ! empty( $atts['quote'] ) ) ? $atts['quote'] : '';
+				$html     .= '</span>';
+				$html     .= '<span class="sw-ctt-btn">';
+					$html .= __( 'Click To Tweet', 'social-warfare' );
 					$html .= '<i class="sw swp_twitter_icon"></i>';
-			$html .= '</span>';
-			$html .= '</span>';
-		$html .= '</a>';
+			$html         .= '</span>';
+			$html         .= '</span>';
+		$html             .= '</a>';
 
 		return $html;
 	}
@@ -193,14 +188,14 @@ class SWP_Shortcode {
 		$max_tweet_length = 240;
 
 		// Check for a custom tweet from the shortcode attributes. .
-		$tweet = $atts['tweet'];
+		$tweet = ( ! empty( $atts['tweet'] ) ) ? $atts['tweet'] : '';
 
 		if ( function_exists( 'mb_convert_encoding' ) ) :
-			$tweet = mb_convert_encoding( $tweet, 'UTF-8', get_bloginfo( "charset" ) );
+			$tweet = mb_convert_encoding( $tweet, 'UTF-8', get_bloginfo( 'charset' ) );
 		endif;
 
 		$html_safe_tweet = htmlentities( $tweet, ENT_COMPAT, 'UTF-8' );
-		$tweet = urlencode( $tweet );
+		$tweet           = urlencode( $tweet );
 
 		return $tweet;
 	}

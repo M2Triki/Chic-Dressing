@@ -15,6 +15,11 @@
     cursor: not-allowed;
   }
 
+  .button:focus {
+    background-color: #0b7cac;
+    color: #fff;
+  }
+
   button {
     &.button {
       padding: 12px 20px;
@@ -611,6 +616,7 @@
       margin: 0 -10px;
     }
     .product {
+      position: relative;
       overflow: hidden;
       padding-bottom: 20px;
     }
@@ -642,7 +648,7 @@
       }
 
       &.product.has-rating .woo-entry-inner .star-rating {
-        margin-right: 0;
+        margin-left: auto;
       }
     }
     &.archives-col-1 .product {
@@ -1975,7 +1981,7 @@
     width: 48%;
   }
 }
-@media only screen and(min-width: 481px) and(max-width: 768px) {
+@media only screen and (min-width: 481px) and (max-width: 768px) {
   .tablet-col .col.first {
     clear: none;
   }
@@ -2029,7 +2035,7 @@
     }
   }
 }
-@media only screen and(max-width: 480px) {
+@media only screen and (max-width: 480px) {
   .mobile-col .col.first {
     clear: none;
   }
@@ -2184,6 +2190,9 @@
     border-color: #bbb;
   }
 }
+.select2-container--open {
+  z-index: 99999;
+}
 @-webkit-keyframes spin {
   25% {
     -webkit-transform: rotate(270deg);
@@ -2281,6 +2290,10 @@
     background-color: #13aff0;
 
     &:hover {
+      background-color: #0b7cac;
+      color: #fff;
+    }
+    &:focus {
       background-color: #0b7cac;
       color: #fff;
     }
@@ -2539,10 +2552,21 @@ ul {
       margin-top: 30px;
     }
   }
+
+  h3#order_review_heading,
   #order_review {
     float: right;
     width: 48%;
   }
+
+  .e-checkout__order_review {
+    h3#order_review_heading,
+    #order_review {
+      float: none;
+      width: 100%;
+    }
+  }
+
   .woocommerce-account-fields {
     display: inline-block;
     width: 100%;
@@ -2668,10 +2692,6 @@ ul {
         }
       }
     }
-  }
-  h3#order_review_heading {
-    float: right;
-    width: 48%;
   }
   .place-order .terms {
     margin: 0 0 8px;
@@ -3324,8 +3344,6 @@ form.checkout {
   letter-spacing: normal;
   font-weight: 600;
   text-rendering: auto;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
 }
 
 .distraction-free .medium-header .col-1,

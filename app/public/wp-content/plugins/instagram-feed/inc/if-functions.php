@@ -15,6 +15,8 @@
  */
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
+use InstagramFeed\Helpers\Util;
+
 add_filter( 'widget_text', 'do_shortcode' );
 
 /**
@@ -596,10 +598,7 @@ function sbi_debug_report( $instagram_feed, $feed_id ) {
 	global $sb_instagram_posts_manager;
 
 	$feed = $instagram_feed->get_feed_id();
-	$atts = array();
-	if ( ! empty( $feed ) ) {
-		$atts = array( 'feed' => 1 );
-	}
+	$atts = array('feed' => ! empty( $feed ) ? $feed : 1);
 
 	$settings_obj = new SB_Instagram_Settings( $atts, sbi_get_database_settings() );
 
@@ -815,57 +814,16 @@ function sbi_create_local_avatar( $username, $file_name ) {
  * @return array
  */
 function sbi_get_database_settings() {
-	$defaults = array(
-		'sb_instagram_at'                   => '',
-		'sb_instagram_user_id'              => '',
-		'sb_instagram_preserve_settings'    => '',
-		'sb_instagram_ajax_theme'           => false,
-		'sb_instagram_disable_resize'       => false,
-		'sb_instagram_cache_time'           => 1,
-		'sb_instagram_cache_time_unit'      => 'hours',
-		'sbi_caching_type'                  => 'background',
-		'sbi_cache_cron_interval'           => '12hours',
-		'sbi_cache_cron_time'               => '1',
-		'sbi_cache_cron_am_pm'              => 'am',
-		'sb_instagram_width'                => '100',
-		'sb_instagram_width_unit'           => '%',
-		'sb_instagram_feed_width_resp'      => false,
-		'sb_instagram_height'               => '',
-		'sb_instagram_num'                  => '20',
-		'sb_instagram_height_unit'          => '',
-		'sb_instagram_cols'                 => '4',
-		'sb_instagram_disable_mobile'       => false,
-		'sb_instagram_image_padding'        => '5',
-		'sb_instagram_image_padding_unit'   => 'px',
-		'sb_instagram_sort'                 => 'none',
-		'sb_instagram_background'           => '',
-		'sb_instagram_show_btn'             => true,
-		'sb_instagram_btn_background'       => '',
-		'sb_instagram_btn_text_color'       => '',
-		'sb_instagram_btn_text'             => __( 'Load More...', 'instagram-feed' ),
-		'sb_instagram_image_res'            => 'auto',
-		//Header
-		'sb_instagram_show_header'          => true,
-		'sb_instagram_header_size'  => 'small',
-		'sb_instagram_header_color'         => '',
-		//Follow button
-		'sb_instagram_show_follow_btn'      => true,
-		'sb_instagram_folow_btn_background' => '',
-		'sb_instagram_follow_btn_text_color' => '',
-		'sb_instagram_follow_btn_text'      => __( 'Follow on Instagram', 'instagram-feed' ),
-		//Misc
-		'sb_instagram_custom_css'           => '',
-		'sb_instagram_custom_js'            => '',
-		'sb_instagram_cron'                 => 'no',
-		'sb_instagram_backup' => true,
-		'sb_ajax_initial'    => false,
-		'enqueue_css_in_shortcode' => false,
-		'sb_instagram_disable_mob_swipe' => false,
-		'sb_instagram_disable_awesome'      => false
-	);
 	$sbi_settings = get_option( 'sb_instagram_settings', array() );
 
-	return array_merge( $defaults, $sbi_settings );
+	if ( ! is_array( $sbi_settings ) ) {
+        $sbi_settings = array();
+    }
+
+	$return_settings = array_merge( sbi_defaults(), $sbi_settings );
+	$return_settings = apply_filters( 'sbi_database_settings', $return_settings );
+
+	return $return_settings;
 }
 
 /**
@@ -917,6 +875,9 @@ function sbi_get_feed_template_part( $part, $settings = array() ) {
 		}
 	}
 
+	// Allow 3rd party plugins to filter template file from their plugin.
+	$file = apply_filters( 'sbi_feed_template_part', $file, $part, $settings );
+
 	return $file;
 }
 
@@ -930,6 +891,8 @@ function sbi_cron_updater() {
 	$cron_updater->do_feed_updates();
 
 	sbi_do_background_tasks( array() );
+    \InstagramFeed\Admin\SBI_Support_Tool::delete_expired_users();
+
 }
 add_action( 'sbi_feed_update', 'sbi_cron_updater' );
 
@@ -1277,9 +1240,14 @@ function sb_instagram_scripts_enqueue( $enqueue = false ) {
 	//Options to pass to JS file
 	$sb_instagram_settings = get_option( 'sb_instagram_settings' );
 
-	$js_file = 'js/sbi-scripts.min.js';
-	if ( isset( $_GET['sbi_debug'] ) ) {
-		$js_file = 'js/sbi-scripts.js';
+	// legacy settings
+	$path = ! is_admin() && Util::sbi_legacy_css_enabled() ? 'legacy/' : '';
+
+	$js_file = 'js/' . $path . 'sbi-scripts.min.js';
+	$css_file = 'css/' . $path . 'sbi-styles.min.css';
+	if ( Util::isDebugging() || Util::is_script_debug() ) {
+		$js_file = 'js/' . $path . 'sbi-scripts.js';
+		$css_file = 'css/' . $path . 'sbi-styles.css';
 	}
 
 	if ( isset( $sb_instagram_settings['enqueue_js_in_head'] ) && $sb_instagram_settings['enqueue_js_in_head'] ) {
@@ -1289,9 +1257,9 @@ function sb_instagram_scripts_enqueue( $enqueue = false ) {
 	}
 
 	if ( isset( $sb_instagram_settings['enqueue_css_in_shortcode'] ) && $sb_instagram_settings['enqueue_css_in_shortcode'] ) {
-		wp_register_style( 'sbi_styles', trailingslashit( SBI_PLUGIN_URL ) . 'css/sbi-styles.min.css', array(), SBIVER );
+		wp_register_style( 'sbi_styles', trailingslashit( SBI_PLUGIN_URL ) . $css_file, array(), SBIVER );
 	} else {
-		wp_enqueue_style( 'sbi_styles', trailingslashit( SBI_PLUGIN_URL ) . 'css/sbi-styles.min.css', array(), SBIVER );
+		wp_enqueue_style( 'sbi_styles', trailingslashit( SBI_PLUGIN_URL ) . $css_file, array(), SBIVER );
 	}
 
 
@@ -1342,6 +1310,14 @@ function sb_instagram_custom_js() {
 	echo "\r\n";
 }
 add_action( 'wp_footer', 'sb_instagram_custom_js' );
+add_action( 'wp_footer', function() {
+	if (is_user_logged_in()) {
+		$current_user = wp_get_current_user();
+		if (user_can($current_user, 'administrator')) {
+			InstagramFeed\Admin\SBI_Callout::print_callout();
+		}
+	}
+});
 
 //Custom CSS
 add_action( 'wp_head', 'sb_instagram_custom_css' );
@@ -1359,7 +1335,7 @@ function sb_instagram_custom_css() {
 
 	if( !empty($sb_instagram_custom_css) ){
 		echo "\r\n";
-		echo stripslashes($sb_instagram_custom_css);
+		echo wp_strip_all_tags( stripslashes( $sb_instagram_custom_css ) );
 	}
 
 	if( current_user_can( 'edit_posts' ) ){
@@ -1743,7 +1719,8 @@ function sbi_defaults() {
 		'sb_instagram_disable_mob_swipe' => false,
 		'sb_instagram_disable_awesome'      => false,
 		'sb_instagram_disable_font'      => false,
-		'gdpr'      => 'auto'
+		'gdpr'      => 'auto',
+		'enqueue_legacy_css' => false,
 	);
 
 	return $defaults;
@@ -1774,3 +1751,14 @@ function sbi_header_html( $settings, $header_data, $location = 'inside' ) {
 	}
 	include sbi_get_feed_template_part( 'header', $settings );
 }
+
+/**
+ * Check if there are critical errors.
+ * 
+ * @return bool
+ */
+function sbi_has_critical_errors() {
+	return Util::sbi_has_admin_errors();
+}
+
+add_filter( 'sb_instagram_feed_has_admin_errors', 'sbi_has_critical_errors' );

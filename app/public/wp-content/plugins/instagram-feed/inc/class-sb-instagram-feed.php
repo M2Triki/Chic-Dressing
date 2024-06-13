@@ -13,6 +13,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	die( '-1' );
 }
 
+use InstagramFeed\Helpers\Util;
+
 class SB_Instagram_Feed
 {
 	/**
@@ -69,6 +71,11 @@ class SB_Instagram_Feed
 	 * @var int
 	 */
 	private $num_api_calls;
+
+	/**
+	 * @var int
+	 */
+	private $max_api_calls;
 
 	/**
 	 * @var array
@@ -947,13 +954,14 @@ class SB_Instagram_Feed
 				$this->header_data['local_avatar'] = false;
 				$sb_instagram_posts_manager->remove_error( 'connection', $connected_accounts_for_feed[ $first_user ] );
 
-				if ( ! empty( $connected_accounts_for_feed[ $first_user ]['local_avatar_url'] ) ) {
-					$this->header_data['local_avatar'] = $connected_accounts_for_feed[ $first_user ]['local_avatar_url'];
-				}
-				if ( empty( $this->header_data['bio'] )
-					 && isset( $connected_accounts_for_feed[ $first_user ]['bio'] ) ) {
+				$single_source = InstagramFeed\Builder\SBI_Source::update_single_source( $connected_accounts_for_feed[ $first_user ] );
 
-					$this->header_data['bio'] = sbi_decode_emoji( $connected_accounts_for_feed[ $first_user ]['bio'] );
+				if ( ! empty( $single_source['local_avatar_url'] ) ) {
+					$this->header_data['local_avatar'] = $single_source['local_avatar_url'];
+				}
+
+				if( isset( $this->header_data['biography'] ) && ! empty( $this->header_data['biography'] ) ) {
+					$this->header_data['bio'] = sbi_decode_emoji( $this->header_data['biography'] );
 				}
 			} else {
 				$this->should_use_backup = true;
@@ -1322,9 +1330,15 @@ class SB_Instagram_Feed
 		);
 
 		$encoded_options = sbi_json_encode( $js_options );
+		// legacy settings.
+        $path = Util::sbi_legacy_css_enabled() ? 'js/legacy/' : 'js/';
+
+		if ( ! wp_script_is( 'jquery', 'queue' ) ) {
+			wp_enqueue_script( 'jquery' );
+		}
 
 		$js_option_html = '<script type="text/javascript">var sb_instagram_js_options = ' . $encoded_options . ';</script>';
-		$js_option_html .= "<script type='text/javascript' src='" . trailingslashit( SBI_PLUGIN_URL ) . 'js/sbi-scripts.min.js?ver=' . SBIVER . "'></script>";
+		$js_option_html .= "<script type='text/javascript' src='" . trailingslashit( SBI_PLUGIN_URL ) . $path . 'sbi-scripts.min.js?ver=' . SBIVER . "'></script>";
 
 		return $js_option_html;
 	}
@@ -1397,7 +1411,54 @@ class SB_Instagram_Feed
 	protected function filter_posts( $post_set, $settings = array() ) {
 		// array_unique( $post_set, SORT_REGULAR);
 
-		return $post_set;
+		if ( $settings['media'] === 'all' ) {
+			return $post_set;
+		}
+
+		$media_filter = $settings['media'] !== 'all' ? $settings['media'] : false;
+		if ( $media_filter ) {
+			$media_filter = is_array( $media_filter ) ? $media_filter : array( $media_filter );
+		}
+		$video_types    = ! empty( $settings['videotypes'] ) ? explode( ',', str_replace( ' ', '', strtolower( $settings['videotypes'] ) ) ) : array( 'igtv', 'regular', 'reels' );
+		$filtered_posts = array();
+		foreach ( $post_set as $post ) {
+			$keep_post = false;
+			$is_hidden = false;
+			$passes_media_filter = true;
+
+			if ( $media_filter ) {
+				$media_type = SB_Instagram_Parse::get_media_type( $post );
+
+				if ( $media_type === 'video' && in_array( 'videos', $media_filter, true ) ) {
+					if ( ! empty( $video_types ) ) {
+						$video_type = SB_Instagram_Parse::get_media_product_type( $post );
+						$video_type = 'feed' === $video_type ? 'regular' : $video_type;
+
+						if ( ! in_array( $video_type, $video_types, true ) ) {
+							$passes_media_filter = false;
+						}
+					}
+				} elseif ( $media_type === 'video' && ! in_array( 'videos', $media_filter, true ) ) {
+					$passes_media_filter = false;
+				} elseif ( $media_type === 'image' && ! in_array( 'photos', $media_filter, true ) ) {
+					$passes_media_filter = false;
+				} elseif ( $media_type === 'carousel' && ! in_array( 'photos', $media_filter, true ) ) {
+					$passes_media_filter = false;
+				}
+
+			}
+
+			if ( ! $is_hidden && $passes_media_filter ) {
+				$keep_post = true;
+			}
+
+			$keep_post = apply_filters( 'sbi_passes_filter', $keep_post, $post, $settings );
+			if ( $keep_post ) {
+				$filtered_posts[] = $post;
+			}
+		}
+
+		return $filtered_posts;
 	}
 
 	protected function handle_no_posts_found( $settings = array(), $feed_types_and_terms = array() ) {

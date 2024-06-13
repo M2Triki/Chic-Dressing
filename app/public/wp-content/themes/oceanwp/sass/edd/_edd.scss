@@ -80,8 +80,6 @@
 		font-style: normal;
 		letter-spacing: normal;
 		text-rendering: auto;
-		-webkit-font-smoothing: antialiased;
-		-moz-osx-font-smoothing: grayscale;
 	}
 
 	.edd-loading {
@@ -283,8 +281,6 @@
 				display: inline-block;
 				font-family: normal normal normal 14px/1 'Font Awesome 5 free';
 				text-rendering: auto;
-				-webkit-font-smoothing: antialiased;
-				-moz-osx-font-smoothing: grayscale;
 				position: absolute;
 				top: 0;
 				left: 0;
@@ -312,7 +308,7 @@
 
 /* Grid */
 
-@media only screen and(min-width: 481px) and(max-width: 768px) {
+@media only screen and (min-width: 481px) and (max-width: 768px) {
 	.edd_downloads_list.oceanwp-row {
 		&.tablet-col .col {
 			clear: none;
@@ -363,7 +359,7 @@
 		}
 	}
 }
-@media only screen and(max-width: 480px) {
+@media only screen and (max-width: 480px) {
 	.edd_downloads_list.oceanwp-row {
 		&.mobile-col .col {
 			clear: none;

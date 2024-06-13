@@ -38,7 +38,7 @@ if ( ! class_exists( 'OceanWP_Typography_Customizer' ) ) :
 		 *
 		 * @since 1.0.0
 		 */
-		public function elements() {
+		public static function elements() {
 
 			// Return settings
 			return apply_filters(
@@ -358,19 +358,94 @@ if ( ! class_exists( 'OceanWP_Typography_Customizer' ) ) :
 				)
 			);
 
-			$wp_customize->add_control(
-				new WP_Customize_Control(
-					$wp_customize,
-					'ocean_local_google_font',
-					array(
-						'label'    => esc_html__( 'Google Fonts from Site', 'oceanwp' ),
-						'type'     => 'checkbox',
-						'section'  => 'ocean_typography_general',
-						'settings' => 'ocean_local_google_font',
-						'priority' => 10,
+			if ( class_exists( 'Ocean_Extra' ) ) {
+				$wp_customize->add_control(
+					new WP_Customize_Control(
+						$wp_customize,
+						'ocean_local_google_font',
+						array(
+							'label'    => esc_html__( 'Google Fonts from Site', 'oceanwp' ),
+							'type'     => 'checkbox',
+							'section'  => 'ocean_typography_general',
+							'settings' => 'ocean_local_google_font',
+							'priority' => 10,
+						)
 					)
-				)
-			);
+				);
+
+				if ( did_action( 'elementor/loaded' ) ) {
+					$wp_customize->add_setting(
+						'ocean_local_elementor_google_font',
+						array(
+							'transport'         => 'postMessage',
+							'default'           => false,
+							'sanitize_callback' => 'oceanwp_sanitize_checkbox',
+						)
+					);
+
+					$wp_customize->add_control(
+						new WP_Customize_Control(
+							$wp_customize,
+							'ocean_local_elementor_google_font',
+							array(
+								'label'    => esc_html__( 'Elementor Google Fonts from Site', 'oceanwp' ),
+								'type'     => 'checkbox',
+								'section'  => 'ocean_typography_general',
+								'settings' => 'ocean_local_elementor_google_font',
+								'priority' => 10,
+							)
+						)
+					);
+				}
+
+				$wp_customize->add_setting(
+					'ocean_preload_local_google_font',
+					array(
+						'transport'         => 'postMessage',
+						'default'           => false,
+						'sanitize_callback' => 'oceanwp_sanitize_checkbox',
+					)
+				);
+				$wp_customize->add_control(
+					new WP_Customize_Control(
+						$wp_customize,
+						'ocean_preload_local_google_font',
+						array(
+							'label'    => esc_html__( 'Preload Local Google Fonts', 'oceanwp' ),
+							'type'     => 'checkbox',
+							'section'  => 'ocean_typography_general',
+							'settings' => 'ocean_preload_local_google_font',
+							'priority' => 10,
+						)
+					)
+				);
+
+				$wp_customize->add_setting(
+					'ocean_local_google_font_format',
+					array(
+						'default'           => 'ttf',
+						'type'              => 'theme_mod',
+						'sanitize_callback' => 'oceanwp_sanitize_select',
+						'transport'         => 'postMessage',
+					)
+				);
+
+				$wp_customize->add_control(
+					'ocean_local_google_font_format',
+					array(
+						'label'           => esc_html__( 'Font Format', 'oceanwp' ),
+						'description'     => '',
+						'section'         => 'ocean_typography_general',
+						'settings'        => 'ocean_local_google_font_format',
+						'type'            => 'select',
+						'choices'         => array(
+							'ttf'    => esc_html__( 'ttf', 'oceanwp' ),
+							'woff'    => esc_html__( 'woff', 'oceanwp' ),
+							'woff2'    => esc_html__( 'woff2', 'oceanwp' ),
+						),
+					)
+				);
+			}
 
 			/**
 			 * Font Subsets
@@ -842,7 +917,7 @@ if ( ! class_exists( 'OceanWP_Typography_Customizer' ) ) :
 		 *
 		 * @since 1.0.0
 		 */
-		public function loop( $return = 'css' ) {
+		public static function loop( $return = 'css' ) {
 
 			// Define Vars
 			$css            = '';

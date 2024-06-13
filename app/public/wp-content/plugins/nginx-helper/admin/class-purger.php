@@ -121,40 +121,6 @@ abstract class Purger {
 
 	}
 
-	public function purge_post_on_update( $post_ID, $post_after, $post_before ) {
-		$this->purge_post( $post_ID );
-	}
-
-	public function updated_meta( int $meta_id, int $object_id, string $meta_key, $_meta_value ) {
-		$this->log( 'updated meta' );
-		$this->purge_post( $object_id );
-	}
-
-	public function purge_elementor( $document ) {
-		$this->log( 'elementor');
-		$this->purge_post( $document->get_main_id());
-	}
-
-	public function init_elementor( $doc, $data ) {
-		$post_id = $doc->get_main_id();
-		$this->log('init_elementor');
-		set_transient( $post_id . '_rt_wp', "elementor", 10 );
-	}
-
-	public function purge_wp_after_insert_post( int $post_id, $post, bool $update, $post_before ) {
-		// Don't update with elementor
-		if ( false !== get_transient($post_id . "_rt_wp" )) {
-			return;
-		}
-		$this->log('after_insert');
-		$this->purge_post( $post_id );
-	}
-
-	public function purge_clean_post_cache( int $post_id, $post ) {
-		$this->log( 'clean_post_cache');
-		$this->purge_post( $post_id );
-	}
-
 	/**
 	 * Purge post cache.
 	 *
@@ -203,7 +169,7 @@ abstract class Purger {
 
 		$this->log( 'Function purge_post BEGIN ===' );
 
-		if ( 1 === (int) $nginx_helper_admin->options['purge_homepage_on_edit'] && NGINX_HOME_PURGE ) {
+		if ( 1 === (int) $nginx_helper_admin->options['purge_homepage_on_edit'] ) {
 			$this->_purge_homepage();
 		}
 
@@ -247,10 +213,6 @@ abstract class Purger {
 
 		$_post_type = get_post_type( $post_id );
 
-		if ( $_post_type == 'revision' ) {
-			return;
-		}
-
 		if ( $_purge_page ) {
 
 			if ( 'post' === $_post_type || 'page' === $_post_type ) {
@@ -290,7 +252,7 @@ abstract class Purger {
 
 		}
 
-		if ( $_purge_archive && NGINX_ARCHIVE_PURGE ) {
+		if ( $_purge_archive ) {
 
 			$_post_type_archive_link = get_post_type_archive_link( $_post_type );
 
@@ -364,7 +326,7 @@ abstract class Purger {
 			}
 		}
 
-		if ( $_purge_custom_taxa && NGINX_ARCHIVE_PURGE ) {
+		if ( $_purge_custom_taxa ) {
 
 			$custom_taxonomies = get_taxonomies(
 				array(
@@ -480,7 +442,7 @@ abstract class Purger {
 	 *
 	 * @param string $url URL to do remote request.
 	 */
-	protected function do_remote_get( string $url, array $args = array() ) {
+	protected function do_remote_get( $url ) {
 		/**
 		 * Filters the URL to be purged.
 		 *
@@ -499,7 +461,7 @@ abstract class Purger {
 		 */
 		do_action( 'rt_nginx_helper_before_remote_purge_url', $url );
 
-		$response = wp_remote_get( $url, $args );
+		$response = wp_remote_get( $url );
 
 		if ( is_wp_error( $response ) ) {
 
@@ -567,7 +529,7 @@ abstract class Purger {
 
 		global $nginx_helper_admin;
 
-		if ( ! $nginx_helper_admin->options['enable_log'] ) {
+		if ( ! $nginx_helper_admin->is_nginx_log_enabled() ) {
 			return;
 		}
 
@@ -580,7 +542,7 @@ abstract class Purger {
 
 		if ( $log_levels[ $level ] >= $log_levels[ $nginx_helper_admin->options['log_level'] ] ) {
 
-			$fp = fopen( $nginx_helper_admin->functional_log_path(), 'a+' );
+			$fp = fopen( $nginx_helper_admin->functional_asset_path() . 'nginx.log', 'a+' );
 			if ( $fp ) {
 
 				fwrite( $fp, "\n" . gmdate( 'Y-m-d H:i:s ' ) . ' | ' . $level . ' | ' . $msg );
@@ -591,6 +553,42 @@ abstract class Purger {
 
 		return true;
 
+	}
+
+	/**
+	 * Check and truncate log file.
+	 */
+	public function check_and_truncate_log_file() {
+
+		global $nginx_helper_admin;
+
+		if ( ! $nginx_helper_admin->is_nginx_log_enabled() ) {
+			return;
+		}
+
+		$nginx_asset_path = $nginx_helper_admin->functional_asset_path() . 'nginx.log';
+
+		if ( ! file_exists( $nginx_asset_path ) ) {
+			return;
+		}
+
+		$max_size_allowed = ( is_numeric( $nginx_helper_admin->options['log_filesize'] ) ) ? $nginx_helper_admin->options['log_filesize'] * 1048576 : 5242880;
+
+		$file_size = filesize( $nginx_asset_path );
+
+		if ( $file_size > $max_size_allowed ) {
+
+			$offset       = $file_size - $max_size_allowed;
+			$file_content = file_get_contents( $nginx_asset_path, null, null, $offset );
+			$file_content = empty( $file_content ) ? '' : strstr( $file_content, "\n" );
+
+			$fp = fopen( $nginx_asset_path, 'w+' );
+			if ( $file_content && $fp ) {
+
+				fwrite( $fp, $file_content );
+				fclose( $fp );
+			}
+		}
 	}
 
 	/**
@@ -660,7 +658,7 @@ abstract class Purger {
 			$this->log( '# # # # #' );
 			$this->log( 'Function purge_on_post_moved_to_trash ( post id ' . $post->ID . ' ) BEGIN ===' );
 
-			if ( 1 === (int) $nginx_helper_admin->options['purge_homepage_on_del'] && NGINX_HOME_PURGE ) {
+			if ( 1 === (int) $nginx_helper_admin->options['purge_homepage_on_del'] ) {
 				$this->_purge_homepage();
 			}
 

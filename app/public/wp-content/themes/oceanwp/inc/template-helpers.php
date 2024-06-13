@@ -63,7 +63,7 @@ if ( ! function_exists( 'ocean_get_post_author' ) ) {
 			'prefix'      => oceanwp_theme_strings( 'owp-string-posted-by', false ),
 			'aria_prefix' => oceanwp_theme_strings( 'owp-string-all-posts-by', false ),
 			'before'      => '',
-			'after'       => '',
+			'after'       => ''
 		);
 
 		$args = wp_parse_args( $args, $default_args );
@@ -71,13 +71,13 @@ if ( ! function_exists( 'ocean_get_post_author' ) ) {
 		$aria_label = sprintf(
 			/* translators: %s: author name for link aria label. */
 			esc_html( $args['aria_prefix'] . ' ' . __( '%s', 'oceanwp' ) ),
-			esc_html( the_author() )
+			esc_html( get_the_author() )
 		);
 
 		$author = sprintf(
 			/* translators: %s: author name for link meta. */
 			esc_html( $args['prefix'] . ' ' . __( '%s', 'oceanwp' ) ),
-			'<a href="' . esc_url( get_author_posts_url( get_the_author_meta( $author_id ) ) ) . '" rel="author" aria-label="' . esc_attr( $aria_label ) . '">' . esc_html( get_the_author_meta( 'display_name', $author_id ) )  . '</a>'
+			'<a href="' . esc_url( get_author_posts_url( $author_id ) ) . '" rel="author" aria-label="' . esc_attr( $aria_label ) . '">' . esc_html( get_the_author_meta( 'display_name', $author_id ) )  . '</a>'
 		);
 
 		$author_meta = $args['before'] . $author . $args['after'];
@@ -133,14 +133,19 @@ if ( ! function_exists( 'ocean_get_post_date' ) ) {
 
 	function ocean_get_post_date( $args = array(), $echo = true ) {
 
+		$format = 'F j, Y';
+		$format = apply_filters( 'ocean_get_post_date_format', $format );
+
 		$default_args = array(
 			'prefix'      => oceanwp_theme_strings( 'owp-string-posted-on', false ),
-			'date_format' => 'F j, Y',
+			'date_format' => $format,
 			'before'      => '',
 			'after'       => ''
 		);
 
 		$args = wp_parse_args( $args, $default_args );
+
+		$args = apply_filters( 'ocean_get_post_date_args', $args );
 
 		$date_format = $args['date_format'];
 
@@ -172,12 +177,17 @@ if ( ! function_exists( 'ocean_get_post_modified_date' ) ) {
 
 	function ocean_get_post_modified_date( $args = array(), $echo = true ) {
 
+		$format = 'F j, Y';
+		$format = apply_filters( 'ocean_get_post_modified_date_format', $format );
+
 		$default_args = array(
 			'prefix'      => oceanwp_theme_strings( 'owp-string-updated-on', false ),
-			'date_format' => 'F j, Y',
+			'date_format' => $format
 		);
 
 		$args = wp_parse_args( $args, $default_args );
+
+		$args = apply_filters( 'ocean_get_post_modified_date_args', $args );
 
 		$date_format = $args['date_format'];
 
@@ -249,7 +259,7 @@ if ( ! function_exists( 'ocean_get_post_categories' ) ) {
 			'prefix'    => oceanwp_theme_strings( 'owp-string-posted-in', false ),
 			'separator' => ' / ',
 			'before'    => '',
-			'after'     => '',
+			'after'     => ''
 		);
 
 		$args = wp_parse_args( $args, $default_args );
@@ -289,7 +299,7 @@ if ( ! function_exists( 'ocean_get_post_tags' ) ) {
 			'prefix'    => oceanwp_theme_strings( 'owp-string-tagged-as', false ),
 			'separator' => ', ',
 			'before'    => '',
-			'after'     => '',
+			'after'     => ''
 		);
 
 		$args = wp_parse_args( $args, $default_args );
@@ -340,12 +350,12 @@ if ( ! function_exists( 'ocean_get_post_author_avatar' ) ) {
 
 		$args = wp_parse_args( $args, $default_args );
 
-		$avatar_url = '<a href="' . esc_url( get_author_posts_url( get_the_author_meta( $author_id ) ) ) . '" rel="author"' . ( $args['aria_hidden'] ? ' aria-hidden="true"' : '' ) . '>';
+		$avatar_url = '<a href="' . esc_url( get_author_posts_url( $author_id ) ) . '" rel="author"' . ( $args['aria_hidden'] ? ' aria-hidden="true"' : '' ) . '>';
 		$avatar_url .= get_avatar(
 			$author_id,
 			apply_filters( 'ocean_author_bio_avatar_size', $args['size'] ),
 			'',
-			esc_attr( $args['alt'] ),
+			esc_attr( $args['alt'] )
 		);
 		$avatar_url .= '</a>';
 
@@ -379,7 +389,7 @@ if ( ! function_exists( 'oceanwp_paint_post_thumbnail' ) ) {
 		// Define default image args.
 		$def_img_args = array(
 			'class' => 'post-thumbnail',
-			'name' 	=> 'ocean-post-thumb-xl',
+			'name' 	=> 'ocean-post-thumb-xl'
 		);
 
 		$img_args = wp_parse_args( $img_args, $def_img_args );

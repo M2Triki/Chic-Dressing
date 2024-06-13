@@ -4,7 +4,7 @@ Plugin Name: Ashe Extra
 Plugin URI: http://wordpress.org/plugins/ashe-extra/
 Description: Adds One Click Demo Import functionality for Ashe theme.
 Author: WP Royal
-Version: 1.2.6
+Version: 1.2.92
 License: GPLv2 or later
 Author URI: https://wp-royal.com/
 Text Domain: ashe-extra
@@ -27,9 +27,9 @@ if ( ! class_exists( 'Ashextra_Options' ) ) {
 
 			add_action( 'wp_ajax_ashextra_contact_from_7_activation', [ $this, 'ashextra_contact_from_7_activation' ] );
 			add_action( 'wp_ajax_ashextra_instagram_feed_activation', [ $this, 'ashextra_instagram_feed_activation' ] );
-			add_action( 'wp_ajax_ashextra_wysija_newsletter_activation', [ $this, 'ashextra_wysija_newsletter_activation' ] );
+			add_action( 'wp_ajax_ashextra_mailchimp_newsletter_activation', [ $this, 'ashextra_mailchimp_newsletter_activation' ] );
 			add_action( 'wp_ajax_ashextra_recent_posts_activation', [ $this, 'ashextra_recent_posts_activation' ] );
-			add_action( 'wp_ajax_ashextra_elementor_activation', [ $this, 'ashextra_elementor_activation' ] );
+			// add_action( 'wp_ajax_ashextra_elementor_activation', [ $this, 'ashextra_elementor_activation' ] );
 			add_action( 'wp_ajax_ashextra_royal_elementor_addons_activation', [ $this, 'ashextra_royal_elementor_addons_activation' ] );
 
 			add_action( 'admin_enqueue_scripts', [ $this, 'ashextra_widget_enqueue_scripts' ] );
@@ -106,6 +106,21 @@ if ( ! class_exists( 'Ashextra_Options' ) ) {
 			return $data;
 		}
 
+		public function ashe_extra_subpage_content() { ?>
+
+			<div class="extra-options-page-wrap">
+				<div class="wrap extra-options">
+					<h1>Demo Import Completed !</h1>
+					<p class="after-import-notice">
+						<?php esc_html_e( 'Please visit', 'ashe-extra' ); ?> <a href="<?php echo esc_url( admin_url('themes.php?page=about-ashe') ); ?>" class="visit-website"><?php esc_html_e( 'About Ashe Page', 'ashe-extra' ); ?></a>
+						&nbsp;<?php esc_html_e( 'or', 'ashe-extra' ); ?>&nbsp;
+						<a href="<?php echo esc_url( home_url() ); ?>" class="visit-website" target="_blank"><?php esc_html_e( 'Check out your new website.', 'ashe-extra' ); ?></a>
+					</p>
+				</div>
+			</div>
+
+		<?php }
+
 		// Add Admin Menu
 		public function ashextra_options_page() {
 			add_menu_page(
@@ -117,6 +132,22 @@ if ( ! class_exists( 'Ashextra_Options' ) ) {
 				'dashicons-star-filled',
 				80
 			);
+
+			add_submenu_page( 
+				'ashe-extra-xxxxx', 
+				esc_html__('Ashe Extra Sub Page', 'ashe-extra'),
+				esc_html__('Ashe Extra Sub', 'ashe-extra'),
+				'manage_options',
+				'ashe-extra-sub',
+				[$this, 'ashe_extra_subpage_content']
+			);
+
+			// add_action('admin_menu', [$this, 'remove_ashe_extra_sub_from_menu'], 999);
+		}
+
+		// Now remove it from the menu.
+		public function remove_ashe_extra_sub_from_menu() {
+			remove_submenu_page('ashe-extra', 'ashe-extra-sub');
 		}
 
 		// Render Admin Page HTML
@@ -136,7 +167,8 @@ if ( ! class_exists( 'Ashextra_Options' ) ) {
 
 					<p>
 					<?php
-						if ( ! is_plugin_active( 'elementor/elementor.php' ) || ! is_plugin_active( 'royal-elementor-addons/wpr-addons.php' ) || ! is_plugin_active( 'contact-form-7/wp-contact-form-7.php' ) || ! is_plugin_active( 'instagram-feed/instagram-feed.php' ) || ! is_plugin_active( 'wysija-newsletters/index.php' ) || ! is_plugin_active( 'recent-posts-widget-with-thumbnails/recent-posts-widget-with-thumbnails.php' ) ) {
+					// ! is_plugin_active( 'elementor/elementor.php' ) || 
+						if ( ! is_plugin_active( 'royal-elementor-addons/wpr-addons.php' ) || ! is_plugin_active( 'contact-form-7/wp-contact-form-7.php' ) || ! is_plugin_active( 'instagram-feed/instagram-feed.php' ) || ! is_plugin_active( 'mailchimp-for-wp/mailchimp-for-wp.php' ) || ! is_plugin_active( 'recent-posts-widget-with-thumbnails/recent-posts-widget-with-thumbnails.php' ) ) {
 							esc_html_e( 'All recommended plugins need to be installed and activated for this step.', 'ashe-extra' );
 						}
 					?>
@@ -161,12 +193,12 @@ if ( ! class_exists( 'Ashextra_Options' ) ) {
 						</div>
 						<?php endif; ?>
 
-						<?php if ( ! is_plugin_active( 'wysija-newsletters/index.php' ) ) : ?>
+						<?php if ( ! is_plugin_active( 'mailchimp-for-wp/mailchimp-for-wp.php' ) ) : ?>
 						<div class="plugin-box">
 							<img src="<?php echo plugin_dir_url( __FILE__ ) .'assets/images/mailchimp.png'; ?>">
-							<span><?php esc_html_e( 'Newsletter', 'ashe-extra' ); ?></span>
-							<input type="checkbox" id="wysija_newsletter" name="wysija_newsletter" value="yes" checked>
-							<label for="wysija_newsletter"></label>
+							<span><?php esc_html_e( 'Mailchimp', 'ashe-extra' ); ?></span>
+							<input type="checkbox" id="mailchimp_newsletter" name="mailchimp_newsletter" value="yes" checked>
+							<label for="mailchimp_newsletter"></label>
 						</div>
 						<?php endif; ?>
 
@@ -179,7 +211,7 @@ if ( ! class_exists( 'Ashextra_Options' ) ) {
 						</div>
 						<?php endif; ?>
 
-						<?php if ( ! is_plugin_active( 'elementor/elementor.php' ) ) : ?>
+						<?php if ( ! is_plugin_active( 'elementor/elementor.php' ) && 1 == 2 ) : ?>
 						<div class="plugin-box">
 							<img src="<?php echo plugin_dir_url( __FILE__ ) .'assets/images/elementor.png'; ?>">
 							<span><?php esc_html_e( 'Elementor', 'ashe-extra' ); ?></span>
@@ -203,12 +235,6 @@ if ( ! class_exists( 'Ashextra_Options' ) ) {
 					<br><br>
 					<em><?php esc_html_e( 'Import may take 1-2 minutes, please don\'t refresh this page until it\'s done!', 'ashe-extra' ); ?></em>
 
-					<p class="after-import-notice">
-						<?php esc_html_e( 'Please visit', 'ashe-extra' ); ?> <a href="<?php echo esc_url( admin_url('themes.php?page=about-ashe') ); ?>" class="visit-website"><?php esc_html_e( 'About Ashe Page', 'ashe-extra' ); ?></a>
-						&nbsp;<?php esc_html_e( 'or', 'ashe-extra' ); ?>&nbsp;
-						<a href="<?php echo esc_url( home_url() ); ?>" class="visit-website" target="_blank"><?php esc_html_e( 'Check out your new website.', 'ashe-extra' ); ?></a>
-					</p>
-					
 				</div>
 				
 			</div>
@@ -218,6 +244,12 @@ if ( ! class_exists( 'Ashextra_Options' ) ) {
 
 		// Install/Activate CF7 Plugin 
 		public function ashextra_contact_from_7_activation() {
+
+            $nonce = $_POST['nonce'];
+
+            if ( !wp_verify_nonce( $nonce, 'plugin-options-js' ) || !current_user_can('activate_plugins') ) {
+                return;
+            }
 
 			// Get the list of currently active plugins (Most likely an empty array)
 			$active_plugins = (array) get_option( 'active_plugins', array() );
@@ -233,6 +265,12 @@ if ( ! class_exists( 'Ashextra_Options' ) ) {
 
 		// Install/Activate Instagram Feed Plugin 
 		public function ashextra_instagram_feed_activation() {
+
+            $nonce = $_POST['nonce'];
+
+            if ( !wp_verify_nonce( $nonce, 'plugin-options-js' ) || !current_user_can('activate_plugins') ) {
+                return;
+            }
 
 			// Get the list of currently active plugins (Most likely an empty array)
 			$active_plugins = (array) get_option( 'active_plugins', array() );
@@ -261,13 +299,19 @@ if ( ! class_exists( 'Ashextra_Options' ) ) {
 		}
 
 		// Install/Activate Mailpoet Plugin 
-		public function ashextra_wysija_newsletter_activation() {
+		public function ashextra_mailchimp_newsletter_activation() {
+
+            $nonce = $_POST['nonce'];
+
+            if ( !wp_verify_nonce( $nonce, 'plugin-options-js' ) || !current_user_can('activate_plugins') ) {
+                return;
+            }
 
 			// Get the list of currently active plugins (Most likely an empty array)
 			$active_plugins = (array) get_option( 'active_plugins', array() );
 
 			if ( true == $_POST['ashextra_plugin_checked'] ) {
-				array_push( $active_plugins, 'wysija-newsletters/index.php' );
+				array_push( $active_plugins, 'mailchimp-for-wp/mailchimp-for-wp.php' );
 			}
 
 			// Set the new plugin list in WordPress
@@ -277,6 +321,12 @@ if ( ! class_exists( 'Ashextra_Options' ) ) {
 
 		// Install/Activate Recent Posts Widget Plugin 
 		public function ashextra_recent_posts_activation() {
+
+            $nonce = $_POST['nonce'];
+
+            if ( !wp_verify_nonce( $nonce, 'plugin-options-js' ) || !current_user_can('activate_plugins') ) {
+                return;
+            }
 
 			// Get the list of currently active plugins (Most likely an empty array)
 			$active_plugins = (array) get_option( 'active_plugins', array() );
@@ -293,6 +343,12 @@ if ( ! class_exists( 'Ashextra_Options' ) ) {
 		// Install/Activate Elementor Plugin 
 		public function ashextra_elementor_activation() {
 
+            $nonce = $_POST['nonce'];
+
+            if ( !wp_verify_nonce( $nonce, 'plugin-options-js' ) || !current_user_can('activate_plugins') ) {
+                return;
+            }
+
 			// Get the list of currently active plugins (Most likely an empty array)
 			$active_plugins = (array) get_option( 'active_plugins', array() );
 
@@ -308,6 +364,12 @@ if ( ! class_exists( 'Ashextra_Options' ) ) {
 		// Install/Activate Royal Elementor Addons Plugin 
 		public function ashextra_royal_elementor_addons_activation() {
 
+            $nonce = $_POST['nonce'];
+
+            if ( !wp_verify_nonce( $nonce, 'plugin-options-js' ) || !current_user_can('activate_plugins') ) {
+                return;
+            }
+            
 			// Get the list of currently active plugins (Most likely an empty array)
 			$active_plugins = (array) get_option( 'active_plugins', array() );
 
@@ -416,13 +478,16 @@ if ( ! class_exists( 'Ashextra_Options' ) ) {
 		        'featured_links_image_6' => '',
 				'social_media_icon_1' => 'facebook',
 				'social_media_url_1' => '#',
-				'social_media_icon_2' => 'twitter',
+				'social_media_icon_2' => 'x-twitter',
 				'social_media_url_2' => '#',
 				'social_media_icon_3' => 'instagram',
 				'social_media_url_3' => '#',
 				'social_media_icon_4' => 'pinterest',
 				'social_media_url_4' => '#',
-				'page_footer_copyright' => '© 2022 - All Rights Reserved.',
+				'blog_page_show_facebook' => true,
+				'blog_page_show_twitter' => true,
+				'blog_page_show_pinterest' => true,
+				'page_footer_copyright' => '© 2024 - All Rights Reserved.',
 		    );
 		    update_option( 'ashe_options', $custom_theme_options );
 
@@ -602,14 +667,23 @@ if ( ! class_exists( 'Ashextra_Options' ) ) {
 			// Disable Notifications
 			wp_enqueue_style( 'plugin-notices-css', plugin_dir_url( __FILE__ ) . 'assets/css/notices.css' );
 
-			if ( 'toplevel_page_ashe-extra' != $hook ) {
+			if ( 'toplevel_page_ashe-extra' != $hook && 'admin_page_ashe-extra-sub' != $hook ) {
 				return;
 			}
 
 			wp_enqueue_script( 'plugin-install' );
 			wp_enqueue_script( 'updates' );
 			wp_enqueue_script( 'plugin-options-js', plugin_dir_url( __FILE__ ) . 'assets/js/plugin-options.js', array(), '1.2.6' );
-		
+
+
+            wp_localize_script(
+                'plugin-options-js',
+                'ashePluginOptions', // This is used in the js file to group all of your scripts together
+                [
+                    'nonce' => wp_create_nonce( 'plugin-options-js' ),
+                ]
+            );
+
 			// Enqueue Styles
 			wp_enqueue_style( 'plugin-options-css', plugin_dir_url( __FILE__ ) . 'assets/css/plugin-options.css', array(), '1.2.6' );
 		}

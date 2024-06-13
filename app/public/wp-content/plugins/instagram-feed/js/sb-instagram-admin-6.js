@@ -94,6 +94,27 @@ jQuery(document).ready(function($) {
     }); // ajax call
   });
 
+  $('.sbi-reset-unused-feed-usage').on('click', function (event) {
+    event.preventDefault();
+    const $btn = $(this);
+    $btn.prop('disabled', true).addClass('loading').html('<i class="fa fa-spinner fa-spin" aria-hidden="true"></i>');
+    $.ajax({
+      url: sbiA.ajax_url,
+      type: 'post',
+      data: {
+        action: 'sbi_reset_unused_feed_usage',
+        sbi_nonce: sbiA.sbi_nonce,
+      },
+      success: function (data) {
+        if (typeof data.data.message !== 'undefined') {
+          $btn.closest('p').after(data.data.message);
+          $btn.remove();
+        }
+      },
+      error: function (data) {}
+    });
+  });
+
   $('.sbi-clear-errors-visit-page').on('click', function(event) {
     event.preventDefault();
     var $btn = $(this);
@@ -189,6 +210,11 @@ jQuery(document).ready(function($) {
         console.log(e);
       }
     });
+  });
+
+  $(document).on('click', '#oembed_api_change_reconnect .sbi-notice-dismiss', function (e) {
+    e.preventDefault();
+    $('#oembed_api_change_reconnect').remove();
   });
 });
 
@@ -311,7 +337,7 @@ jQuery(document).ready(function($) {
       $('.sbi_get_pro').parent().attr({'class':'sbi_get_pro_highlight', 'target':'_blank'});
 
       //Click event for other plugins in menu
-      $('.sbi_get_cff, .sbi_get_sbi, .sbi_get_ctf, .sbi_get_yt').parent().on('click', function(e) {
+      $('.sbi_get_cff, .sbi_get_sbi, .sbi_get_sbr, .sbi_get_ctf, .sbi_get_yt, .sbi_get_tiktok').parent().on('click', function(e) {
         e.preventDefault();
 
         // remove the already opened modal
@@ -330,6 +356,10 @@ jQuery(document).ready(function($) {
           sb_get_plugin = 'instagram';
         } else if ($self.hasClass('sbi_get_yt')) {
           sb_get_plugin = 'youtube';
+        }else if ($self.hasClass('sbi_get_sbr')) {
+          sb_get_plugin = 'reviews';
+        } else if ($self.hasClass('sbi_get_tiktok')) {
+          sb_get_plugin = 'tiktok';
         }
 
         // send the ajax request to load plugin name and others data

@@ -72,11 +72,13 @@ class MegaMenu {
   #setupEventListeners = () => {
     this.#elements.menuItems.forEach((menuItem) => {
       menuItem.addEventListener("mouseenter", this.#onMenuItemMouseEnter);
+      menuItem.addEventListener("keydown", this.#onMenuItemMouseEnter);
     });
 
     // Topbar menu items
     this.#elements.topbarMenuItems.forEach((menuItem) => {
       menuItem.addEventListener("mouseenter", this.#onTopbarMenuItemMouseEnter);
+      menuItem.addEventListener("keydown", this.#onTopbarMenuItemMouseEnter);
     });
   };
 
@@ -98,15 +100,11 @@ class MegaMenu {
     const menuItem = event.currentTarget;
     const content = menuItem.querySelector(".megamenu");
     let leftPosition = parseInt(
-      offset(menuItem).left - offset(wrapper).left + 1
+      offset(menuItem).left - offset(wrapper).left
     );
 
     if (!content) {
       return;
-    }
-
-    if (this.#elements.body.classList.contains("boxed-layout")) {
-      leftPosition = leftPosition - 30;
     }
 
     content.style.left = `-${leftPosition}px`;

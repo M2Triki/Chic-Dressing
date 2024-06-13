@@ -272,6 +272,11 @@ a.sidr-class-toggle-sidr-close {
         &:hover {
             color: $color-3;
         }
+
+        &:focus {
+            outline: 1px solid;
+            color: #1a1a1a;
+        }
     }
 }
 
@@ -312,8 +317,3 @@ a.sidr-class-toggle-sidr-close {
     }
 }
 
-@media screen and (max-width: 600px) {
-    #wpadminbar {
-        position: fixed;
-    }
-}

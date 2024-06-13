@@ -278,17 +278,45 @@ var sbiStorage = window.localStorage;
          *
          * @since 4.0
          */
-         processIFConnect : function(){
+        processIFConnect : function(){
             var self = this,
-            ifConnectURL = self.addNewSource.typeSelected === 'personal' ? self.sourceConnectionURLs.personal : self.sourceConnectionURLs.business,
+            accountType = self.addNewSource.typeSelected,
+            params = accountType === 'personal' ? self.sourceConnectionURLs.personal : self.sourceConnectionURLs.business,
+            ifConnectURL = params.connect,
+
             screenType = (self.$parent.customizerFeedData != undefined) ? 'customizer'  : 'creationProcess',
             appendURL = ( screenType == 'customizer' ) ? self.sourceConnectionURLs.stateURL + ',feed_id='+ self.$parent.customizerFeedData.feed_info.id : self.sourceConnectionURLs.stateURL;
             //if(screenType != 'customizer'){
                 self.createLocalStorage(screenType);
             //}
-            var finalUrl = ifConnectURL + "{'{url=" + appendURL + "}'}";
-            window.location = finalUrl;
+            if( self.$parent.isSetupPage === 'true'){
+                appendURL = appendURL+ ',is_setup_page=yes';
+            }
 
+            var form = document.createElement('form');
+            form.method = 'POST';
+            form.action = ifConnectURL;
+
+            const urlParams = {
+                'wordpress_user' : params.wordpress_user,
+                'v' : params.v,
+                'vn' : params.vn,
+                'sbi_con' : params.sbi_con,
+                'state' : "{'{url=" + appendURL + "}'}"
+            };
+
+            for (const param in urlParams) {
+                if (urlParams.hasOwnProperty(param)) {
+                    var input = document.createElement('input');
+                    input.type = 'hidden';
+                    input.name = param;
+                    input.value = urlParams[param];
+                    form.appendChild(input);
+                }
+            }
+
+            document.body.appendChild(form);
+            form.submit();
         },
 
         /**
@@ -302,6 +330,9 @@ var sbiStorage = window.localStorage;
                 case 'creationProcess':
                     sbiStorage.setItem('selectedFeed', self.$parent.selectedFeed);
                     sbiStorage.setItem('feedTypeOnSourcePopup', self.$parent.feedTypeOnSourcePopup);
+                    if( self.$parent.isSetupPage === 'true'){
+                        sbiStorage.setItem('isSetupPage', 'true');
+                    }
                 break;
                 case 'customizer':
                     sbiStorage.setItem('selectedFeed', self.$parent.selectedFeedPopup);
@@ -322,6 +353,12 @@ var sbiStorage = window.localStorage;
          processIFConnectSuccess : function(){
             var self = this;
             if( sbiStorage.IFConnect === 'true' && sbiStorage.screenType ){
+                if( sbiStorage?.isSetupPage === 'true'  && sbiStorage?.isSetupPage ){
+                    sbiStorage.removeItem("isSetupPage");
+                    sbiStorage.setItem('setCurrentStep',1);
+                    window.location = window.location.href.replace('sbi-feed-builder', 'sbi-setup') ;
+                }
+
                if( sbiStorage.screenType == 'creationProcess' && sbiStorage.selectedFeed ){
                    self.$parent.selectedFeed = self.createSourcesArray(sbiStorage.selectedFeed);
                    self.$parent.feedTypeOnSourcePopup = sbiStorage.feedTypeOnSourcePopup;
@@ -335,11 +372,11 @@ var sbiStorage = window.localStorage;
                    window.location.search = urlParams;
                }
             }
-            localStorage.removeItem("IFConnect");
-            localStorage.removeItem("screenType");
-            localStorage.removeItem("selectedFeed");
-            localStorage.removeItem("feedTypeOnSourcePopup");
-            localStorage.removeItem("feed_id");
+            sbiStorage.removeItem("IFConnect");
+            sbiStorage.removeItem("screenType");
+            sbiStorage.removeItem("selectedFeed");
+            sbiStorage.removeItem("feedTypeOnSourcePopup");
+            sbiStorage.removeItem("feed_id");
         },
 
         groupNext : function() {

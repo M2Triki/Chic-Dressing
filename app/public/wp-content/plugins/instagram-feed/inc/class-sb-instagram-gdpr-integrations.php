@@ -58,7 +58,7 @@ class SB_Instagram_GDPR_Integrations {
 		if ( class_exists( 'COMPLIANZ' ) ) {
 			return 'Complianz by Really Simple Plugins';
 		}
-		if ( function_exists( 'BorlabsCookieHelper' ) ) {
+		if ( function_exists( 'BorlabsCookieHelper' ) || ( defined( 'BORLABS_COOKIE_VERSION' ) && version_compare( BORLABS_COOKIE_VERSION, '3.0', '>=' ) ) ) {
 			return 'Borlabs Cookie by Borlabs';
 		}
 
@@ -194,7 +194,7 @@ class SB_Instagram_GDPR_Integrations {
 			$errors[] = __( 'Tables used for storing information about resized images were not successfully created.', 'instagram-feed' );
 		}
 		if ( ! $sbi_statuses_option['gdpr']['image_editor'] ) {
-			$errors[] = sprintf( __( 'An image editor is not available on your server. Instagram Feed is unable to create local resized images. See %1$sthis FAQ%2$s for more information', 'instagram-feed' ), '<a href="https://smashballoon.com/doc/the-images-in-my-feed-are-missing-or-showing-errors/" target="_blank" rel="noopener noreferrer">', '</a>' );
+			$errors[] = sprintf( __( 'An image editor is not available on your server. Instagram Feed is unable to create local resized images. See %1$sthis FAQ%2$s for more information', 'instagram-feed' ), '<a href="https://smashballoon.com/doc/the-images-in-my-feed-are-missing-or-showing-errors/" target="_blank" rel="noopener">', '</a>' );
 		}
 
 		if ( isset( $_GET['tab'] ) && $_GET['tab'] !== 'support' ) {

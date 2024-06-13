@@ -21,6 +21,7 @@
 -->
 <div class="sbi-stck-wdg" v-if="viewsActive.pageScreen !== 'selectFeed' && ! iscustomizerScreen" :data-active="checkActiveView('footerWidget')">
 	<?php
+	use InstagramFeed\Admin\SBI_Callout;
 		$smashballoon_info = InstagramFeed\Builder\SBI_Feed_Builder::get_smashballoon_info();
 	?>
 	<div class="sbi-stck-pop">
@@ -80,6 +81,7 @@
     include_once SBI_BUILDER_DIR . 'templates/sections/popup/onboarding-popup.php';
     include_once SBI_BUILDER_DIR . 'templates/sections/popup/onboarding-customizer-popup.php';
 	include_once SBI_BUILDER_DIR . 'templates/sections/popup/install-plugin-popup.php';
+	include_once SBI_BUILDER_DIR . 'templates/sections/popup/personal-account-popup.php';
 ?>
 <div class="sb-notification-ctn" :data-active="notificationElement.shown" :data-type="notificationElement.type">
 	<div class="sb-notification-icon" v-html="svgIcons[notificationElement.type+'Notification']"></div>
@@ -96,7 +98,12 @@
 	</div>
 </div>
 
-
+<sb-personal-account-component
+:generic-text="genericText"
+:svg-icons="svgIcons"
+ref="personalAccountRef"
+>
+</sb-personal-account-component>
 
 <sb-confirm-dialog-component
 :dialog-box.sync="dialogBox"
@@ -125,3 +132,7 @@ ref="addSourceRef"
 :plugins="plugins[viewsActive.installPluginModal]"
 >
 </install-plugin-popup>
+
+<div v-if="viewsActive?.pageScreen === 'welcome' && isSetupPage === 'false' && customizerFeedData === undefined">
+	<?php SBI_Callout::print_callout('backend'); ?>
+</div>

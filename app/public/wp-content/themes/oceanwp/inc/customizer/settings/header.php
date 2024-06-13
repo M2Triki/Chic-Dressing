@@ -494,6 +494,69 @@ if ( ! class_exists( 'OceanWP_Header_Customizer' ) ) :
 			) ) );
 
 			/**
+			 * Full Screen header hamburger icon width
+			 */
+			$wp_customize->add_setting( 'ocean_full_screen_header_hamburger_icon_width', array(
+				'transport' 			=> 'postMessage',
+				'default'     			=> '23',
+				'sanitize_callback' 	=> 'oceanwp_sanitize_number',
+			) );
+
+			$wp_customize->add_control( new OceanWP_Customizer_Range_Control( $wp_customize, 'ocean_full_screen_header_hamburger_icon_width', array(
+				'label'	   				=> esc_html__( ' Hamburger Width (px)', 'oceanwp' ),
+				'section'  				=> 'ocean_header_general',
+				'priority' 				=> 10,
+			    'input_attrs' 			=> array(
+			        'min'   => 0,
+			        'max'   => 100,
+			        'step'  => 1,
+			    ),
+				'active_callback' 		=> 'oceanwp_cac_has_full_screen_header_style',
+			) ) );
+
+			/**
+			 * Full Screen header hamburger icon height
+			 */
+			$wp_customize->add_setting( 'ocean_full_screen_header_hamburger_icon_height', array(
+				'transport' 			=> 'postMessage',
+				'default'     			=> '2',
+				'sanitize_callback' 	=> 'oceanwp_sanitize_number',
+			) );
+
+			$wp_customize->add_control( new OceanWP_Customizer_Range_Control( $wp_customize, 'ocean_full_screen_header_hamburger_icon_height', array(
+				'label'	   				=> esc_html__( ' Hamburger Height (px)', 'oceanwp' ),
+				'section'  				=> 'ocean_header_general',
+				'priority' 				=> 10,
+			    'input_attrs' 			=> array(
+			        'min'   => 0,
+			        'max'   => 10,
+			        'step'  => 1,
+			    ),
+				'active_callback' 		=> 'oceanwp_cac_has_full_screen_header_style',
+			) ) );
+
+			/**
+			 * Full Screen header hamburger icon gap
+			 */
+			$wp_customize->add_setting( 'ocean_full_screen_header_hamburger_icon_gap', array(
+				'transport' 			=> 'postMessage',
+				'default'     			=> '8',
+				'sanitize_callback' 	=> 'oceanwp_sanitize_number',
+			) );
+
+			$wp_customize->add_control( new OceanWP_Customizer_Range_Control( $wp_customize, 'ocean_full_screen_header_hamburger_icon_gap', array(
+				'label'	   				=> esc_html__( ' Hamburger Gap (px)', 'oceanwp' ),
+				'section'  				=> 'ocean_header_general',
+				'priority' 				=> 10,
+			    'input_attrs' 			=> array(
+			        'min'   => 0,
+			        'max'   => 25,
+			        'step'  => 1,
+			    ),
+				'active_callback' 		=> 'oceanwp_cac_has_full_screen_header_style',
+			) ) );
+
+			/**
 			 * Full Screen Header Transparent
 			 */
 			$wp_customize->add_setting( 'ocean_full_screen_header_transparent', array(
@@ -877,40 +940,44 @@ if ( ! class_exists( 'OceanWP_Header_Customizer' ) ) :
 				'active_callback' 		=> 'oceanwp_cac_has_medium_header_style',
 			) ) );
 
-			/**
-			 * Medium Header Hide Menu When Scrolling
-			 */
-			$wp_customize->add_setting( 'ocean_medium_header_hidden_menu', array(
-				'transport' 			=> 'postMessage',
-				'default'           	=> true,
-				'sanitize_callback' 	=> 'oceanwp_sanitize_checkbox',
-			) );
+			if ( class_exists( 'Ocean_Sticky_Header' ) || class_exists( 'Ocean_Ecommerce_Sticky_Header' ) ) {
 
-			$wp_customize->add_control( new WP_Customize_Control( $wp_customize, 'ocean_medium_header_hidden_menu', array(
-				'label'	   				=> esc_html__( 'Hide Menu When Scrolling', 'oceanwp' ),
-				'type' 					=> 'checkbox',
-				'section'  				=> 'ocean_header_general',
-				'settings' 				=> 'ocean_medium_header_hidden_menu',
-				'priority' 				=> 10,
-				'active_callback' 		=> 'oceanwp_cac_has_medium_header_style',
-			) ) );
+				/**
+				 * Medium Header Hide Menu When Scrolling
+				 */
+				$wp_customize->add_setting( 'ocean_medium_header_hidden_menu', array(
+					'transport' 			=> 'postMessage',
+					'default'           	=> true,
+					'sanitize_callback' 	=> 'oceanwp_sanitize_checkbox',
+				) );
 
-			/**
-			 * Medium Header Stick Menu
-			 */
-			$wp_customize->add_setting( 'ocean_medium_header_stick_menu', array(
-				'default'           	=> false,
-				'sanitize_callback' 	=> 'oceanwp_sanitize_checkbox',
-			) );
+				$wp_customize->add_control( new WP_Customize_Control( $wp_customize, 'ocean_medium_header_hidden_menu', array(
+					'label'	   				=> esc_html__( 'Hide Menu When Scrolling', 'oceanwp' ),
+					'type' 					=> 'checkbox',
+					'section'  				=> 'ocean_header_general',
+					'settings' 				=> 'ocean_medium_header_hidden_menu',
+					'priority' 				=> 10,
+					'active_callback' 		=> 'oceanwp_cac_has_medium_header_style',
+				) ) );
 
-			$wp_customize->add_control( new WP_Customize_Control( $wp_customize, 'ocean_medium_header_stick_menu', array(
-				'label'	   				=> esc_html__( 'Stick Only The Menu', 'oceanwp' ),
-				'type' 					=> 'checkbox',
-				'section'  				=> 'ocean_header_general',
-				'settings' 				=> 'ocean_medium_header_stick_menu',
-				'priority' 				=> 10,
-				'active_callback' 		=> 'oceanwp_cac_has_medium_header_style',
-			) ) );
+				/**
+				 * Medium Header Stick Menu
+				 */
+				$wp_customize->add_setting( 'ocean_medium_header_stick_menu', array(
+					'default'           	=> false,
+					'sanitize_callback' 	=> 'oceanwp_sanitize_checkbox',
+				) );
+
+				$wp_customize->add_control( new WP_Customize_Control( $wp_customize, 'ocean_medium_header_stick_menu', array(
+					'label'	   				=> esc_html__( 'Stick Only The Menu', 'oceanwp' ),
+					'type' 					=> 'checkbox',
+					'section'  				=> 'ocean_header_general',
+					'settings' 				=> 'ocean_medium_header_stick_menu',
+					'priority' 				=> 10,
+					'active_callback' 		=> 'oceanwp_cac_has_medium_header_style',
+				) ) );
+
+			}
 
 			/**
 			 * Medium Header Top Header Heading
@@ -1920,11 +1987,14 @@ if ( ! class_exists( 'OceanWP_Header_Customizer' ) ) :
 			/**
 			 * Section where header images options are automatically added
 			 */
-			$wp_customize->add_section( 'header_image' , array(
-				'title' 			=> esc_html__( 'Header Media', 'oceanwp' ),
-				'priority' 			=> 10,
-				'panel' 			=> $panel,
-			) );
+			$wp_customize->add_section(
+				'header_image',
+				array(
+					'title'    => esc_html__( 'Header Media', 'oceanwp' ),
+					'priority' => 10,
+					'panel'    => $panel,
+				)
+			);
 
 			/**
 			 * Overlay Color
@@ -3784,6 +3854,210 @@ if ( ! class_exists( 'OceanWP_Header_Customizer' ) ) :
 			) ) );
 
 			/**
+			 * Search Dropdown Input Background Color
+			 */
+			$wp_customize->add_setting( 'ocean_mobile_search_dropdown_input_background', array(
+				'transport' 			=> 'postMessage',
+				'sanitize_callback' 	=> 'oceanwp_sanitize_color',
+			) );
+
+			$wp_customize->add_control( new OceanWP_Customizer_Color_Control( $wp_customize, 'ocean_mobile_search_dropdown_input_background', array(
+				'label'	   				=> esc_html__( 'Input Background Color', 'oceanwp' ),
+				'section'  				=> 'ocean_header_mobile_menu',
+				'settings' 				=> 'ocean_mobile_search_dropdown_input_background',
+				'priority' 				=> 10,
+				'active_callback' 		=> 'oceanwp_cac_has_mobile_search_dropdown',
+			) ) );
+
+			/**
+			 * Search Dropdown Input Color
+			 */
+			$wp_customize->add_setting( 'ocean_mobile_search_dropdown_input_color', array(
+				'transport' 			=> 'postMessage',
+				'default' 				=> '#333333',
+				'sanitize_callback' 	=> 'oceanwp_sanitize_color',
+			) );
+
+			$wp_customize->add_control( new OceanWP_Customizer_Color_Control( $wp_customize, 'ocean_mobile_search_dropdown_input_color', array(
+				'label'	   				=> esc_html__( 'Input Color', 'oceanwp' ),
+				'section'  				=> 'ocean_header_mobile_menu',
+				'settings' 				=> 'ocean_mobile_search_dropdown_input_color',
+				'priority' 				=> 10,
+				'active_callback' 		=> 'oceanwp_cac_has_mobile_search_dropdown',
+			) ) );
+
+			/**
+			 * Search Dropdown Input Border Color
+			 */
+			$wp_customize->add_setting( 'ocean_mobile_search_dropdown_input_border', array(
+				'transport' 			=> 'postMessage',
+				'default' 				=> '#dddddd',
+				'sanitize_callback' 	=> 'oceanwp_sanitize_color',
+			) );
+
+			$wp_customize->add_control( new OceanWP_Customizer_Color_Control( $wp_customize, 'ocean_mobile_search_dropdown_input_border', array(
+				'label'	   				=> esc_html__( 'Input Border Color', 'oceanwp' ),
+				'section'  				=> 'ocean_header_mobile_menu',
+				'settings' 				=> 'ocean_mobile_search_dropdown_input_border',
+				'priority' 				=> 10,
+				'active_callback' 		=> 'oceanwp_cac_has_mobile_search_dropdown',
+			) ) );
+
+			/**
+			 * Search Dropdown Input Focus Border Color
+			 */
+			$wp_customize->add_setting( 'ocean_mobile_search_dropdown_input_border_focus', array(
+				'transport' 			=> 'postMessage',
+				'default' 				=> '#bbbbbb',
+				'sanitize_callback' 	=> 'oceanwp_sanitize_color',
+			) );
+
+			$wp_customize->add_control( new OceanWP_Customizer_Color_Control( $wp_customize, 'ocean_mobile_search_dropdown_input_border_focus', array(
+				'label'	   				=> esc_html__( 'Input Border Color: Focus', 'oceanwp' ),
+				'section'  				=> 'ocean_header_mobile_menu',
+				'settings' 				=> 'ocean_mobile_search_dropdown_input_border_focus',
+				'priority' 				=> 10,
+				'active_callback' 		=> 'oceanwp_cac_has_mobile_search_dropdown',
+			) ) );
+
+			/**
+			 * Search Overlay Background Color
+			 */
+			$wp_customize->add_setting( 'ocean_mobile_search_overlay_bg', array(
+				'transport' 			=> 'postMessage',
+				'default' 				=> 'rgba(0,0,0,0.9)',
+				'sanitize_callback' 	=> 'oceanwp_sanitize_color',
+			) );
+
+			$wp_customize->add_control( new OceanWP_Customizer_Color_Control( $wp_customize, 'ocean_mobile_search_overlay_bg', array(
+				'label'	   				=> esc_html__( 'Overlay Background Color', 'oceanwp' ),
+				'section'  				=> 'ocean_header_mobile_menu',
+				'settings' 				=> 'ocean_mobile_search_overlay_bg',
+				'priority' 				=> 10,
+				'active_callback' 		=> 'oceanwp_cac_has_mobile_search_overlay',
+			) ) );
+
+			/**
+			 * Search Overlay Input Color
+			 */
+			$wp_customize->add_setting( 'ocean_mobile_search_overlay_input_color', array(
+				'transport' 			=> 'postMessage',
+				'default' 				=> '#ffffff',
+				'sanitize_callback' 	=> 'oceanwp_sanitize_color',
+			) );
+
+			$wp_customize->add_control( new OceanWP_Customizer_Color_Control( $wp_customize, 'ocean_mobile_search_overlay_input_color', array(
+				'label'	   				=> esc_html__( 'Input Color', 'oceanwp' ),
+				'section'  				=> 'ocean_header_mobile_menu',
+				'settings' 				=> 'ocean_mobile_search_overlay_input_color',
+				'priority' 				=> 10,
+				'active_callback' 		=> 'oceanwp_cac_has_mobile_search_overlay',
+			) ) );
+
+			/**
+			 * Search Overlay Input Placeholder Color
+			 */
+			$wp_customize->add_setting( 'ocean_mobile_search_overlay_placeholder_color', array(
+				'transport' 			=> 'postMessage',
+				'default' 				=> '#ffffff',
+				'sanitize_callback' 	=> 'oceanwp_sanitize_color',
+			) );
+
+			$wp_customize->add_control( new OceanWP_Customizer_Color_Control( $wp_customize, 'ocean_mobile_search_overlay_placeholder_color', array(
+				'label'	   				=> esc_html__( 'Input Placeholder Color', 'oceanwp' ),
+				'section'  				=> 'ocean_header_mobile_menu',
+				'settings' 				=> 'ocean_mobile_search_overlay_placeholder_color',
+				'priority' 				=> 10,
+				'active_callback' 		=> 'oceanwp_cac_has_mobile_search_overlay',
+			) ) );
+
+			/**
+			 * Search Overlay Input Dashed Text Color
+			 */
+			$wp_customize->add_setting( 'ocean_mobile_search_overlay_input_dashed_bg', array(
+				'transport' 			=> 'postMessage',
+				'default' 				=> '#ffffff',
+				'sanitize_callback' 	=> 'oceanwp_sanitize_color',
+			) );
+
+			$wp_customize->add_control( new OceanWP_Customizer_Color_Control( $wp_customize, 'ocean_mobile_search_overlay_input_dashed_bg', array(
+				'label'	   				=> esc_html__( 'Input Dashed Text Color', 'oceanwp' ),
+				'section'  				=> 'ocean_header_mobile_menu',
+				'settings' 				=> 'ocean_mobile_search_overlay_input_dashed_bg',
+				'priority' 				=> 10,
+				'active_callback' 		=> 'oceanwp_cac_has_mobile_search_overlay',
+			) ) );
+
+			/**
+			 * Search Overlay Input Border Color
+			 */
+			$wp_customize->add_setting( 'ocean_mobile_search_overlay_input_border_color', array(
+				'transport' 			=> 'postMessage',
+				'default' 				=> '#444444',
+				'sanitize_callback' 	=> 'oceanwp_sanitize_color',
+			) );
+
+			$wp_customize->add_control( new OceanWP_Customizer_Color_Control( $wp_customize, 'ocean_mobile_search_overlay_input_border_color', array(
+				'label'	   				=> esc_html__( 'Input Border Color', 'oceanwp' ),
+				'section'  				=> 'ocean_header_mobile_menu',
+				'settings' 				=> 'ocean_mobile_search_overlay_input_border_color',
+				'priority' 				=> 10,
+				'active_callback' 		=> 'oceanwp_cac_has_mobile_search_overlay',
+			) ) );
+
+			/**
+			 * Search Overlay Input Hover Border Color
+			 */
+			$wp_customize->add_setting( 'ocean_mobile_search_overlay_input_hover_border_color', array(
+				'transport' 			=> 'postMessage',
+				'default' 				=> '#777777',
+				'sanitize_callback' 	=> 'oceanwp_sanitize_color',
+			) );
+
+			$wp_customize->add_control( new OceanWP_Customizer_Color_Control( $wp_customize, 'ocean_mobile_search_overlay_input_hover_border_color', array(
+				'label'	   				=> esc_html__( 'Input Border Color: Hover', 'oceanwp' ),
+				'section'  				=> 'ocean_header_mobile_menu',
+				'settings' 				=> 'ocean_mobile_search_overlay_input_hover_border_color',
+				'priority' 				=> 10,
+				'active_callback' 		=> 'oceanwp_cac_has_mobile_search_overlay',
+			) ) );
+
+			/**
+			 * Search Overlay Input Focus Border Color
+			 */
+			$wp_customize->add_setting( 'ocean_mobile_search_overlay_input_focus_border_color', array(
+				'transport' 			=> 'postMessage',
+				'default' 				=> '#ffffff',
+				'sanitize_callback' 	=> 'oceanwp_sanitize_color',
+			) );
+
+			$wp_customize->add_control( new OceanWP_Customizer_Color_Control( $wp_customize, 'ocean_mobile_search_overlay_input_focus_border_color', array(
+				'label'	   				=> esc_html__( 'Input Border Color: Focus', 'oceanwp' ),
+				'section'  				=> 'ocean_header_mobile_menu',
+				'settings' 				=> 'ocean_mobile_search_overlay_input_focus_border_color',
+				'priority' 				=> 10,
+				'active_callback' 		=> 'oceanwp_cac_has_mobile_search_overlay',
+			) ) );
+
+			/**
+			 * Search Overlay Close Button Color
+			 */
+			$wp_customize->add_setting( 'ocean_mobile_search_overlay_close_button_color', array(
+				'transport' 			=> 'postMessage',
+				'default' 				=> '#ffffff',
+				'sanitize_callback' 	=> 'oceanwp_sanitize_color',
+			) );
+
+			$wp_customize->add_control( new OceanWP_Customizer_Color_Control( $wp_customize, 'ocean_mobile_search_overlay_close_button_color', array(
+				'label'	   				=> esc_html__( 'Close Button Color', 'oceanwp' ),
+				'section'  				=> 'ocean_header_mobile_menu',
+				'settings' 				=> 'ocean_mobile_search_overlay_close_button_color',
+				'priority' 				=> 10,
+				'active_callback' 		=> 'oceanwp_cac_has_mobile_search_overlay',
+			) ) );
+
+
+			/**
 			 * Mobile Menu Styling
 			 */
 			$wp_customize->add_setting( 'ocean_mobile_menu_styling_heading', array(
@@ -4109,6 +4383,9 @@ if ( ! class_exists( 'OceanWP_Header_Customizer' ) ) :
 			$top_header_search_button_border_color 						= get_theme_mod( 'ocean_top_header_search_button_border_color', '#f1f1f1' );
 			$top_header_search_button_color 							= get_theme_mod( 'ocean_top_header_search_button_color', '#333333' );
 			$top_header_search_button_hover_color 						= get_theme_mod( 'ocean_top_header_search_button_hover_color', '#13aff0' );
+			$full_screen_header_menu_hamburger_icon_width 			    = get_theme_mod( 'ocean_full_screen_header_hamburger_icon_width', '23' );
+			$full_screen_header_menu_hamburger_icon_height 				= get_theme_mod( 'ocean_full_screen_header_hamburger_icon_height', '2' );
+			$full_screen_header_menu_hamburger_icon_gap                 = get_theme_mod( 'ocean_full_screen_header_hamburger_icon_gap', '8' );
 			$full_screen_header_menu_bar_color 							= get_theme_mod( 'ocean_full_screen_header_menu_bar_color', '#333333' );
 			$full_screen_header_menu_bar_close_color 					= get_theme_mod( 'ocean_full_screen_header_menu_bar_close_color', '#ffffff' );
 			$full_screen_header_bg 										= get_theme_mod( 'ocean_full_screen_header_bg', 'rgba(0,0,0,0.9)' );
@@ -4271,6 +4548,18 @@ if ( ! class_exists( 'OceanWP_Header_Customizer' ) ) :
 			$mobile_menu_sidr_search_button_color 						= get_theme_mod( 'ocean_mobile_menu_sidr_search_button_color', '#555555' );
 			$mobile_menu_sidr_search_button_hover_color 				= get_theme_mod( 'ocean_mobile_menu_sidr_search_button_hover_color', '#222222' );
 
+			$mobile_search_dropdown_input_bg 							= get_theme_mod( 'ocean_mobile_search_dropdown_input_background' );
+			$mobile_search_dropdown_input_color 					    = get_theme_mod( 'ocean_mobile_search_dropdown_input_color', '#333333' );
+			$mobile_search_dropdown_input_border 						= get_theme_mod( 'ocean_mobile_search_dropdown_input_border', '#dddddd' );
+			$mobile_search_dropdown_input_border_focus 					= get_theme_mod( 'ocean_mobile_search_dropdown_input_border_focus', '#bbbbbb' );
+			$mobile_search_overlay_bg 									= get_theme_mod( 'ocean_mobile_search_overlay_bg', 'rgba(0,0,0,0.9)' );
+			$mobile_search_overlay_input_color 							= get_theme_mod( 'ocean_mobile_search_overlay_input_color', '#ffffff' );
+			$mobile_search_overlay_placeholder_color 					= get_theme_mod( 'ocean_mobile_search_overlay_placeholder_color', '#ffffff' );
+			$mobile_search_overlay_input_dashed_bg 						= get_theme_mod( 'ocean_mobile_search_overlay_input_dashed_bg', '#ffffff' );
+			$mobile_search_overlay_input_border 						= get_theme_mod( 'ocean_mobile_search_overlay_input_border_color', '#444444' );
+			$mobile_search_overlay_input_border_hover 					= get_theme_mod( 'ocean_mobile_search_overlay_input_hover_border_color', '#777777' );
+			$mobile_search_overlay_input_border_focus 					= get_theme_mod( 'ocean_mobile_search_overlay_input_focus_border_color', '#ffffff' );
+			$mobile_search_overlay_close_button_color 					= get_theme_mod( 'ocean_mobile_search_overlay_close_button_color', '#ffffff' );
 
 			// Filters to altering settings via the metabox
 			$logo_max_width 											= apply_filters( 'ocean_logo_max_width', $logo_max_width );
@@ -4325,7 +4614,7 @@ if ( ! class_exists( 'OceanWP_Header_Customizer' ) ) :
 				$css .= '#site-header{border-color:'. $header_border_bottom .';}';
 			}
 
-			if ( 'medium' != $header_style || 'vertical' != $header_style ) {
+			if ( false === ( 'medium' === $header_style || 'vertical' === $header_style ) ) {
 
 				// Header padding
 				if ( isset( $header_top_padding ) && '0' != $header_top_padding && '' != $header_top_padding
@@ -4386,6 +4675,21 @@ if ( ! class_exists( 'OceanWP_Header_Customizer' ) ) :
 			// Full Screen header style
 			if ( 'full_screen' == $header_style ) {
 
+				if ( ! empty( $full_screen_header_menu_hamburger_icon_width ) && '23' != $full_screen_header_menu_hamburger_icon_width ) {
+					$css .= '#site-header.full_screen-header .menu-bar .ham,#site-header.full_screen-header .menu-bar .ham:before,#site-header.full_screen-header .menu-bar .ham:after{width:'. $full_screen_header_menu_hamburger_icon_width .'px;}';
+				}
+				if ( ! empty( $full_screen_header_menu_hamburger_icon_height ) && '2' != $full_screen_header_menu_hamburger_icon_height ) {
+					$css .= '#site-header.full_screen-header .menu-bar .ham,#site-header.full_screen-header .menu-bar .ham:before,#site-header.full_screen-header .menu-bar .ham:after{height:'. $full_screen_header_menu_hamburger_icon_height .'px;}';
+				}
+
+				if ( ! empty( $full_screen_header_menu_hamburger_icon_gap ) && '8' != $full_screen_header_menu_hamburger_icon_gap ) {
+					$css .= '#site-header.full_screen-header .menu-bar .ham:before{top: -'. $full_screen_header_menu_hamburger_icon_gap .'px;}';
+					$css .= '#site-header.full_screen-header .menu-bar .ham:after{top: '. $full_screen_header_menu_hamburger_icon_gap .'px;}';
+
+					$css .= '#site-header.full_screen-header .menu-bar.exit .ham:before{transform: translateY('. $full_screen_header_menu_hamburger_icon_gap .'px) rotateZ(-45deg);}';
+					$css .= '#site-header.full_screen-header .menu-bar.exit .ham:after{transform: translateY(-'. $full_screen_header_menu_hamburger_icon_gap .'px) rotateZ(45deg);}';
+				}
+
 				// Menu bar color
 				if ( ! empty( $full_screen_header_menu_bar_color ) && '#333333' != $full_screen_header_menu_bar_color ) {
 					$css .= '#site-header.full_screen-header .menu-bar .ham,#site-header.full_screen-header .menu-bar .ham:before,#site-header.full_screen-header .menu-bar .ham:after{background-color:'. $full_screen_header_menu_bar_color .';}';
@@ -4423,12 +4727,12 @@ if ( ! class_exists( 'OceanWP_Header_Customizer' ) ) :
 
 				// Search color
 				if ( ! empty( $full_screen_header_search_color ) && '#ffffff' != $full_screen_header_search_color ) {
-					$css .= '#site-header.full_screen-header .fs-dropdown-menu>li.search-toggle-li input,#site-header.full_screen-header .fs-dropdown-menu>li.search-toggle-li label{color:'. $full_screen_header_search_color .';}';
+					$css .= '#site-header.full_screen-header .fs-dropdown-menu>li.search-toggle-li input,#site-header.full_screen-header .fs-dropdown-menu>li.search-toggle-li .search-text{color:'. $full_screen_header_search_color .';}';
 				}
 
 				// Search dashed background color
 				if ( ! empty( $full_screen_header_search_dashed_bg ) && '#ffffff' != $full_screen_header_search_dashed_bg ) {
-					$css .= '#site-header.full_screen-header .fs-dropdown-menu>li.search-toggle-li label i{background-color:'. $full_screen_header_search_dashed_bg .';}';
+					$css .= '#site-header.full_screen-header .fs-dropdown-menu>li.search-toggle-li .search-text i{background-color:'. $full_screen_header_search_dashed_bg .';}';
 				}
 
 				// Search border color
@@ -4802,62 +5106,62 @@ if ( ! class_exists( 'OceanWP_Header_Customizer' ) ) :
 
 			// Search dropdown input background
 			if ( ! empty( $search_dropdown_input_bg ) ) {
-				$css .= '#searchform-dropdown input, #icon-searchform-dropdown input{background-color:'. $search_dropdown_input_bg .';}';
+				$css .= '#searchform-dropdown input{background-color:'. $search_dropdown_input_bg .';}';
 			}
 
 			// Search dropdown input color
 			if ( ! empty( $search_dropdown_input_color ) && '#333333' != $search_dropdown_input_color ) {
-				$css .= '#searchform-dropdown input, #icon-searchform-dropdown input{color:'. $search_dropdown_input_color .';}';
+				$css .= '#searchform-dropdown input{color:'. $search_dropdown_input_color .';}';
 			}
 
 			// Search dropdown input border color
 			if ( ! empty( $search_dropdown_input_border ) && '#dddddd' != $search_dropdown_input_border ) {
-				$css .= '#searchform-dropdown input, #icon-searchform-dropdown input{border-color:'. $search_dropdown_input_border .';}';
+				$css .= '#searchform-dropdown input{border-color:'. $search_dropdown_input_border .';}';
 			}
 
 			// Search dropdown input border color focus
 			if ( ! empty( $search_dropdown_input_border_focus ) && '#bbbbbb' != $search_dropdown_input_border_focus ) {
-				$css .= '#searchform-dropdown input:focus, #icon-searchform-dropdown input:focus{border-color:'. $search_dropdown_input_border_focus .';}';
+				$css .= '#searchform-dropdown input:focus{border-color:'. $search_dropdown_input_border_focus .';}';
 			}
 
 			// Search overlay background color
 			if ( ! empty( $search_overlay_bg ) && 'rgba(0,0,0,0.9)' != $search_overlay_bg ) {
-				$css .= '#searchform-overlay, #icon-searchform-overlay{background-color:'. $search_overlay_bg .';}';
+				$css .= '#searchform-overlay{background-color:'. $search_overlay_bg .';}';
 			}
 
 			// Search overlay input color
 			if ( ! empty( $search_overlay_input_color ) && '#ffffff' != $search_overlay_input_color ) {
-				$css .= '#searchform-overlay form input, #searchform-overlay form label, #icon-searchform-overlay form input, #icon-searchform-overlay form label{color:'. $search_overlay_input_color .';}';
+				$css .= '#searchform-overlay form input, #searchform-overlay form .search-text{color:'. $search_overlay_input_color .';}';
 			}
 
 			// Search overlay input placeholder color
 			if ( ! empty( $search_overlay_placeholder_color ) && '#ffffff' != $search_overlay_placeholder_color ) {
-				$css .= '#searchform-overlay form label, #icon-searchform-overlay form label{color:'. $search_overlay_placeholder_color .';}';
+				$css .= '#searchform-overlay form label{color:'. $search_overlay_placeholder_color .';}';
 			}
 
 			// Search overlay input dashed background
 			if ( ! empty( $search_overlay_input_dashed_bg ) && '#ffffff' != $search_overlay_input_dashed_bg ) {
-				$css .= '#searchform-overlay form label i, #icon-searchform-overlay form label i{background-color:'. $search_overlay_input_dashed_bg .';}';
+				$css .= '#searchform-overlay form label i{background-color:'. $search_overlay_input_dashed_bg .';}';
 			}
 
 			// Search overlay input border color
 			if ( ! empty( $search_overlay_input_border ) && '#444444' != $search_overlay_input_border ) {
-				$css .= '#searchform-overlay form input, #icon-searchform-overlay form input{border-color:'. $search_overlay_input_border .';}';
+				$css .= '#searchform-overlay form input{border-color:'. $search_overlay_input_border .';}';
 			}
 
 			// Search overlay input border color hover
 			if ( ! empty( $search_overlay_input_border_hover ) && '#777777' != $search_overlay_input_border_hover ) {
-				$css .= '#searchform-overlay form input:hover, #icon-searchform-overlay form input:hover{border-color:'. $search_overlay_input_border_hover .';}';
+				$css .= '#searchform-overlay form input:hover{border-color:'. $search_overlay_input_border_hover .';}';
 			}
 
 			// Search overlay input border color focus
 			if ( ! empty( $search_overlay_input_border_focus ) && '#ffffff' != $search_overlay_input_border_focus ) {
-				$css .= '#searchform-overlay form input:focus, #icon-searchform-overlay form input:focus{border-color:'. $search_overlay_input_border_focus .';}';
+				$css .= '#searchform-overlay form input:focus{border-color:'. $search_overlay_input_border_focus .';}';
 			}
 
 			// Search overlay close button color
 			if ( ! empty( $search_overlay_close_button_color ) && '#ffffff' != $search_overlay_close_button_color ) {
-				$css .= '#searchform-overlay a.search-overlay-close span::before, #searchform-overlay a.search-overlay-close span::after, #icon-searchform-overlay a.search-overlay-close span::before, #icon-searchform-overlay a.search-overlay-close span::after{background-color:'. $search_overlay_close_button_color .';}';
+				$css .= '#searchform-overlay a.search-overlay-close span::before, #searchform-overlay a.search-overlay-close span::after{background-color:'. $search_overlay_close_button_color .';}';
 			}
 
 			// Links effect blue color
@@ -5176,7 +5480,7 @@ if ( ! class_exists( 'OceanWP_Header_Customizer' ) ) :
 
 			// Mobile menu search background color
 			if ( ! empty( $mobile_menu_sidr_search_color ) && '#333333' != $mobile_menu_sidr_search_color ) {
-				$css .= 'body .sidr-class-mobile-searchform input,body .sidr-class-mobile-searchform input:focus, #mobile-dropdown #mobile-menu-search form input, #mobile-fullscreen #mobile-search input, #mobile-fullscreen #mobile-search label{color:'. $mobile_menu_sidr_search_color .';}';
+				$css .= 'body .sidr-class-mobile-searchform input,body .sidr-class-mobile-searchform input:focus, #mobile-dropdown #mobile-menu-search form input, #mobile-fullscreen #mobile-search input, #mobile-fullscreen #mobile-search .search-text{color:'. $mobile_menu_sidr_search_color .';}';
 			}
 
 			// Mobile menu search border color
@@ -5204,6 +5508,66 @@ if ( ! class_exists( 'OceanWP_Header_Customizer' ) ) :
 			if ( ! empty( $mobile_menu_sidr_search_button_hover_color ) && '#222222' != $mobile_menu_sidr_search_button_hover_color ) {
 				$css .= '.sidr-class-mobile-searchform button:hover, #mobile-dropdown #mobile-menu-search form button:hover{color:'. $mobile_menu_sidr_search_button_hover_color .';}';
 				$css .= '.sidr-class-mobile-searchform button:hover .owp-icon use, #mobile-dropdown #mobile-menu-search form button:hover .owp-icon use{stroke:'. $mobile_menu_sidr_search_button_hover_color .';}';
+			}
+
+			// Search dropdown input background
+			if ( ! empty( $mobile_search_dropdown_input_bg ) ) {
+				$css .= '#icon-searchform-dropdown input{background-color:'. $mobile_search_dropdown_input_bg .';}';
+			}
+
+			// Search dropdown input color
+			if ( ! empty( $mobile_search_dropdown_input_color ) && '#333333' != $mobile_search_dropdown_input_color ) {
+				$css .= '#icon-searchform-dropdown input{color:'. $mobile_search_dropdown_input_color .';}';
+			}
+
+			// Search dropdown input border color
+			if ( ! empty( $mobile_search_dropdown_input_border ) && '#dddddd' != $mobile_search_dropdown_input_border ) {
+				$css .= '#icon-searchform-dropdown input{border-color:'. $mobile_search_dropdown_input_border .';}';
+			}
+
+			// Search dropdown input border color focus
+			if ( ! empty( $mobile_search_dropdown_input_border_focus ) && '#bbbbbb' != $mobile_search_dropdown_input_border_focus ) {
+				$css .= '#icon-searchform-dropdown input:focus{border-color:'. $mobile_search_dropdown_input_border_focus .';}';
+			}
+
+			// Search overlay background color
+			if ( ! empty( $mobile_search_overlay_bg ) && 'rgba(0,0,0,0.9)' != $mobile_search_overlay_bg ) {
+				$css .= '#icon-searchform-overlay{background-color:'. $mobile_search_overlay_bg .';}';
+			}
+
+			// Search overlay input color
+			if ( ! empty( $mobile_search_overlay_input_color ) && '#ffffff' != $mobile_search_overlay_input_color ) {
+				$css .= '#icon-searchform-overlay form input, #icon-searchform-overlay form .search-text{color:'. $mobile_search_overlay_input_color .';}';
+			}
+
+			// Search overlay input placeholder color
+			if ( ! empty( $mobile_search_overlay_placeholder_color ) && '#ffffff' != $mobile_search_overlay_placeholder_color ) {
+				$css .= '#icon-searchform-overlay form .search-text{color:'. $mobile_search_overlay_placeholder_color .';}';
+			}
+
+			// Search overlay input dashed background
+			if ( ! empty( $mobile_search_overlay_input_dashed_bg ) && '#ffffff' != $mobile_search_overlay_input_dashed_bg ) {
+				$css .= '#icon-searchform-overlay form .search-text i{background-color:'. $mobile_search_overlay_input_dashed_bg .';}';
+			}
+
+			// Search overlay input border color
+			if ( ! empty( $mobile_search_overlay_input_border ) && '#444444' != $mobile_search_overlay_input_border ) {
+				$css .= '#icon-searchform-overlay form input{border-color:'. $mobile_search_overlay_input_border .';}';
+			}
+
+			// Search overlay input border color hover
+			if ( ! empty( $mobile_search_overlay_input_border_hover ) && '#777777' != $mobile_search_overlay_input_border_hover ) {
+				$css .= '#icon-searchform-overlay form input:hover{border-color:'. $mobile_search_overlay_input_border_hover .';}';
+			}
+
+			// Search overlay input border color focus
+			if ( ! empty( $mobile_search_overlay_input_border_focus ) && '#ffffff' != $mobile_search_overlay_input_border_focus ) {
+				$css .= '#icon-searchform-overlay form input:focus{border-color:'. $mobile_search_overlay_input_border_focus .';}';
+			}
+
+			// Search overlay close button color
+			if ( ! empty( $mobile_search_overlay_close_button_color ) && '#ffffff' != $mobile_search_overlay_close_button_color ) {
+				$css .= '#icon-searchform-overlay a.search-overlay-close span::before, #icon-searchform-overlay a.search-overlay-close span::after{background-color:'. $search_mobile_overlay_close_button_color .';}';
 			}
 
 			// Return CSS

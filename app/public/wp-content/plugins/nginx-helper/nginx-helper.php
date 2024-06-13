@@ -1,15 +1,15 @@
 <?php
 /**
- * Plugin Name:       Server Cache
+ * Plugin Name:       Nginx Helper
  * Plugin URI:        https://rtcamp.com/nginx-helper/
- * Description:       Manage server FastCGI cache. Automatic cache clearing when a post is updated. Warning:disabling this plugin won't disable server cache.
- * Version:           2.2.2
+ * Description:       Cleans nginx's fastcgi/proxy cache or redis-cache whenever a post is edited/published. Also does few more things.
+ * Version:           2.2.5
  * Author:            rtCamp
  * Author URI:        https://rtcamp.com
  * Text Domain:       nginx-helper
  * Domain Path:       /languages
  * Requires at least: 3.0
- * Tested up to:      5.4
+ * Tested up to:      6.4
  *
  * @link              https://rtcamp.com/nginx-helper/
  * @since             2.0.0
@@ -41,28 +41,6 @@ if ( ! defined( 'NGINX_HELPER_BASENAME' ) ) {
 if ( ! defined( 'NGINX_HELPER_BASEPATH' ) ) {
 	define( 'NGINX_HELPER_BASEPATH', plugin_dir_path( __FILE__ ) );
 }
-
-/**
- * FEED purge status
- */
-if ( ! defined( 'NGINX_HOME_PURGE' ) ) {
-	define( 'NGINX_HOME_PURGE', false );
-}
-
-/**
- * FEED purge status
- */
-if ( ! defined( 'NGINX_FEED_PURGE' ) ) {
-	define( 'NGINX_FEED_PURGE', false );
-}
-
-/**
- * ARCHIVE purge status
- */
-if ( ! defined( 'NGINX_ARCHIVE_PURGE' ) ) {
-	define( 'NGINX_ARCHIVE_PURGE', false );
-}
-
 
 /**
  * The code that runs during plugin activation.

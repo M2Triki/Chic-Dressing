@@ -17,3 +17,6 @@ Stack trace:
 #13 {main}
   thrown in /Users/apollotriki/Local Sites/chic-dressing/app/public/wp-content/plugins/wysija-newsletters/helpers/file.php on line 161
 [13-Jun-2024 10:53:25 UTC] Cron reschedule event error for hook: woocommerce_geoip_updater, Error code: invalid_schedule, Error message: L’évènement planifié n’existe pas., Data: {"schedule":"fifteendays","args":[],"interval":1296000}
+[13-Jun-2024 15:12:25 UTC] PHP Warning:  Trying to access array offset on value of type bool in /Users/apollotriki/Local Sites/chic-dressing/app/public/wp-content/themes/chicdressing/templates/header/featured-slider-custom.php on line 68
+[13-Jun-2024 15:12:25 UTC] PHP Warning:  Trying to access array offset on value of type bool in /Users/apollotriki/Local Sites/chic-dressing/app/public/wp-content/themes/chicdressing/templates/header/featured-slider-custom.php on line 68
+[13-Jun-2024 15:12:25 UTC] PHP Warning:  Trying to access array offset on value of type bool in /Users/apollotriki/Local Sites/chic-dressing/app/public/wp-content/themes/chicdressing/templates/header/featured-slider-custom.php on line 68

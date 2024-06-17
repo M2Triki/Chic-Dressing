@@ -1,4 +1,4 @@
-/*! elementor - v3.21.0 - 26-05-2024 */
+/*! elementor - v3.22.0 - 17-06-2024 */
 "use strict";
 (self["webpackChunkelementor"] = self["webpackChunkelementor"] || []).push([["modules_styleguide_assets_js_frontend_app_js"],{
 
@@ -445,7 +445,7 @@ var Wrapper = (0, _styledComponents.default)(_divBase.default)(_templateObject2 
 var ButtonsWrapper = (0, _styledComponents.default)(_divBase.default)(_templateObject3 || (_templateObject3 = (0, _taggedTemplateLiteral2.default)(["\n\tdisplay: flex;\n\tjustify-content: flex-end;\n\tflex-grow: 1;\n\tgap: 20px;\n"])));
 var Title = _styledComponents.default.h2(_templateObject4 || (_templateObject4 = (0, _taggedTemplateLiteral2.default)(["\n\tcolor: var(--e-a-color-txt-accent);\n\tfont-family: Roboto, sans-serif;\n\tfont-size: 16px;\n\tfont-weight: 600;\n\ttext-transform: capitalize;\n\tfont-style: normal;\n\ttext-decoration: none;\n\tline-height: 1.2em;\n\tletter-spacing: 0;\n\tword-spacing: 0;\n\tmargin: 0;\n"])));
 function Header() {
-  return /*#__PURE__*/_react.default.createElement(Wrapper, null, /*#__PURE__*/_react.default.createElement(_innerWrapper.default, null, /*#__PURE__*/_react.default.createElement(Title, null, __('Style Guide Preview', 'elementor')), /*#__PURE__*/_react.default.createElement(ButtonsWrapper, null, /*#__PURE__*/_react.default.createElement(AreaButton, {
+  return /*#__PURE__*/_react.default.createElement(Wrapper, null, /*#__PURE__*/_react.default.createElement(_innerWrapper.default, null, /*#__PURE__*/_react.default.createElement(Title, null, __('Show global settings', 'elementor')), /*#__PURE__*/_react.default.createElement(ButtonsWrapper, null, /*#__PURE__*/_react.default.createElement(AreaButton, {
     area: 'colors'
   }, __('Colors', 'elementor')), /*#__PURE__*/_react.default.createElement(AreaButton, {
     area: 'fonts'
@@ -1237,4 +1237,4 @@ function useIntersectionObserver(callback) {
 /***/ })
 
 }]);
-//# sourceMappingURL=d3bdd130eb38d3b07f85.bundle.js.map
+//# sourceMappingURL=152486453d0e39071cdb.bundle.js.map

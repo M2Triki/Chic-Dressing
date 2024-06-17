@@ -1,4 +1,4 @@
-/*! elementor - v3.21.0 - 26-05-2024 */
+/*! elementor - v3.22.0 - 17-06-2024 */
 "use strict";
 (self["webpackChunkelementor"] = self["webpackChunkelementor"] || []).push([["progress"],{
 
@@ -30,10 +30,23 @@ class Progress extends elementorModules.frontend.handlers.Base {
   }
   onInit() {
     super.onInit();
-    elementorFrontend.waypoint(this.elements.$progressNumber, () => {
-      const $progressbar = this.elements.$progressNumber;
-      $progressbar.css('width', $progressbar.data('max') + '%');
-    });
+    const observer = this.createObserver();
+    observer.observe(this.elements.$progressNumber[0]);
+  }
+  createObserver() {
+    const options = {
+      root: null,
+      threshold: 0,
+      rootMargin: '0px'
+    };
+    return new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const $progressbar = this.elements.$progressNumber;
+          $progressbar.css('width', $progressbar.data('max') + '%');
+        }
+      });
+    }, options);
   }
 }
 exports["default"] = Progress;
@@ -41,4 +54,4 @@ exports["default"] = Progress;
 /***/ })
 
 }]);
-//# sourceMappingURL=progress.553d43a5b3903206bedc.bundle.js.map
+//# sourceMappingURL=progress.6d15c16f0f5c4792940f.bundle.js.map

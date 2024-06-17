@@ -1,4 +1,4 @@
-/*! elementor - v3.21.0 - 26-05-2024 */
+/*! elementor - v3.22.0 - 17-06-2024 */
 "use strict";
 (self["webpackChunkelementor"] = self["webpackChunkelementor"] || []).push([["onboarding"],{
 
@@ -241,6 +241,7 @@ var _siteName = _interopRequireDefault(__webpack_require__(/*! ./pages/site-name
 var _siteLogo = _interopRequireDefault(__webpack_require__(/*! ./pages/site-logo */ "../app/modules/onboarding/assets/js/pages/site-logo.js"));
 var _goodToGo = _interopRequireDefault(__webpack_require__(/*! ./pages/good-to-go */ "../app/modules/onboarding/assets/js/pages/good-to-go.js"));
 var _uploadAndInstallPro = _interopRequireDefault(__webpack_require__(/*! ./pages/upload-and-install-pro */ "../app/modules/onboarding/assets/js/pages/upload-and-install-pro.js"));
+var _chooseFeatures = _interopRequireDefault(__webpack_require__(/*! ./pages/choose-features */ "../app/modules/onboarding/assets/js/pages/choose-features.js"));
 function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
 function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 function App() {
@@ -275,6 +276,8 @@ function App() {
     default: true
   }), /*#__PURE__*/_react.default.createElement(_helloTheme.default, {
     path: "hello"
+  }), /*#__PURE__*/_react.default.createElement(_chooseFeatures.default, {
+    path: "chooseFeatures"
   }), /*#__PURE__*/_react.default.createElement(_siteName.default, {
     path: "siteName"
   }), /*#__PURE__*/_react.default.createElement(_siteLogo.default, {
@@ -363,6 +366,7 @@ function Card(_ref) {
     }
   };
   return /*#__PURE__*/_react.default.createElement("a", {
+    target: "_self",
     className: "e-onboarding__card",
     href: link,
     onClick: onClick
@@ -506,7 +510,7 @@ function GoProPopover(props) {
       return 'go-pro' === button.id;
     }),
     getElProButton = {
-      text: __('Upgrade Now', 'elementor'),
+      text: elementorAppConfig.onboarding.experiment ? __('Upgrade now', 'elementor') : __('Upgrade Now', 'elementor'),
       className: 'e-onboarding__go-pro-cta',
       target: '_blank',
       href: 'https://elementor.com/pro/?utm_source=onboarding-wizard&utm_campaign=gopro&utm_medium=wp-dash&utm_content=top-bar-dropdown&utm_term=' + elementorAppConfig.onboarding.onboardingVersion,
@@ -843,14 +847,14 @@ function PageContentLayout(props) {
     className: "e-onboarding__page-content-start"
   }, /*#__PURE__*/_react.default.createElement("h1", {
     className: "e-onboarding__page-content-section-title"
-  }, props.title), /*#__PURE__*/_react.default.createElement("div", {
+  }, props.title, props.secondLineTitle && /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, /*#__PURE__*/_react.default.createElement("br", null), props.secondLineTitle)), /*#__PURE__*/_react.default.createElement("div", {
     className: "e-onboarding__page-content-section-text"
   }, props.children)), /*#__PURE__*/_react.default.createElement("div", {
     className: "e-onboarding__page-content-end"
   }, /*#__PURE__*/_react.default.createElement("img", {
     src: props.image,
     alt: "Information"
-  }))), /*#__PURE__*/_react.default.createElement("div", {
+  }))), props.noticeState && /*#__PURE__*/_react.default.createElement("div", {
     className: "e-onboarding__notice-container"
   }, props.noticeState || state.proNotice ? printNotices() : /*#__PURE__*/_react.default.createElement("div", {
     className: "e-onboarding__notice-empty-spacer"
@@ -861,11 +865,45 @@ function PageContentLayout(props) {
 }
 PageContentLayout.propTypes = {
   title: PropTypes.string,
+  secondLineTitle: PropTypes.string,
   children: PropTypes.any,
   image: PropTypes.string,
   actionButton: PropTypes.object,
   skipButton: PropTypes.object,
   noticeState: PropTypes.any
+};
+
+/***/ }),
+
+/***/ "../app/modules/onboarding/assets/js/components/message.js":
+/*!*****************************************************************!*\
+  !*** ../app/modules/onboarding/assets/js/components/message.js ***!
+  \*****************************************************************/
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+/* provided dependency */ var __ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n")["__"];
+/* provided dependency */ var PropTypes = __webpack_require__(/*! prop-types */ "../node_modules/prop-types/index.js");
+
+
+var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ "../node_modules/@babel/runtime/helpers/interopRequireDefault.js");
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+exports["default"] = Message;
+var _react = _interopRequireDefault(__webpack_require__(/*! react */ "react"));
+var _slicedToArray2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/slicedToArray */ "../node_modules/@babel/runtime/helpers/slicedToArray.js"));
+function Message(_ref) {
+  var tier = _ref.tier;
+  /* Translators: %s: Plan name */
+  var translatedString = __('Based on the features you chose, we recommend the %s plan, or higher', 'elementor');
+  var _translatedString$spl = translatedString.split('%s'),
+    _translatedString$spl2 = (0, _slicedToArray2.default)(_translatedString$spl, 2),
+    messageFirstPart = _translatedString$spl2[0],
+    messageSecondPart = _translatedString$spl2[1];
+  return /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, messageFirstPart, /*#__PURE__*/_react.default.createElement("strong", null, tier), messageSecondPart);
+}
+Message.propTypes = {
+  tier: PropTypes.string.isRequired
 };
 
 /***/ }),
@@ -994,15 +1032,24 @@ function ProgressBar() {
       route: 'hello'
     });
   }
+  if (elementorAppConfig.onboarding.experiment) {
+    progressBarItemsConfig.push({
+      id: 'chooseFeatures',
+      title: __('Choose Features', 'elementor'),
+      route: 'chooseFeatures'
+    });
+  } else {
+    progressBarItemsConfig.push({
+      id: 'siteName',
+      title: __('Site Name', 'elementor'),
+      route: 'site-name'
+    }, {
+      id: 'siteLogo',
+      title: __('Site Logo', 'elementor'),
+      route: 'site-logo'
+    });
+  }
   progressBarItemsConfig.push({
-    id: 'siteName',
-    title: __('Site Name', 'elementor'),
-    route: 'site-name'
-  }, {
-    id: 'siteLogo',
-    title: __('Site Logo', 'elementor'),
-    route: 'site-logo'
-  }, {
     id: 'goodToGo',
     title: __('Good to Go', 'elementor'),
     route: 'good-to-go'
@@ -1143,6 +1190,7 @@ function ContextProvider(props) {
       steps: {
         account: false,
         hello: false,
+        chooseFeatures: false,
         siteName: false,
         siteLogo: false,
         goodToGo: false
@@ -1210,9 +1258,9 @@ function Account() {
     _useState2 = (0, _slicedToArray2.default)(_useState, 2),
     noticeState = _useState2[0],
     setNoticeState = _useState2[1],
+    nextStep = getNextStep(),
     navigate = (0, _router.useNavigate)(),
     pageId = 'account',
-    nextStep = state.isHelloThemeActivated ? 'siteName' : 'hello',
     actionButtonRef = (0, _react.useRef)(),
     alreadyHaveAccountLinkRef = (0, _react.useRef)();
   var skipButton;
@@ -1224,11 +1272,14 @@ function Account() {
   var pageTexts = {};
   if (state.isLibraryConnected) {
     pageTexts = {
-      firstLine: __('To get the most out of Elementor, we\'ll help you take your first steps:', 'elementor'),
-      listItems: [__('Set your site\'s theme', 'elementor'), __('Give your site a name & logo', 'elementor'), __('Choose how to start creating', 'elementor')]
+      firstLine: /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, __('To get the most out of Elementor, we\'ll help you take your', 'elementor'), " ", /*#__PURE__*/_react.default.createElement("br", null), " ", __('first steps:', 'elementor')),
+      listItems: elementorAppConfig.onboarding.experiment ? [__('Set your site\'s theme', 'elementor'), __('Chose additional features', 'elementor'), __('Choose how to start creating', 'elementor')] : [__('Set your site\'s theme', 'elementor'), __('Give your site a name & logo', 'elementor'), __('Choose how to start creating', 'elementor')]
     };
   } else {
-    pageTexts = {
+    pageTexts = elementorAppConfig.onboarding.experiment ? {
+      firstLine: __('Once you connect your Elementor account, you can choose from dozens of professional templates and manage your site with the My Elementor dashboard.', 'elementor'),
+      listItems: []
+    } : {
       firstLine: __('To get the most out of Elementor, we’ll connect your account.', 'elementor') + ' ' + __('Then you can:', 'elementor'),
       listItems: [__('Choose from countless professional templates', 'elementor'), __('Manage your site with our handy dashboard', 'elementor'), __('Take part in the community forum, share & grow together', 'elementor')]
     };
@@ -1292,6 +1343,12 @@ function Account() {
     });
     navigate('onboarding/' + nextStep);
   };
+  function getNextStep() {
+    if (!state.isHelloThemeActivated) {
+      return 'hello';
+    }
+    return elementorAppConfig.onboarding.experiment ? 'chooseFeatures' : 'siteName';
+  }
   var connectFailureCallback = function connectFailureCallback() {
     elementorCommon.events.dispatchEvent({
       event: 'indication prompt',
@@ -1315,7 +1372,8 @@ function Account() {
     nextStep: nextStep
   }, /*#__PURE__*/_react.default.createElement(_pageContentLayout.default, {
     image: elementorCommon.config.urls.assets + 'images/app/onboarding/Illustration_Account.svg',
-    title: __('You\'re here! Let\'s set things up.', 'elementor'),
+    title: elementorAppConfig.onboarding.experiment ? __('You\'re here!', 'elementor') : __('You\'re here! Let\'s set things up.', 'elementor'),
+    secondLineTitle: elementorAppConfig.onboarding.experiment ? __(' Let\'s get connected.', 'elementor') : '',
     actionButton: actionButton,
     skipButton: skipButton,
     noticeState: noticeState
@@ -1352,6 +1410,124 @@ function Account() {
 
 /***/ }),
 
+/***/ "../app/modules/onboarding/assets/js/pages/choose-features.js":
+/*!********************************************************************!*\
+  !*** ../app/modules/onboarding/assets/js/pages/choose-features.js ***!
+  \********************************************************************/
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+/* provided dependency */ var __ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n")["__"];
+
+
+var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ "../node_modules/@babel/runtime/helpers/interopRequireDefault.js");
+var _typeof = __webpack_require__(/*! @babel/runtime/helpers/typeof */ "../node_modules/@babel/runtime/helpers/typeof.js");
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+exports["default"] = ChooseFeatures;
+var _react = _interopRequireWildcard(__webpack_require__(/*! react */ "react"));
+var _slicedToArray2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/slicedToArray */ "../node_modules/@babel/runtime/helpers/slicedToArray.js"));
+var _context = __webpack_require__(/*! ../context/context */ "../app/modules/onboarding/assets/js/context/context.js");
+var _message = _interopRequireDefault(__webpack_require__(/*! ../components/message */ "../app/modules/onboarding/assets/js/components/message.js"));
+var _utils = __webpack_require__(/*! ../utils/utils */ "../app/modules/onboarding/assets/js/utils/utils.js");
+var _layout = _interopRequireDefault(__webpack_require__(/*! ../components/layout/layout */ "../app/modules/onboarding/assets/js/components/layout/layout.js"));
+var _pageContentLayout = _interopRequireDefault(__webpack_require__(/*! ../components/layout/page-content-layout */ "../app/modules/onboarding/assets/js/components/layout/page-content-layout.js"));
+function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
+function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+function ChooseFeatures() {
+  var _useContext = (0, _react.useContext)(_context.OnboardingContext),
+    state = _useContext.state,
+    tiers = {
+      advanced: __('Advanced', 'elementor'),
+      essential: __('Essential', 'elementor')
+    },
+    _useState = (0, _react.useState)({
+      essential: [],
+      advanced: []
+    }),
+    _useState2 = (0, _slicedToArray2.default)(_useState, 2),
+    selectedFeatures = _useState2[0],
+    setSelectedFeatures = _useState2[1],
+    _useState3 = (0, _react.useState)(tiers.essential),
+    _useState4 = (0, _slicedToArray2.default)(_useState3, 2),
+    tierName = _useState4[0],
+    setTierName = _useState4[1],
+    pageId = 'chooseFeatures',
+    nextStep = 'goodToGo',
+    actionButton = {
+      text: __('Upgrade Now', 'elementor'),
+      href: elementorAppConfig.onboarding.urls.upgrade,
+      target: '_blank',
+      onClick: function onClick() {
+        elementorCommon.events.dispatchEvent({
+          event: 'next',
+          version: '',
+          details: {
+            placement: elementorAppConfig.onboarding.eventPlacement,
+            step: state.currentStep
+          }
+        });
+      }
+    };
+  var skipButton;
+  if ('completed' !== state.steps[pageId]) {
+    skipButton = {
+      text: __('Skip', 'elementor')
+    };
+  }
+  if (!isFeatureSelected(selectedFeatures)) {
+    actionButton.className = 'e-onboarding__button--disabled';
+  }
+  (0, _react.useEffect)(function () {
+    if (selectedFeatures.advanced.length > 0) {
+      setTierName(tiers.advanced);
+    } else {
+      setTierName(tiers.essential);
+    }
+  }, [selectedFeatures]);
+  function isFeatureSelected(features) {
+    return !!features.advanced.length || !!features.essential.length;
+  }
+  return /*#__PURE__*/_react.default.createElement(_layout.default, {
+    pageId: pageId,
+    nextStep: nextStep
+  }, /*#__PURE__*/_react.default.createElement(_pageContentLayout.default, {
+    image: elementorCommon.config.urls.assets + 'images/app/onboarding/Illustration_Setup.svg',
+    title: __('Elevate your website with additional Pro features.', 'elementor'),
+    actionButton: actionButton,
+    skipButton: skipButton
+  }, /*#__PURE__*/_react.default.createElement("p", null, __('Which Elementor Pro features do you need to bring your creative vision to life?', 'elementor')), /*#__PURE__*/_react.default.createElement("form", {
+    className: "e-onboarding__choose-features-section"
+  }, _utils.options.map(function (option, index) {
+    var itemId = "".concat(option.plan, "-").concat(index);
+    return /*#__PURE__*/_react.default.createElement("label", {
+      key: itemId,
+      className: "e-onboarding__choose-features-section__label",
+      htmlFor: itemId
+    }, /*#__PURE__*/_react.default.createElement("input", {
+      className: "e-onboarding__choose-features-section__checkbox",
+      type: "checkbox",
+      onChange: function onChange(event) {
+        return (0, _utils.setSelectedFeatureList)({
+          checked: event.currentTarget.checked,
+          id: event.target.value,
+          text: option.text,
+          selectedFeatures: selectedFeatures,
+          setSelectedFeatures: setSelectedFeatures
+        });
+      },
+      id: itemId,
+      value: itemId
+    }), option.text);
+  })), /*#__PURE__*/_react.default.createElement("p", {
+    className: "e-onboarding__choose-features-section__message"
+  }, isFeatureSelected(selectedFeatures) && /*#__PURE__*/_react.default.createElement(_message.default, {
+    tier: tierName
+  }))));
+}
+
+/***/ }),
+
 /***/ "../app/modules/onboarding/assets/js/pages/good-to-go.js":
 /*!***************************************************************!*\
   !*** ../app/modules/onboarding/assets/js/pages/good-to-go.js ***!
@@ -1367,10 +1543,13 @@ Object.defineProperty(exports, "__esModule", ({
 }));
 exports["default"] = GoodToGo;
 var _react = _interopRequireDefault(__webpack_require__(/*! react */ "react"));
+var _defineProperty2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/defineProperty */ "../node_modules/@babel/runtime/helpers/defineProperty.js"));
 var _grid = _interopRequireDefault(__webpack_require__(/*! elementor-app/ui/grid/grid */ "../app/assets/js/ui/grid/grid.js"));
 var _layout = _interopRequireDefault(__webpack_require__(/*! ../components/layout/layout */ "../app/modules/onboarding/assets/js/components/layout/layout.js"));
 var _card = _interopRequireDefault(__webpack_require__(/*! ../components/card */ "../app/modules/onboarding/assets/js/components/card.js"));
 var _footerButtons = _interopRequireDefault(__webpack_require__(/*! ../components/layout/footer-buttons */ "../app/modules/onboarding/assets/js/components/layout/footer-buttons.js"));
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { (0, _defineProperty2.default)(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 function GoodToGo() {
   var pageId = 'goodToGo',
     skipButton = {
@@ -1382,7 +1561,7 @@ function GoodToGo() {
     pageId: pageId
   }, /*#__PURE__*/_react.default.createElement("h1", {
     className: "e-onboarding__page-content-section-title"
-  }, __('That\'s a wrap! What\'s next?', 'elementor')), /*#__PURE__*/_react.default.createElement("div", {
+  }, elementorAppConfig.onboarding.experiment ? __('Welcome aboard! What\'s next?', 'elementor') : __('That\'s a wrap! What\'s next?', 'elementor')), /*#__PURE__*/_react.default.createElement("div", {
     className: "e-onboarding__page-content-section-text"
   }, __('There are two ways to get started with Elementor:', 'elementor')), /*#__PURE__*/_react.default.createElement(_grid.default, {
     container: true,
@@ -1407,7 +1586,9 @@ function GoodToGo() {
       location.reload();
     }
   })), /*#__PURE__*/_react.default.createElement(_footerButtons.default, {
-    skipButton: skipButton,
+    skipButton: _objectSpread(_objectSpread({}, skipButton), {}, {
+      target: '_self'
+    }),
     className: "e-onboarding__good-to-go-footer"
   }));
 }
@@ -1476,7 +1657,7 @@ function HelloTheme() {
     setActionButtonText = _useState10[1],
     navigate = (0, _router.useNavigate)(),
     pageId = 'hello',
-    nextStep = 'siteName',
+    nextStep = elementorAppConfig.onboarding.experiment ? 'chooseFeatures' : 'siteName',
     goToNextScreen = function goToNextScreen() {
       return navigate('onboarding/' + nextStep);
     };
@@ -1692,7 +1873,7 @@ function HelloTheme() {
     actionButton: actionButton,
     skipButton: skipButton,
     noticeState: noticeState
-  }, /*#__PURE__*/_react.default.createElement("p", null, __('Hello is Elementor\'s official blank canvas theme optimized to build your website exactly the way you want.', 'elementor')), /*#__PURE__*/_react.default.createElement("p", null, __('Here\'s why:', 'elementor')), /*#__PURE__*/_react.default.createElement("ul", {
+  }, /*#__PURE__*/_react.default.createElement("p", null, __('Hello is Elementor\'s official blank canvas theme optimized to build your website exactly the way you want.', 'elementor')), !elementorAppConfig.onboarding.experiment && /*#__PURE__*/_react.default.createElement("p", null, __('Here\'s why:', 'elementor')), /*#__PURE__*/_react.default.createElement("ul", {
     className: "e-onboarding__feature-list"
   }, /*#__PURE__*/_react.default.createElement("li", null, __('Light-weight and fast loading', 'elementor')), /*#__PURE__*/_react.default.createElement("li", null, __('Great for SEO', 'elementor')), /*#__PURE__*/_react.default.createElement("li", null, __('Already being used by 1M+ web creators', 'elementor')))), /*#__PURE__*/_react.default.createElement("div", {
     className: "e-onboarding__footnote"
@@ -2375,7 +2556,83 @@ Connect.propTypes = {
   errorCallback: PropTypes.func
 };
 
+/***/ }),
+
+/***/ "../app/modules/onboarding/assets/js/utils/utils.js":
+/*!**********************************************************!*\
+  !*** ../app/modules/onboarding/assets/js/utils/utils.js ***!
+  \**********************************************************/
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+/* provided dependency */ var __ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n")["__"];
+
+
+var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ "../node_modules/@babel/runtime/helpers/interopRequireDefault.js");
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+exports.setSelectedFeatureList = exports.options = void 0;
+var _toConsumableArray2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/toConsumableArray */ "../node_modules/@babel/runtime/helpers/toConsumableArray.js"));
+var _defineProperty2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/defineProperty */ "../node_modules/@babel/runtime/helpers/defineProperty.js"));
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { (0, _defineProperty2.default)(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+/**
+ * Checkboxes data.
+ */
+var options = [{
+  plan: 'essential',
+  text: __('Templates & Theme Builder', 'elementor')
+}, {
+  plan: 'advanced',
+  text: __('WooCommerce Builder', 'elementor')
+}, {
+  plan: 'essential',
+  text: __('Lead Collection & Form Builder', 'elementor')
+}, {
+  plan: 'essential',
+  text: __('Dynamic Content', 'elementor')
+}, {
+  plan: 'advanced',
+  text: __('Popup Builder', 'elementor')
+}, {
+  plan: 'advanced',
+  text: __('Custom Code & CSS', 'elementor')
+}, {
+  plan: 'essential',
+  text: __('Motion Effects & Animations', 'elementor')
+}, {
+  plan: 'advanced',
+  text: __('Notes & Collaboration', 'elementor')
+}];
+
+/**
+ * Set the selected feature list.
+ * @param {Object}   param0
+ * @param {boolean}  param0.checked
+ * @param {string}   param0.id
+ * @param {string}   param0.text
+ * @param {Object}   param0.selectedFeatures
+ * @param {Function} param0.setSelectedFeatures
+ */
+exports.options = options;
+var setSelectedFeatureList = function setSelectedFeatureList(_ref) {
+  var checked = _ref.checked,
+    id = _ref.id,
+    text = _ref.text,
+    selectedFeatures = _ref.selectedFeatures,
+    setSelectedFeatures = _ref.setSelectedFeatures;
+  var tier = id.split('-')[0];
+  if (checked) {
+    setSelectedFeatures(_objectSpread(_objectSpread({}, selectedFeatures), {}, (0, _defineProperty2.default)({}, tier, [].concat((0, _toConsumableArray2.default)(selectedFeatures[tier]), [text]))));
+  } else {
+    setSelectedFeatures(_objectSpread(_objectSpread({}, selectedFeatures), {}, (0, _defineProperty2.default)({}, tier, selectedFeatures[tier].filter(function (item) {
+      return item !== text;
+    }))));
+  }
+};
+exports.setSelectedFeatureList = setSelectedFeatureList;
+
 /***/ })
 
 }]);
-//# sourceMappingURL=onboarding.f2f8af9f7327abc100f1.bundle.js.map
+//# sourceMappingURL=onboarding.d6ea272a04bd56212e9d.bundle.js.map

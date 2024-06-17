@@ -1,17 +1,17 @@
 {
     "packages": [
         {
-            "name": "smashballoon/framework",
+            "name": "smashballoon\/framework",
             "version": "dev-master",
             "version_normalized": "dev-master",
             "source": {
                 "type": "git",
-                "url": "git@github.com:awesomemotive/sb-common.git",
+                "url": "git@github.com:awesomemotive\/sb-common.git",
                 "reference": "254aaf41337e7be8324ae6750098f77bac681897"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/awesomemotive/sb-common/zipball/254aaf41337e7be8324ae6750098f77bac681897",
+                "url": "https:\/\/api.github.com\/repos\/awesomemotive\/sb-common\/zipball\/254aaf41337e7be8324ae6750098f77bac681897",
                 "reference": "254aaf41337e7be8324ae6750098f77bac681897",
                 "shasum": ""
             },
@@ -19,8 +19,8 @@
                 "php": ">=5.6"
             },
             "require-dev": {
-                "phpcompatibility/php-compatibility": "^9.3",
-                "squizlabs/php_codesniffer": "^3.7"
+                "phpcompatibility\/php-compatibility": "^9.3",
+                "squizlabs\/php_codesniffer": "^3.7"
             },
             "time": "2024-04-01T22:15:33+00:00",
             "default-branch": true,
@@ -28,18 +28,18 @@
             "installation-source": "dist",
             "autoload": {
                 "psr-4": {
-                    "Smashballoon\\Framework\\": ""
+                    "InstagramFeed\\Vendor\\Smashballoon\\Framework\\": ""
                 },
                 "files": [
-                    "Utilities/functions.php"
+                    "Utilities\/functions.php"
                 ],
                 "exclude-from-classmap": [
-                    "Packages/Blocks/blocks/*"
+                    "Packages\/Blocks\/blocks\/*"
                 ]
             },
             "scripts": {
                 "post-package-install": [
-                    "phpcs --config-set installed_paths vendor/phpcompatibility/php-compatibility"
+                    "phpcs --config-set installed_paths vendor\/phpcompatibility\/php-compatibility"
                 ]
             },
             "authors": [
@@ -50,23 +50,23 @@
             ],
             "description": "WordPress plugin framework. Developed by SmashBalloon Team.",
             "support": {
-                "source": "https://github.com/awesomemotive/sb-common/tree/master",
-                "issues": "https://github.com/awesomemotive/sb-common/issues"
+                "source": "https:\/\/github.com\/awesomemotive\/sb-common\/tree\/master",
+                "issues": "https:\/\/github.com\/awesomemotive\/sb-common\/issues"
             },
-            "install-path": "../smashballoon/framework"
+            "install-path": "..\/smashballoon\/framework"
         },
         {
-            "name": "smashballoon/stubs",
+            "name": "smashballoon\/stubs",
             "version": "dev-master",
             "version_normalized": "dev-master",
             "source": {
                 "type": "git",
-                "url": "git@github.com:awesomemotive/sb-stubs.git",
+                "url": "git@github.com:awesomemotive\/sb-stubs.git",
                 "reference": "063c3e588e897985d83cb65958c45e12281263ba"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/awesomemotive/sb-stubs/zipball/063c3e588e897985d83cb65958c45e12281263ba",
+                "url": "https:\/\/api.github.com\/repos\/awesomemotive\/sb-stubs\/zipball\/063c3e588e897985d83cb65958c45e12281263ba",
                 "reference": "063c3e588e897985d83cb65958c45e12281263ba",
                 "shasum": ""
             },
@@ -76,7 +76,7 @@
             "installation-source": "dist",
             "autoload": {
                 "psr-4": {
-                    "Smashballoon\\Stubs\\": "src/"
+                    "Smashballoon\\Stubs\\": "src\/"
                 }
             },
             "authors": [
@@ -87,10 +87,10 @@
             ],
             "description": "Shared common stubs.",
             "support": {
-                "source": "https://github.com/awesomemotive/sb-stubs/tree/1.0.0",
-                "issues": "https://github.com/awesomemotive/sb-stubs/issues"
+                "source": "https:\/\/github.com\/awesomemotive\/sb-stubs\/tree\/1.0.0",
+                "issues": "https:\/\/github.com\/awesomemotive\/sb-stubs\/issues"
             },
-            "install-path": "../smashballoon/stubs"
+            "install-path": "..\/smashballoon\/stubs"
         }
     ],
     "dev": false,

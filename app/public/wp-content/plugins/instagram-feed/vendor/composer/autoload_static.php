@@ -7,17 +7,17 @@ namespace Composer\Autoload;
 class ComposerStaticInit068f39eed0c063991b4fc0ef781471be
 {
     public static $files = array (
-        'b1eb330aa001ae4915f07005b4e993c2' => __DIR__ . '/..' . '/smashballoon/framework/Utilities/functions.php',
+        'sb_ig_b1eb330aa001ae4915f07005b4e993c2' => __DIR__ . '/..' . '/smashballoon/framework/Utilities/functions.php',
     );
 
     public static $prefixLengthsPsr4 = array (
         'S' => 
         array (
             'Smashballoon\\Stubs\\' => 19,
-            'Smashballoon\\Framework\\' => 23,
         ),
         'I' => 
         array (
+            'InstagramFeed\\Vendor\\Smashballoon\\Framework\\' => 44,
             'InstagramFeed\\' => 14,
         ),
     );
@@ -27,7 +27,7 @@ class ComposerStaticInit068f39eed0c063991b4fc0ef781471be
         array (
             0 => __DIR__ . '/..' . '/smashballoon/stubs/src',
         ),
-        'Smashballoon\\Framework\\' => 
+        'InstagramFeed\\Vendor\\Smashballoon\\Framework\\' => 
         array (
             0 => __DIR__ . '/..' . '/smashballoon/framework',
         ),

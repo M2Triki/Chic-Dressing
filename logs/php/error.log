@@ -20,3 +20,20 @@ Stack trace:
 [13-Jun-2024 15:12:25 UTC] PHP Warning:  Trying to access array offset on value of type bool in /Users/apollotriki/Local Sites/chic-dressing/app/public/wp-content/themes/chicdressing/templates/header/featured-slider-custom.php on line 68
 [13-Jun-2024 15:12:25 UTC] PHP Warning:  Trying to access array offset on value of type bool in /Users/apollotriki/Local Sites/chic-dressing/app/public/wp-content/themes/chicdressing/templates/header/featured-slider-custom.php on line 68
 [13-Jun-2024 15:12:25 UTC] PHP Warning:  Trying to access array offset on value of type bool in /Users/apollotriki/Local Sites/chic-dressing/app/public/wp-content/themes/chicdressing/templates/header/featured-slider-custom.php on line 68
+[17-Jun-2024 13:31:28 UTC] PHP Fatal error:  Uncaught TypeError: implode(): Argument #2 ($array) must be of type ?array, string given in /Users/apollotriki/Local Sites/chic-dressing/app/public/wp-content/plugins/wysija-newsletters/helpers/file.php:161
+Stack trace:
+#0 /Users/apollotriki/Local Sites/chic-dressing/app/public/wp-content/plugins/wysija-newsletters/helpers/file.php(161): implode(Array, '|')
+#1 /Users/apollotriki/Local Sites/chic-dressing/app/public/wp-content/plugins/wysija-newsletters/core/base.php(820): WYSIJA_help_file->clear()
+#2 /Users/apollotriki/Local Sites/chic-dressing/app/public/wp-content/plugins/wysija-newsletters/helpers/cron.php(184): WYSIJA::croned_daily()
+#3 /Users/apollotriki/Local Sites/chic-dressing/app/public/wp-content/plugins/wysija-newsletters/helpers/cron.php(120): WYSIJA_help_cron->run_scheduled_task('daily')
+#4 /Users/apollotriki/Local Sites/chic-dressing/app/public/wp-content/plugins/wysija-newsletters/helpers/cron.php(56): WYSIJA_help_cron->check_scheduled_task(Array, 'daily')
+#5 /Users/apollotriki/Local Sites/chic-dressing/app/public/wp-content/plugins/wysija-newsletters/core/base.php(1525): WYSIJA_help_cron->run()
+#6 /Users/apollotriki/Local Sites/chic-dressing/app/public/wp-includes/class-wp-hook.php(324): init_wysija_cron('')
+#7 /Users/apollotriki/Local Sites/chic-dressing/app/public/wp-includes/class-wp-hook.php(348): WP_Hook->apply_filters(NULL, Array)
+#8 /Users/apollotriki/Local Sites/chic-dressing/app/public/wp-includes/plugin.php(517): WP_Hook->do_action(Array)
+#9 /Users/apollotriki/Local Sites/chic-dressing/app/public/wp-settings.php(695): do_action('init')
+#10 /Users/apollotriki/Local Sites/chic-dressing/app/public/wp-config.php(103): require_once('/Users/apollotr...')
+#11 /Users/apollotriki/Local Sites/chic-dressing/app/public/wp-load.php(50): require_once('/Users/apollotr...')
+#12 /Users/apollotriki/Local Sites/chic-dressing/app/public/wp-cron.php(46): require_once('/Users/apollotr...')
+#13 {main}
+  thrown in /Users/apollotriki/Local Sites/chic-dressing/app/public/wp-content/plugins/wysija-newsletters/helpers/file.php on line 161

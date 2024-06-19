@@ -21,4 +21,4 @@ function remove_ashe_google_fonts() {
     wp_dequeue_style('ashe-rokkitt-font');
     wp_deregister_style('ashe-rokkitt-font');
 }
-add_action('wp_enqueue_scripts', 'remove_ashe_google_fonts', 20);
+add_action('wp_enqueue_scripts', 'remove_ashe_google_fonts', 999);

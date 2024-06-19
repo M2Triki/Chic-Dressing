@@ -8,15 +8,7 @@ function chicdressing_enqueue_styles() {
 add_filter( 'big_image_size_threshold', '__return_false' );
 
 
-function allow_custom_upload_mimes($existing_mimes) {
-    // Ajouter les types MIME pour les polices
-    $existing_mimes['ttf'] = 'font/ttf';
-    $existing_mimes['woff'] = 'font/woff';
-    $existing_mimes['woff2'] = 'font/woff2';
-    $existing_mimes['otf'] = 'font/otf';
-    return $existing_mimes;
+function remove_google_fonts_stylesheet() {  
+    wp_dequeue_style( 'google-fonts-roboto' );
 }
-add_filter('upload_mimes', 'allow_custom_upload_mimes');
-
-
- 
+add_action( 'wp_enqueue_scripts', 'remove_google_fonts_stylesheet', 999 );

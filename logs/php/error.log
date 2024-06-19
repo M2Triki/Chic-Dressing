@@ -58,3 +58,5 @@ Stack trace:
 #12 /Users/apollotriki/Local Sites/chic-dressing/app/public/wp-cron.php(46): require_once('/Users/apollotr...')
 #13 {main}
   thrown in /Users/apollotriki/Local Sites/chic-dressing/app/public/wp-content/plugins/wysija-newsletters/helpers/file.php on line 161
+[19-Jun-2024 22:11:02 UTC] PHP Parse error:  Unterminated comment starting line 10 in /Users/apollotriki/Local Sites/chic-dressing/app/public/wp-content/themes/chicdressing/functions.php on line 10
+[19-Jun-2024 22:11:03 UTC] PHP Parse error:  Unterminated comment starting line 10 in /Users/apollotriki/Local Sites/chic-dressing/app/public/wp-content/themes/chicdressing/functions.php on line 10

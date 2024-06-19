@@ -10,3 +10,306 @@
 [13-Jun-2024 17:38:53] NOTICE: exiting, bye-bye!
 [17-Jun-2024 15:24:50] NOTICE: fpm is running, pid 91065
 [17-Jun-2024 15:24:50] NOTICE: ready to handle connections
+[17-Jun-2024 16:38:29] WARNING: [pool www] child 91074 said into stderr: "*   Trying [::1]:80..."
+[17-Jun-2024 16:38:29] WARNING: [pool www] child 91074 said into stderr: "* Connected to chic-dressing.local (::1) port 80 (#0)"
+[17-Jun-2024 16:38:29] WARNING: [pool www] child 91074 said into stderr: "> GET / HTTP/1.1"
+[17-Jun-2024 16:38:29] WARNING: [pool www] child 91074 said into stderr: "Host: chic-dressing.local"
+[17-Jun-2024 16:38:29] WARNING: [pool www] child 91074 said into stderr: "Accept: */*"
+[17-Jun-2024 16:38:29] WARNING: [pool www] child 91074 said into stderr: ""
+[17-Jun-2024 16:38:29] WARNING: [pool www] child 91074 said into stderr: "< HTTP/1.1 200 OK"
+[17-Jun-2024 16:38:29] WARNING: [pool www] child 91074 said into stderr: "< Server: nginx/1.16.0"
+[17-Jun-2024 16:38:29] WARNING: [pool www] child 91074 said into stderr: "< Date: Mon, 17 Jun 2024 14:38:29 GMT"
+[17-Jun-2024 16:38:29] WARNING: [pool www] child 91074 said into stderr: "< Content-Type: text/html; charset=UTF-8"
+[17-Jun-2024 16:38:29] WARNING: [pool www] child 91074 said into stderr: "< Transfer-Encoding: chunked"
+[17-Jun-2024 16:38:29] WARNING: [pool www] child 91074 said into stderr: "< Connection: keep-alive"
+[17-Jun-2024 16:38:29] WARNING: [pool www] child 91074 said into stderr: "< Vary: Accept-Encoding"
+[17-Jun-2024 16:38:29] WARNING: [pool www] child 91074 said into stderr: "< Vary: Accept-Encoding"
+[17-Jun-2024 16:38:29] WARNING: [pool www] child 91074 said into stderr: "< X-Powered-By: PHP/8.1.23"
+[17-Jun-2024 16:38:29] WARNING: [pool www] child 91074 said into stderr: "< Link: <http://chic-dressing.local/wp-json/>; rel="https://api.w.org/""
+[17-Jun-2024 16:38:29] WARNING: [pool www] child 91074 said into stderr: "< "
+[17-Jun-2024 16:38:29] WARNING: [pool www] child 91074 said into stderr: "* Excess found: excess = 16071 url = / (zero-length body)"
+[17-Jun-2024 16:38:29] WARNING: [pool www] child 91074 said into stderr: "* Connection #0 to host chic-dressing.local left intact"
+[17-Jun-2024 16:38:29] WARNING: [pool www] child 91074 said into stderr: "*   Trying [::1]:80..."
+[17-Jun-2024 16:38:29] WARNING: [pool www] child 91074 said into stderr: "* Connected to chic-dressing.local (::1) port 80 (#0)"
+[17-Jun-2024 16:38:29] WARNING: [pool www] child 91074 said into stderr: "> POST / HTTP/1.1"
+[17-Jun-2024 16:38:29] WARNING: [pool www] child 91074 said into stderr: "Host: chic-dressing.local"
+[17-Jun-2024 16:38:29] WARNING: [pool www] child 91074 said into stderr: "Accept: */*"
+[17-Jun-2024 16:38:29] WARNING: [pool www] child 91074 said into stderr: ""
+[17-Jun-2024 16:38:29] WARNING: [pool www] child 91074 said into stderr: "< HTTP/1.1 200 OK"
+[17-Jun-2024 16:38:29] WARNING: [pool www] child 91074 said into stderr: "< Server: nginx/1.16.0"
+[17-Jun-2024 16:38:29] WARNING: [pool www] child 91074 said into stderr: "< Date: Mon, 17 Jun 2024 14:38:29 GMT"
+[17-Jun-2024 16:38:29] WARNING: [pool www] child 91074 said into stderr: "< Content-Type: text/html; charset=UTF-8"
+[17-Jun-2024 16:38:29] WARNING: [pool www] child 91074 said into stderr: "< Transfer-Encoding: chunked"
+[17-Jun-2024 16:38:29] WARNING: [pool www] child 91074 said into stderr: "< Connection: keep-alive"
+[17-Jun-2024 16:38:29] WARNING: [pool www] child 91074 said into stderr: "< Vary: Accept-Encoding"
+[17-Jun-2024 16:38:29] WARNING: [pool www] child 91074 said into stderr: "< Vary: Accept-Encoding"
+[17-Jun-2024 16:38:29] WARNING: [pool www] child 91074 said into stderr: "< X-Powered-By: PHP/8.1.23"
+[17-Jun-2024 16:38:29] WARNING: [pool www] child 91074 said into stderr: "< Link: <http://chic-dressing.local/wp-json/>; rel="https://api.w.org/""
+[17-Jun-2024 16:38:29] WARNING: [pool www] child 91074 said into stderr: "< "
+[17-Jun-2024 16:38:29] WARNING: [pool www] child 91074 said into stderr: "* Excess found: excess = 16071 url = / (zero-length body)"
+[17-Jun-2024 16:38:29] WARNING: [pool www] child 91074 said into stderr: "* Connection #0 to host chic-dressing.local left intact"
+[17-Jun-2024 16:38:29] WARNING: [pool www] child 91074 said into stderr: "*   Trying [::1]:80..."
+[17-Jun-2024 16:38:29] WARNING: [pool www] child 91074 said into stderr: "* Connected to chic-dressing.local (::1) port 80 (#0)"
+[17-Jun-2024 16:38:29] WARNING: [pool www] child 91074 said into stderr: "> PUT / HTTP/1.1"
+[17-Jun-2024 16:38:29] WARNING: [pool www] child 91074 said into stderr: "Host: chic-dressing.local"
+[17-Jun-2024 16:38:29] WARNING: [pool www] child 91074 said into stderr: "Accept: */*"
+[17-Jun-2024 16:38:29] WARNING: [pool www] child 91074 said into stderr: ""
+[17-Jun-2024 16:38:29] WARNING: [pool www] child 91074 said into stderr: "< HTTP/1.1 405 Not Allowed"
+[17-Jun-2024 16:38:29] WARNING: [pool www] child 91074 said into stderr: "< Server: nginx/1.16.0"
+[17-Jun-2024 16:38:29] WARNING: [pool www] child 91074 said into stderr: "< Date: Mon, 17 Jun 2024 14:38:29 GMT"
+[17-Jun-2024 16:38:29] WARNING: [pool www] child 91074 said into stderr: "< Content-Type: text/html"
+[17-Jun-2024 16:38:29] WARNING: [pool www] child 91074 said into stderr: "< Content-Length: 157"
+[17-Jun-2024 16:38:29] WARNING: [pool www] child 91074 said into stderr: "< Connection: keep-alive"
+[17-Jun-2024 16:38:29] WARNING: [pool www] child 91074 said into stderr: "< "
+[17-Jun-2024 16:38:29] WARNING: [pool www] child 91074 said into stderr: "* Excess found: excess = 157 url = / (zero-length body)"
+[17-Jun-2024 16:38:29] WARNING: [pool www] child 91074 said into stderr: "* Connection #0 to host chic-dressing.local left intact"
+[17-Jun-2024 16:38:29] WARNING: [pool www] child 91074 said into stderr: "*   Trying [::1]:80..."
+[17-Jun-2024 16:38:29] WARNING: [pool www] child 91074 said into stderr: "* Connected to chic-dressing.local (::1) port 80 (#0)"
+[17-Jun-2024 16:38:29] WARNING: [pool www] child 91074 said into stderr: "> DELETE / HTTP/1.1"
+[17-Jun-2024 16:38:29] WARNING: [pool www] child 91074 said into stderr: "Host: chic-dressing.local"
+[17-Jun-2024 16:38:29] WARNING: [pool www] child 91074 said into stderr: "Accept: */*"
+[17-Jun-2024 16:38:29] WARNING: [pool www] child 91074 said into stderr: ""
+[17-Jun-2024 16:38:29] WARNING: [pool www] child 91074 said into stderr: "< HTTP/1.1 405 Not Allowed"
+[17-Jun-2024 16:38:29] WARNING: [pool www] child 91074 said into stderr: "< Server: nginx/1.16.0"
+[17-Jun-2024 16:38:29] WARNING: [pool www] child 91074 said into stderr: "< Date: Mon, 17 Jun 2024 14:38:29 GMT"
+[17-Jun-2024 16:38:29] WARNING: [pool www] child 91074 said into stderr: "< Content-Type: text/html"
+[17-Jun-2024 16:38:29] WARNING: [pool www] child 91074 said into stderr: "< Content-Length: 157"
+[17-Jun-2024 16:38:29] WARNING: [pool www] child 91074 said into stderr: "< Connection: keep-alive"
+[17-Jun-2024 16:38:29] WARNING: [pool www] child 91074 said into stderr: "< "
+[17-Jun-2024 16:38:29] WARNING: [pool www] child 91074 said into stderr: "* Excess found: excess = 157 url = / (zero-length body)"
+[17-Jun-2024 16:38:29] WARNING: [pool www] child 91074 said into stderr: "* Connection #0 to host chic-dressing.local left intact"
+[17-Jun-2024 16:38:45] WARNING: [pool www] child 91074 said into stderr: "*   Trying [::1]:80..."
+[17-Jun-2024 16:38:45] WARNING: [pool www] child 91074 said into stderr: "* Connected to chic-dressing.local (::1) port 80 (#0)"
+[17-Jun-2024 16:38:45] WARNING: [pool www] child 91074 said into stderr: "> HEAD / HTTP/1.1"
+[17-Jun-2024 16:38:45] WARNING: [pool www] child 91074 said into stderr: "Host: chic-dressing.local"
+[17-Jun-2024 16:38:45] WARNING: [pool www] child 91074 said into stderr: "Accept: */*"
+[17-Jun-2024 16:38:45] WARNING: [pool www] child 91074 said into stderr: ""
+[17-Jun-2024 16:38:45] WARNING: [pool www] child 91074 said into stderr: "< HTTP/1.1 301 Moved Permanently"
+[17-Jun-2024 16:38:45] WARNING: [pool www] child 91074 said into stderr: "< Server: nginx/1.16.0"
+[17-Jun-2024 16:38:45] WARNING: [pool www] child 91074 said into stderr: "< Date: Mon, 17 Jun 2024 14:38:45 GMT"
+[17-Jun-2024 16:38:45] WARNING: [pool www] child 91074 said into stderr: "< Content-Type: text/html; charset=UTF-8"
+[17-Jun-2024 16:38:45] WARNING: [pool www] child 91074 said into stderr: "< Connection: keep-alive"
+[17-Jun-2024 16:38:45] WARNING: [pool www] child 91074 said into stderr: "< X-Powered-By: PHP/8.1.23"
+[17-Jun-2024 16:38:45] WARNING: [pool www] child 91074 said into stderr: "< X-Redirect-By: WordPress"
+[17-Jun-2024 16:38:45] WARNING: [pool www] child 91074 said into stderr: "< Location: https://chic-dressing.local/"
+[17-Jun-2024 16:38:45] WARNING: [pool www] child 91074 said into stderr: "< "
+[17-Jun-2024 16:38:45] WARNING: [pool www] child 91074 said into stderr: "* Connection #0 to host chic-dressing.local left intact"
+[17-Jun-2024 16:38:45] WARNING: [pool www] child 91074 said into stderr: "* Clear auth, redirects to port from 80 to 443"
+[17-Jun-2024 16:38:45] WARNING: [pool www] child 91074 said into stderr: "* Issue another request to this URL: 'https://chic-dressing.local/'"
+[17-Jun-2024 16:38:45] WARNING: [pool www] child 91074 said into stderr: "*   Trying [::1]:443..."
+[17-Jun-2024 16:38:45] WARNING: [pool www] child 91074 said into stderr: "* Connected to chic-dressing.local (::1) port 443 (#1)"
+[17-Jun-2024 16:38:45] WARNING: [pool www] child 91074 said into stderr: "* ALPN: offers h2,http/1.1"
+[17-Jun-2024 16:38:45] WARNING: [pool www] child 91074 said into stderr: "* SSL connection using TLSv1.2 / ECDHE-RSA-AES128-GCM-SHA256"
+[17-Jun-2024 16:38:45] WARNING: [pool www] child 91074 said into stderr: "* ALPN: server accepted h2"
+[17-Jun-2024 16:38:45] WARNING: [pool www] child 91074 said into stderr: "* Server certificate:"
+[17-Jun-2024 16:38:45] WARNING: [pool www] child 91074 said into stderr: "*  subject: CN=chic-dressing.local; C=XX; ST=XX; L=Fake Locality; O=Super Fake Company, Fake.; OU=Fake Organizational Unit"
+[17-Jun-2024 16:38:45] WARNING: [pool www] child 91074 said into stderr: "*  start date: Jun 13 10:50:09 2024 GMT"
+[17-Jun-2024 16:38:45] WARNING: [pool www] child 91074 said into stderr: "*  expire date: Jun 13 10:50:09 2034 GMT"
+[17-Jun-2024 16:38:45] WARNING: [pool www] child 91074 said into stderr: "*  subjectAltName: host "chic-dressing.local" matched cert's "chic-dressing.local""
+[17-Jun-2024 16:38:45] WARNING: [pool www] child 91074 said into stderr: "*  issuer: CN=chic-dressing.local; C=XX; ST=XX; L=Fake Locality; O=Super Fake Company, Fake.; OU=Fake Organizational Unit"
+[17-Jun-2024 16:38:45] WARNING: [pool www] child 91074 said into stderr: "*  SSL certificate verify result: self signed certificate (18), continuing anyway."
+[17-Jun-2024 16:38:45] WARNING: [pool www] child 91074 said into stderr: "* using HTTP/2"
+[17-Jun-2024 16:38:45] WARNING: [pool www] child 91074 said into stderr: "* h2 [:method: HEAD]"
+[17-Jun-2024 16:38:45] WARNING: [pool www] child 91074 said into stderr: "* h2 [:scheme: https]"
+[17-Jun-2024 16:38:45] WARNING: [pool www] child 91074 said into stderr: "* h2 [:authority: chic-dressing.local]"
+[17-Jun-2024 16:38:45] WARNING: [pool www] child 91074 said into stderr: "* h2 [:path: /]"
+[17-Jun-2024 16:38:45] WARNING: [pool www] child 91074 said into stderr: "* h2 [accept: */*]"
+[17-Jun-2024 16:38:45] WARNING: [pool www] child 91074 said into stderr: "* Using Stream ID: 1 (easy handle 0x14180f400)"
+[17-Jun-2024 16:38:45] WARNING: [pool www] child 91074 said into stderr: "> HEAD / HTTP/2"
+[17-Jun-2024 16:38:45] WARNING: [pool www] child 91074 said into stderr: "Host: chic-dressing.local"
+[17-Jun-2024 16:38:45] WARNING: [pool www] child 91074 said into stderr: "Accept: */*"
+[17-Jun-2024 16:38:45] WARNING: [pool www] child 91074 said into stderr: ""
+[17-Jun-2024 16:38:45] WARNING: [pool www] child 91074 said into stderr: "< HTTP/2 200 "
+[17-Jun-2024 16:38:45] WARNING: [pool www] child 91074 said into stderr: "< server: nginx/1.16.0"
+[17-Jun-2024 16:38:45] WARNING: [pool www] child 91074 said into stderr: "< date: Mon, 17 Jun 2024 14:38:45 GMT"
+[17-Jun-2024 16:38:45] WARNING: [pool www] child 91074 said into stderr: "< content-type: text/html; charset=UTF-8"
+[17-Jun-2024 16:38:45] WARNING: [pool www] child 91074 said into stderr: "< vary: Accept-Encoding"
+[17-Jun-2024 16:38:45] WARNING: [pool www] child 91074 said into stderr: "< vary: Accept-Encoding"
+[17-Jun-2024 16:38:45] WARNING: [pool www] child 91074 said into stderr: "< x-powered-by: PHP/8.1.23"
+[17-Jun-2024 16:38:45] WARNING: [pool www] child 91074 said into stderr: "< link: <https://chic-dressing.local/wp-json/>; rel="https://api.w.org/""
+[17-Jun-2024 16:38:45] WARNING: [pool www] child 91074 said into stderr: "< "
+[17-Jun-2024 16:38:45] WARNING: [pool www] child 91074 said into stderr: "* Connection #1 to host chic-dressing.local left intact"
+[17-Jun-2024 16:38:45] WARNING: [pool www] child 91074 said into stderr: "*   Trying [::1]:80..."
+[17-Jun-2024 16:38:45] WARNING: [pool www] child 91074 said into stderr: "* Connected to chic-dressing.local (::1) port 80 (#0)"
+[17-Jun-2024 16:38:45] WARNING: [pool www] child 91074 said into stderr: "> OPTIONS / HTTP/1.1"
+[17-Jun-2024 16:38:45] WARNING: [pool www] child 91074 said into stderr: "Host: chic-dressing.local"
+[17-Jun-2024 16:38:45] WARNING: [pool www] child 91074 said into stderr: "Accept: */*"
+[17-Jun-2024 16:38:45] WARNING: [pool www] child 91074 said into stderr: ""
+[17-Jun-2024 16:38:45] WARNING: [pool www] child 91074 said into stderr: "< HTTP/1.1 405 Not Allowed"
+[17-Jun-2024 16:38:45] WARNING: [pool www] child 91074 said into stderr: "< Server: nginx/1.16.0"
+[17-Jun-2024 16:38:45] WARNING: [pool www] child 91074 said into stderr: "< Date: Mon, 17 Jun 2024 14:38:45 GMT"
+[17-Jun-2024 16:38:45] WARNING: [pool www] child 91074 said into stderr: "< Content-Type: text/html"
+[17-Jun-2024 16:38:45] WARNING: [pool www] child 91074 said into stderr: "< Content-Length: 157"
+[17-Jun-2024 16:38:45] WARNING: [pool www] child 91074 said into stderr: "< Connection: keep-alive"
+[17-Jun-2024 16:38:45] WARNING: [pool www] child 91074 said into stderr: "< "
+[17-Jun-2024 16:38:45] WARNING: [pool www] child 91074 said into stderr: "* Excess found: excess = 157 url = / (zero-length body)"
+[17-Jun-2024 16:38:45] WARNING: [pool www] child 91074 said into stderr: "* Connection #0 to host chic-dressing.local left intact"
+[17-Jun-2024 16:38:45] WARNING: [pool www] child 91074 said into stderr: "*   Trying [::1]:80..."
+[17-Jun-2024 16:38:45] WARNING: [pool www] child 91074 said into stderr: "* Connected to chic-dressing.local (::1) port 80 (#0)"
+[17-Jun-2024 16:38:45] WARNING: [pool www] child 91074 said into stderr: "> CONNECT / HTTP/1.1"
+[17-Jun-2024 16:38:45] WARNING: [pool www] child 91074 said into stderr: "Host: chic-dressing.local"
+[17-Jun-2024 16:38:45] WARNING: [pool www] child 91074 said into stderr: "Accept: */*"
+[17-Jun-2024 16:38:45] WARNING: [pool www] child 91074 said into stderr: ""
+[17-Jun-2024 16:38:45] WARNING: [pool www] child 91074 said into stderr: "< HTTP/1.1 405 Not Allowed"
+[17-Jun-2024 16:38:45] WARNING: [pool www] child 91074 said into stderr: "< Server: nginx/1.16.0"
+[17-Jun-2024 16:38:45] WARNING: [pool www] child 91074 said into stderr: "< Date: Mon, 17 Jun 2024 14:38:45 GMT"
+[17-Jun-2024 16:38:45] WARNING: [pool www] child 91074 said into stderr: "< Content-Type: text/html"
+[17-Jun-2024 16:38:45] WARNING: [pool www] child 91074 said into stderr: "< Content-Length: 157"
+[17-Jun-2024 16:38:45] WARNING: [pool www] child 91074 said into stderr: "< Connection: keep-alive"
+[17-Jun-2024 16:38:45] WARNING: [pool www] child 91074 said into stderr: "< "
+[17-Jun-2024 16:38:45] WARNING: [pool www] child 91074 said into stderr: "* Excess found: excess = 157 url = / (zero-length body)"
+[17-Jun-2024 16:38:45] WARNING: [pool www] child 91074 said into stderr: "* Connection #0 to host chic-dressing.local left intact"
+[17-Jun-2024 16:38:45] WARNING: [pool www] child 91074 said into stderr: "*   Trying [::1]:80..."
+[17-Jun-2024 16:38:45] WARNING: [pool www] child 91074 said into stderr: "* Connected to chic-dressing.local (::1) port 80 (#0)"
+[17-Jun-2024 16:38:45] WARNING: [pool www] child 91074 said into stderr: "> TRACE / HTTP/1.1"
+[17-Jun-2024 16:38:45] WARNING: [pool www] child 91074 said into stderr: "Host: chic-dressing.local"
+[17-Jun-2024 16:38:45] WARNING: [pool www] child 91074 said into stderr: "Accept: */*"
+[17-Jun-2024 16:38:45] WARNING: [pool www] child 91074 said into stderr: ""
+[17-Jun-2024 16:38:45] WARNING: [pool www] child 91074 said into stderr: "< HTTP/1.1 405 Not Allowed"
+[17-Jun-2024 16:38:45] WARNING: [pool www] child 91074 said into stderr: "< Server: nginx/1.16.0"
+[17-Jun-2024 16:38:45] WARNING: [pool www] child 91074 said into stderr: "< Date: Mon, 17 Jun 2024 14:38:45 GMT"
+[17-Jun-2024 16:38:45] WARNING: [pool www] child 91074 said into stderr: "< Content-Type: text/html"
+[17-Jun-2024 16:38:45] WARNING: [pool www] child 91074 said into stderr: "< Content-Length: 157"
+[17-Jun-2024 16:38:45] WARNING: [pool www] child 91074 said into stderr: "< Connection: close"
+[17-Jun-2024 16:38:45] WARNING: [pool www] child 91074 said into stderr: "< "
+[17-Jun-2024 16:38:45] WARNING: [pool www] child 91074 said into stderr: "* Excess found: excess = 157 url = / (zero-length body)"
+[17-Jun-2024 16:38:45] WARNING: [pool www] child 91074 said into stderr: "* Closing connection 0"
+[17-Jun-2024 16:38:55] WARNING: [pool www] child 91074 said into stderr: "*   Trying [::1]:443..."
+[17-Jun-2024 16:38:55] WARNING: [pool www] child 91074 said into stderr: "* Connected to chic-dressing.local (::1) port 443 (#0)"
+[17-Jun-2024 16:38:55] WARNING: [pool www] child 91074 said into stderr: "* ALPN: offers h2,http/1.1"
+[17-Jun-2024 16:38:55] WARNING: [pool www] child 91074 said into stderr: "* SSL connection using TLSv1.2 / ECDHE-RSA-AES128-GCM-SHA256"
+[17-Jun-2024 16:38:55] WARNING: [pool www] child 91074 said into stderr: "* ALPN: server accepted h2"
+[17-Jun-2024 16:38:55] WARNING: [pool www] child 91074 said into stderr: "* Server certificate:"
+[17-Jun-2024 16:38:55] WARNING: [pool www] child 91074 said into stderr: "*  subject: CN=chic-dressing.local; C=XX; ST=XX; L=Fake Locality; O=Super Fake Company, Fake.; OU=Fake Organizational Unit"
+[17-Jun-2024 16:38:55] WARNING: [pool www] child 91074 said into stderr: "*  start date: Jun 13 10:50:09 2024 GMT"
+[17-Jun-2024 16:38:55] WARNING: [pool www] child 91074 said into stderr: "*  expire date: Jun 13 10:50:09 2034 GMT"
+[17-Jun-2024 16:38:55] WARNING: [pool www] child 91074 said into stderr: "*  subjectAltName: host "chic-dressing.local" matched cert's "chic-dressing.local""
+[17-Jun-2024 16:38:55] WARNING: [pool www] child 91074 said into stderr: "*  issuer: CN=chic-dressing.local; C=XX; ST=XX; L=Fake Locality; O=Super Fake Company, Fake.; OU=Fake Organizational Unit"
+[17-Jun-2024 16:38:55] WARNING: [pool www] child 91074 said into stderr: "*  SSL certificate verify result: self signed certificate (18), continuing anyway."
+[17-Jun-2024 16:38:55] WARNING: [pool www] child 91074 said into stderr: "* using HTTP/2"
+[17-Jun-2024 16:38:55] WARNING: [pool www] child 91074 said into stderr: "* h2 [:method: TRACK]"
+[17-Jun-2024 16:38:55] WARNING: [pool www] child 91074 said into stderr: "* h2 [:scheme: https]"
+[17-Jun-2024 16:38:55] WARNING: [pool www] child 91074 said into stderr: "* h2 [:authority: chic-dressing.local]"
+[17-Jun-2024 16:38:55] WARNING: [pool www] child 91074 said into stderr: "* h2 [:path: /]"
+[17-Jun-2024 16:38:55] WARNING: [pool www] child 91074 said into stderr: "* h2 [accept: */*]"
+[17-Jun-2024 16:38:55] WARNING: [pool www] child 91074 said into stderr: "* Using Stream ID: 1 (easy handle 0x142825a00)"
+[17-Jun-2024 16:38:55] WARNING: [pool www] child 91074 said into stderr: "> TRACK / HTTP/2"
+[17-Jun-2024 16:38:55] WARNING: [pool www] child 91074 said into stderr: "Host: chic-dressing.local"
+[17-Jun-2024 16:38:55] WARNING: [pool www] child 91074 said into stderr: "Accept: */*"
+[17-Jun-2024 16:38:55] WARNING: [pool www] child 91074 said into stderr: ""
+[17-Jun-2024 16:38:55] WARNING: [pool www] child 91074 said into stderr: "< HTTP/2 405 "
+[17-Jun-2024 16:38:55] WARNING: [pool www] child 91074 said into stderr: "< server: nginx/1.16.0"
+[17-Jun-2024 16:38:55] WARNING: [pool www] child 91074 said into stderr: "< date: Mon, 17 Jun 2024 14:38:55 GMT"
+[17-Jun-2024 16:38:55] WARNING: [pool www] child 91074 said into stderr: "< content-type: text/html"
+[17-Jun-2024 16:38:55] WARNING: [pool www] child 91074 said into stderr: "< content-length: 157"
+[17-Jun-2024 16:38:55] WARNING: [pool www] child 91074 said into stderr: "< "
+[17-Jun-2024 16:38:55] WARNING: [pool www] child 91074 said into stderr: "* Excess found: excess = 157 url = / (zero-length body)"
+[17-Jun-2024 16:38:55] WARNING: [pool www] child 91074 said into stderr: "* Connection #0 to host chic-dressing.local left intact"
+[17-Jun-2024 16:38:55] WARNING: [pool www] child 91074 said into stderr: "*   Trying [::1]:443..."
+[17-Jun-2024 16:38:55] WARNING: [pool www] child 91074 said into stderr: "* Connected to chic-dressing.local (::1) port 443 (#0)"
+[17-Jun-2024 16:38:55] WARNING: [pool www] child 91074 said into stderr: "* ALPN: offers h2,http/1.1"
+[17-Jun-2024 16:38:55] WARNING: [pool www] child 91074 said into stderr: "* SSL connection using TLSv1.2 / ECDHE-RSA-AES128-GCM-SHA256"
+[17-Jun-2024 16:38:55] WARNING: [pool www] child 91074 said into stderr: "* ALPN: server accepted h2"
+[17-Jun-2024 16:38:55] WARNING: [pool www] child 91074 said into stderr: "* Server certificate:"
+[17-Jun-2024 16:38:55] WARNING: [pool www] child 91074 said into stderr: "*  subject: CN=chic-dressing.local; C=XX; ST=XX; L=Fake Locality; O=Super Fake Company, Fake.; OU=Fake Organizational Unit"
+[17-Jun-2024 16:38:55] WARNING: [pool www] child 91074 said into stderr: "*  start date: Jun 13 10:50:09 2024 GMT"
+[17-Jun-2024 16:38:55] WARNING: [pool www] child 91074 said into stderr: "*  expire date: Jun 13 10:50:09 2034 GMT"
+[17-Jun-2024 16:38:55] WARNING: [pool www] child 91074 said into stderr: "*  subjectAltName: host "chic-dressing.local" matched cert's "chic-dressing.local""
+[17-Jun-2024 16:38:55] WARNING: [pool www] child 91074 said into stderr: "*  issuer: CN=chic-dressing.local; C=XX; ST=XX; L=Fake Locality; O=Super Fake Company, Fake.; OU=Fake Organizational Unit"
+[17-Jun-2024 16:38:55] WARNING: [pool www] child 91074 said into stderr: "*  SSL certificate verify result: self signed certificate (18), continuing anyway."
+[17-Jun-2024 16:38:55] WARNING: [pool www] child 91074 said into stderr: "* using HTTP/2"
+[17-Jun-2024 16:38:55] WARNING: [pool www] child 91074 said into stderr: "* h2 [:method: PATCH]"
+[17-Jun-2024 16:38:55] WARNING: [pool www] child 91074 said into stderr: "* h2 [:scheme: https]"
+[17-Jun-2024 16:38:55] WARNING: [pool www] child 91074 said into stderr: "* h2 [:authority: chic-dressing.local]"
+[17-Jun-2024 16:38:55] WARNING: [pool www] child 91074 said into stderr: "* h2 [:path: /]"
+[17-Jun-2024 16:38:55] WARNING: [pool www] child 91074 said into stderr: "* h2 [accept: */*]"
+[17-Jun-2024 16:38:55] WARNING: [pool www] child 91074 said into stderr: "* Using Stream ID: 1 (easy handle 0x112008200)"
+[17-Jun-2024 16:38:55] WARNING: [pool www] child 91074 said into stderr: "> PATCH / HTTP/2"
+[17-Jun-2024 16:38:55] WARNING: [pool www] child 91074 said into stderr: "Host: chic-dressing.local"
+[17-Jun-2024 16:38:55] WARNING: [pool www] child 91074 said into stderr: "Accept: */*"
+[17-Jun-2024 16:38:55] WARNING: [pool www] child 91074 said into stderr: ""
+[17-Jun-2024 16:38:55] WARNING: [pool www] child 91074 said into stderr: "< HTTP/2 405 "
+[17-Jun-2024 16:38:55] WARNING: [pool www] child 91074 said into stderr: "< server: nginx/1.16.0"
+[17-Jun-2024 16:38:55] WARNING: [pool www] child 91074 said into stderr: "< date: Mon, 17 Jun 2024 14:38:55 GMT"
+[17-Jun-2024 16:38:55] WARNING: [pool www] child 91074 said into stderr: "< content-type: text/html"
+[17-Jun-2024 16:38:55] WARNING: [pool www] child 91074 said into stderr: "< content-length: 157"
+[17-Jun-2024 16:38:55] WARNING: [pool www] child 91074 said into stderr: "< "
+[17-Jun-2024 16:38:55] WARNING: [pool www] child 91074 said into stderr: "* Excess found: excess = 157 url = / (zero-length body)"
+[17-Jun-2024 16:38:55] WARNING: [pool www] child 91074 said into stderr: "* Connection #0 to host chic-dressing.local left intact"
+[17-Jun-2024 16:38:55] WARNING: [pool www] child 91074 said into stderr: "*   Trying [::1]:443..."
+[17-Jun-2024 16:38:55] WARNING: [pool www] child 91074 said into stderr: "* Connected to chic-dressing.local (::1) port 443 (#0)"
+[17-Jun-2024 16:38:55] WARNING: [pool www] child 91074 said into stderr: "* ALPN: offers h2,http/1.1"
+[17-Jun-2024 16:38:55] WARNING: [pool www] child 91074 said into stderr: "* SSL connection using TLSv1.2 / ECDHE-RSA-AES128-GCM-SHA256"
+[17-Jun-2024 16:38:55] WARNING: [pool www] child 91074 said into stderr: "* ALPN: server accepted h2"
+[17-Jun-2024 16:38:55] WARNING: [pool www] child 91074 said into stderr: "* Server certificate:"
+[17-Jun-2024 16:38:55] WARNING: [pool www] child 91074 said into stderr: "*  subject: CN=chic-dressing.local; C=XX; ST=XX; L=Fake Locality; O=Super Fake Company, Fake.; OU=Fake Organizational Unit"
+[17-Jun-2024 16:38:55] WARNING: [pool www] child 91074 said into stderr: "*  start date: Jun 13 10:50:09 2024 GMT"
+[17-Jun-2024 16:38:55] WARNING: [pool www] child 91074 said into stderr: "*  expire date: Jun 13 10:50:09 2034 GMT"
+[17-Jun-2024 16:38:55] WARNING: [pool www] child 91074 said into stderr: "*  subjectAltName: host "chic-dressing.local" matched cert's "chic-dressing.local""
+[17-Jun-2024 16:38:55] WARNING: [pool www] child 91074 said into stderr: "*  issuer: CN=chic-dressing.local; C=XX; ST=XX; L=Fake Locality; O=Super Fake Company, Fake.; OU=Fake Organizational Unit"
+[17-Jun-2024 16:38:55] WARNING: [pool www] child 91074 said into stderr: "*  SSL certificate verify result: self signed certificate (18), continuing anyway."
+[17-Jun-2024 16:38:55] WARNING: [pool www] child 91074 said into stderr: "* using HTTP/2"
+[17-Jun-2024 16:38:55] WARNING: [pool www] child 91074 said into stderr: "* h2 [:method: COPY]"
+[17-Jun-2024 16:38:55] WARNING: [pool www] child 91074 said into stderr: "* h2 [:scheme: https]"
+[17-Jun-2024 16:38:55] WARNING: [pool www] child 91074 said into stderr: "* h2 [:authority: chic-dressing.local]"
+[17-Jun-2024 16:38:55] WARNING: [pool www] child 91074 said into stderr: "* h2 [:path: /]"
+[17-Jun-2024 16:38:55] WARNING: [pool www] child 91074 said into stderr: "* h2 [accept: */*]"
+[17-Jun-2024 16:38:55] WARNING: [pool www] child 91074 said into stderr: "* Using Stream ID: 1 (easy handle 0x11201c600)"
+[17-Jun-2024 16:38:55] WARNING: [pool www] child 91074 said into stderr: "> COPY / HTTP/2"
+[17-Jun-2024 16:38:55] WARNING: [pool www] child 91074 said into stderr: "Host: chic-dressing.local"
+[17-Jun-2024 16:38:55] WARNING: [pool www] child 91074 said into stderr: "Accept: */*"
+[17-Jun-2024 16:38:55] WARNING: [pool www] child 91074 said into stderr: ""
+[17-Jun-2024 16:38:55] WARNING: [pool www] child 91074 said into stderr: "< HTTP/2 405 "
+[17-Jun-2024 16:38:55] WARNING: [pool www] child 91074 said into stderr: "< server: nginx/1.16.0"
+[17-Jun-2024 16:38:55] WARNING: [pool www] child 91074 said into stderr: "< date: Mon, 17 Jun 2024 14:38:55 GMT"
+[17-Jun-2024 16:38:55] WARNING: [pool www] child 91074 said into stderr: "< content-type: text/html"
+[17-Jun-2024 16:38:55] WARNING: [pool www] child 91074 said into stderr: "< content-length: 157"
+[17-Jun-2024 16:38:55] WARNING: [pool www] child 91074 said into stderr: "< "
+[17-Jun-2024 16:38:55] WARNING: [pool www] child 91074 said into stderr: "* Excess found: excess = 157 url = / (zero-length body)"
+[17-Jun-2024 16:38:55] WARNING: [pool www] child 91074 said into stderr: "* Connection #0 to host chic-dressing.local left intact"
+[17-Jun-2024 16:38:55] WARNING: [pool www] child 91074 said into stderr: "*   Trying [::1]:443..."
+[17-Jun-2024 16:38:55] WARNING: [pool www] child 91074 said into stderr: "* Connected to chic-dressing.local (::1) port 443 (#0)"
+[17-Jun-2024 16:38:55] WARNING: [pool www] child 91074 said into stderr: "* ALPN: offers h2,http/1.1"
+[17-Jun-2024 16:38:55] WARNING: [pool www] child 91074 said into stderr: "* SSL connection using TLSv1.2 / ECDHE-RSA-AES128-GCM-SHA256"
+[17-Jun-2024 16:38:55] WARNING: [pool www] child 91074 said into stderr: "* ALPN: server accepted h2"
+[17-Jun-2024 16:38:55] WARNING: [pool www] child 91074 said into stderr: "* Server certificate:"
+[17-Jun-2024 16:38:55] WARNING: [pool www] child 91074 said into stderr: "*  subject: CN=chic-dressing.local; C=XX; ST=XX; L=Fake Locality; O=Super Fake Company, Fake.; OU=Fake Organizational Unit"
+[17-Jun-2024 16:38:55] WARNING: [pool www] child 91074 said into stderr: "*  start date: Jun 13 10:50:09 2024 GMT"
+[17-Jun-2024 16:38:55] WARNING: [pool www] child 91074 said into stderr: "*  expire date: Jun 13 10:50:09 2034 GMT"
+[17-Jun-2024 16:38:55] WARNING: [pool www] child 91074 said into stderr: "*  subjectAltName: host "chic-dressing.local" matched cert's "chic-dressing.local""
+[17-Jun-2024 16:38:55] WARNING: [pool www] child 91074 said into stderr: "*  issuer: CN=chic-dressing.local; C=XX; ST=XX; L=Fake Locality; O=Super Fake Company, Fake.; OU=Fake Organizational Unit"
+[17-Jun-2024 16:38:55] WARNING: [pool www] child 91074 said into stderr: "*  SSL certificate verify result: self signed certificate (18), continuing anyway."
+[17-Jun-2024 16:38:55] WARNING: [pool www] child 91074 said into stderr: "* using HTTP/2"
+[17-Jun-2024 16:38:55] WARNING: [pool www] child 91074 said into stderr: "* h2 [:method: LINK]"
+[17-Jun-2024 16:38:55] WARNING: [pool www] child 91074 said into stderr: "* h2 [:scheme: https]"
+[17-Jun-2024 16:38:55] WARNING: [pool www] child 91074 said into stderr: "* h2 [:authority: chic-dressing.local]"
+[17-Jun-2024 16:38:55] WARNING: [pool www] child 91074 said into stderr: "* h2 [:path: /]"
+[17-Jun-2024 16:38:55] WARNING: [pool www] child 91074 said into stderr: "* h2 [accept: */*]"
+[17-Jun-2024 16:38:55] WARNING: [pool www] child 91074 said into stderr: "* Using Stream ID: 1 (easy handle 0x11200e000)"
+[17-Jun-2024 16:38:55] WARNING: [pool www] child 91074 said into stderr: "> LINK / HTTP/2"
+[17-Jun-2024 16:38:55] WARNING: [pool www] child 91074 said into stderr: "Host: chic-dressing.local"
+[17-Jun-2024 16:38:55] WARNING: [pool www] child 91074 said into stderr: "Accept: */*"
+[17-Jun-2024 16:38:55] WARNING: [pool www] child 91074 said into stderr: ""
+[17-Jun-2024 16:38:55] WARNING: [pool www] child 91074 said into stderr: "< HTTP/2 405 "
+[17-Jun-2024 16:38:55] WARNING: [pool www] child 91074 said into stderr: "< server: nginx/1.16.0"
+[17-Jun-2024 16:38:55] WARNING: [pool www] child 91074 said into stderr: "< date: Mon, 17 Jun 2024 14:38:55 GMT"
+[17-Jun-2024 16:38:55] WARNING: [pool www] child 91074 said into stderr: "< content-type: text/html"
+[17-Jun-2024 16:38:55] WARNING: [pool www] child 91074 said into stderr: "< content-length: 157"
+[17-Jun-2024 16:38:55] WARNING: [pool www] child 91074 said into stderr: "< "
+[17-Jun-2024 16:38:55] WARNING: [pool www] child 91074 said into stderr: "* Excess found: excess = 157 url = / (zero-length body)"
+[17-Jun-2024 16:38:55] WARNING: [pool www] child 91074 said into stderr: "* Connection #0 to host chic-dressing.local left intact"
+[17-Jun-2024 16:40:17] NOTICE: Terminating ...
+[17-Jun-2024 16:40:17] NOTICE: Terminating ...
+[17-Jun-2024 16:40:17] NOTICE: exiting, bye-bye!
+[17-Jun-2024 16:40:20] NOTICE: fpm is running, pid 92522
+[17-Jun-2024 16:40:20] NOTICE: ready to handle connections
+[17-Jun-2024 16:47:49] NOTICE: Terminating ...
+[17-Jun-2024 16:47:49] NOTICE: Terminating ...
+[17-Jun-2024 16:47:49] NOTICE: exiting, bye-bye!
+[18-Jun-2024 11:59:24] NOTICE: fpm is running, pid 94055
+[18-Jun-2024 11:59:24] NOTICE: ready to handle connections
+[19-Jun-2024 11:38:33] NOTICE: Terminating ...
+[19-Jun-2024 11:38:33] NOTICE: Terminating ...
+[19-Jun-2024 11:38:33] NOTICE: exiting, bye-bye!
+[19-Jun-2024 19:07:23] NOTICE: fpm is running, pid 2252
+[19-Jun-2024 19:07:23] NOTICE: ready to handle connections

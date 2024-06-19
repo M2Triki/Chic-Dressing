@@ -1,0 +1,1 @@
+2024/06/17 16:38:28 [error] 91079#0: *1660 access forbidden by rule, client: 127.0.0.1, server: , request: "GET /wp-content/uploads/code-execution.php HTTP/1.0", host: "chic-dressing.local"

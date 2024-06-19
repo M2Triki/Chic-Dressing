@@ -41,3 +41,20 @@ Stack trace:
 [18-Jun-2024 09:59:28 UTC] Cron reschedule event error for hook: rsssl_every_three_hours_hook, Error code: invalid_schedule, Error message: L’évènement planifié n’existe pas., Data: {"schedule":"rsssl_every_three_hours","args":[],"interval":10800}
 [18-Jun-2024 10:17:12 UTC] Cron reschedule event error for hook: ewww_image_optimizer_relative_migration, Error code: invalid_schedule, Error message: L’évènement planifié n’existe pas., Data: {"schedule":"ewwwio_relative_migration_interval","args":[],"interval":300}
 [19-Jun-2024 09:38:33 UTC] Cron reschedule event error for hook: rsssl_every_day_hook, Error code: invalid_schedule, Error message: L’évènement planifié n’existe pas., Data: {"schedule":"rsssl_daily","args":[],"interval":86400}
+[19-Jun-2024 21:28:13 UTC] PHP Fatal error:  Uncaught TypeError: implode(): Argument #2 ($array) must be of type ?array, string given in /Users/apollotriki/Local Sites/chic-dressing/app/public/wp-content/plugins/wysija-newsletters/helpers/file.php:161
+Stack trace:
+#0 /Users/apollotriki/Local Sites/chic-dressing/app/public/wp-content/plugins/wysija-newsletters/helpers/file.php(161): implode(Array, '|')
+#1 /Users/apollotriki/Local Sites/chic-dressing/app/public/wp-content/plugins/wysija-newsletters/core/base.php(820): WYSIJA_help_file->clear()
+#2 /Users/apollotriki/Local Sites/chic-dressing/app/public/wp-content/plugins/wysija-newsletters/helpers/cron.php(184): WYSIJA::croned_daily()
+#3 /Users/apollotriki/Local Sites/chic-dressing/app/public/wp-content/plugins/wysija-newsletters/helpers/cron.php(120): WYSIJA_help_cron->run_scheduled_task('daily')
+#4 /Users/apollotriki/Local Sites/chic-dressing/app/public/wp-content/plugins/wysija-newsletters/helpers/cron.php(56): WYSIJA_help_cron->check_scheduled_task(Array, 'daily')
+#5 /Users/apollotriki/Local Sites/chic-dressing/app/public/wp-content/plugins/wysija-newsletters/core/base.php(1525): WYSIJA_help_cron->run()
+#6 /Users/apollotriki/Local Sites/chic-dressing/app/public/wp-includes/class-wp-hook.php(324): init_wysija_cron('')
+#7 /Users/apollotriki/Local Sites/chic-dressing/app/public/wp-includes/class-wp-hook.php(348): WP_Hook->apply_filters(NULL, Array)
+#8 /Users/apollotriki/Local Sites/chic-dressing/app/public/wp-includes/plugin.php(517): WP_Hook->do_action(Array)
+#9 /Users/apollotriki/Local Sites/chic-dressing/app/public/wp-settings.php(695): do_action('init')
+#10 /Users/apollotriki/Local Sites/chic-dressing/app/public/wp-config.php(109): require_once('/Users/apollotr...')
+#11 /Users/apollotriki/Local Sites/chic-dressing/app/public/wp-load.php(50): require_once('/Users/apollotr...')
+#12 /Users/apollotriki/Local Sites/chic-dressing/app/public/wp-cron.php(46): require_once('/Users/apollotr...')
+#13 {main}
+  thrown in /Users/apollotriki/Local Sites/chic-dressing/app/public/wp-content/plugins/wysija-newsletters/helpers/file.php on line 161

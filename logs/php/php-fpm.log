@@ -313,3 +313,8 @@
 [19-Jun-2024 11:38:33] NOTICE: exiting, bye-bye!
 [19-Jun-2024 19:07:23] NOTICE: fpm is running, pid 2252
 [19-Jun-2024 19:07:23] NOTICE: ready to handle connections
+[19-Jun-2024 22:57:24] NOTICE: Terminating ...
+[19-Jun-2024 22:57:24] NOTICE: Terminating ...
+[19-Jun-2024 22:57:24] NOTICE: exiting, bye-bye!
+[19-Jun-2024 23:28:11] NOTICE: fpm is running, pid 4533
+[19-Jun-2024 23:28:11] NOTICE: ready to handle connections

@@ -14,6 +14,18 @@ Text Domain:	 chicdressing
     Add your custom styles here
 */
 
+@font-face {
+    font-family: 'Playfair Display';
+    src: url('/wp-content/themes/chicdressing/fonts/PlayfairDisplay-VariableFont_wght.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+body {
+    font-family: 'Playfair Display', serif;
+}
+
+
 
 body .page-content, .page-content select, .page-content input, .page-content textarea, .page-content .post-author a, .page-content .ashe-widget a, .page-content .comment-author {
     color: #a5a5a5;

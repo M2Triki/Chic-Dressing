@@ -22,3 +22,9 @@ function remove_ashe_google_fonts() {
     wp_deregister_style('ashe-rokkitt-font');
 }
 add_action('wp_enqueue_scripts', 'remove_ashe_google_fonts', 999);
+
+
+function seopress_theme_slug_setup() {
+    add_theme_support( 'title-tag' );
+}
+add_action( 'after_setup_theme', 'seopress_theme_slug_setup' );

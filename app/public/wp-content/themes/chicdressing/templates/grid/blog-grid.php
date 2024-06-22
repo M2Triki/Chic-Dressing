@@ -11,7 +11,7 @@
 	// Blog Grid
 	echo '<ul class="blog-grid">';
 	// On ajoute un titre à la section blog
-	echo '<h1 id="leblog" class="chic-title">Dernières publications </h1>';
+	echo '<h2 id="leblog" class="chic-title">Dernières publications </h2>';
 
 	if ( have_posts() ) :
 
@@ -48,9 +48,9 @@
 					?>
 
 					<?php if ( get_the_title() ) : ?>
-					<h2 class="post-title">
+					<h3 class="post-title">
 						<a href="<?php esc_url( the_permalink() ); ?>"><?php the_title(); ?></a>
-					</h2>
+					</h3>
 					<?php endif; ?>
 
 					<?php if ( ashe_options( 'blog_page_show_date' ) || ashe_options( 'blog_page_show_comments' ) ) : ?>

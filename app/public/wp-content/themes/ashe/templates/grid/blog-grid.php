@@ -46,9 +46,9 @@
 					?>
 
 					<?php if ( get_the_title() ) : ?>
-					<h3 class="post-title">
+					<h2 class="post-title">
 						<a href="<?php echo esc_url( get_the_permalink() ); ?>"><?php the_title(); ?></a>
-					</h3>
+					</h2>
 					<?php endif; ?>
 
 					<?php if ( ashe_options( 'blog_page_show_date' ) || ashe_options( 'blog_page_show_comments' ) ) : ?>

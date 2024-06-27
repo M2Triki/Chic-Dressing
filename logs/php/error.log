@@ -61,3 +61,5 @@ Stack trace:
 [19-Jun-2024 22:11:02 UTC] PHP Parse error:  Unterminated comment starting line 10 in /Users/apollotriki/Local Sites/chic-dressing/app/public/wp-content/themes/chicdressing/functions.php on line 10
 [19-Jun-2024 22:11:03 UTC] PHP Parse error:  Unterminated comment starting line 10 in /Users/apollotriki/Local Sites/chic-dressing/app/public/wp-content/themes/chicdressing/functions.php on line 10
 [22-Jun-2024 11:42:54 UTC] Cron reschedule event error for hook: action_scheduler_run_queue, Error code: could_not_set, Error message: La liste des évènements planifiés n’a pas pu être sauvegardée., Data: {"schedule":"every_minute","args":["WP Cron"],"interval":60}
+[27-Jun-2024 14:25:19 UTC] Cron reschedule event error for hook: rsssl_every_week_hook, Error code: invalid_schedule, Error message: L’évènement planifié n’existe pas., Data: {"schedule":"rsssl_weekly","args":[],"interval":604800}
+[27-Jun-2024 14:25:22 UTC] Cron reschedule event error for hook: rsssl_every_week_hook, Error code: invalid_schedule, Error message: L’évènement planifié n’existe pas., Data: {"schedule":"rsssl_weekly","args":[],"interval":604800}

@@ -74,7 +74,7 @@ $slider_data .= '}';
 
 	<div class="slider-item">
 
-		<div class="slider-item-bg theme-parent" style="background-image:url(<?php echo esc_url($featured_image); ?>);"></div>
+		<div class="slider-item-bg" style="background-image:url(<?php echo esc_url($featured_image); ?>);"></div>
 
 		<div class="cv-container image-overlay">
 			<div class="cv-outer">

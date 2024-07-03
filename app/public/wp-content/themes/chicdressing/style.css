@@ -50,7 +50,19 @@ Text Domain:	 chicdressing
 }
 
 /* Rokkit */
+@font-face {
+    font-family: 'Rokkit';
+    src: url('/wp-content/themes/chicdressing/fonts/Rokkitt-VariableFont_wght.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
 
+@font-face {
+    font-family: 'Rokkit';
+    src: url('/wp-content/themes/chicdressing/fonts/Rokkitt-Italic-VariableFont_wght.ttf') format('truetype');
+    font-weight: normal;
+    font-style: italic;
+}
 
 
 

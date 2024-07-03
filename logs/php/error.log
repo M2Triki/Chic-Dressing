@@ -63,3 +63,7 @@ Stack trace:
 [22-Jun-2024 11:42:54 UTC] Cron reschedule event error for hook: action_scheduler_run_queue, Error code: could_not_set, Error message: La liste des évènements planifiés n’a pas pu être sauvegardée., Data: {"schedule":"every_minute","args":["WP Cron"],"interval":60}
 [27-Jun-2024 14:25:19 UTC] Cron reschedule event error for hook: rsssl_every_week_hook, Error code: invalid_schedule, Error message: L’évènement planifié n’existe pas., Data: {"schedule":"rsssl_weekly","args":[],"interval":604800}
 [27-Jun-2024 14:25:22 UTC] Cron reschedule event error for hook: rsssl_every_week_hook, Error code: invalid_schedule, Error message: L’évènement planifié n’existe pas., Data: {"schedule":"rsssl_weekly","args":[],"interval":604800}
+[03-Jul-2024 16:18:50 UTC] PHP Warning:  Undefined array key "id_form" in /Users/apollotriki/Local Sites/chic-dressing/app/public/wp-content/plugins/wysija-newsletters/views/front/widget_nl.php on line 125
+[03-Jul-2024 16:19:31 UTC] PHP Warning:  Undefined array key "id_form" in /Users/apollotriki/Local Sites/chic-dressing/app/public/wp-content/plugins/wysija-newsletters/views/front/widget_nl.php on line 125
+[03-Jul-2024 16:20:51 UTC] PHP Warning:  Undefined array key "id_form" in /Users/apollotriki/Local Sites/chic-dressing/app/public/wp-content/plugins/wysija-newsletters/views/front/widget_nl.php on line 125
+[03-Jul-2024 18:03:18 UTC] PHP Warning:  Undefined array key "id_form" in /Users/apollotriki/Local Sites/chic-dressing/app/public/wp-content/plugins/wysija-newsletters/views/front/widget_nl.php on line 125

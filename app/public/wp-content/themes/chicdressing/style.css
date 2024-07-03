@@ -68,7 +68,7 @@ Text Domain:	 chicdressing
 
 
 body .page-content, .page-content select, .page-content input, .page-content textarea, .page-content .post-author a, .page-content .ashe-widget a, .page-content .comment-author {
-    color: #a5a5a5;
+    color: black;
     font-size: 12px;
 }
 
@@ -116,3 +116,13 @@ body .header-logo a{
     background: #f6f6f6;
     padding-bottom: 20px;
 }
+
+.rpwwt-post-categories {
+    color: black!important;
+}
+
+.button, .read-more a { /* Boutons ADD to Cart et Read More en marron */
+    color: #795824!important;
+}
+
+

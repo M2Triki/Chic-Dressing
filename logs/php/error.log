@@ -67,3 +67,4 @@ Stack trace:
 [03-Jul-2024 16:19:31 UTC] PHP Warning:  Undefined array key "id_form" in /Users/apollotriki/Local Sites/chic-dressing/app/public/wp-content/plugins/wysija-newsletters/views/front/widget_nl.php on line 125
 [03-Jul-2024 16:20:51 UTC] PHP Warning:  Undefined array key "id_form" in /Users/apollotriki/Local Sites/chic-dressing/app/public/wp-content/plugins/wysija-newsletters/views/front/widget_nl.php on line 125
 [03-Jul-2024 18:03:18 UTC] PHP Warning:  Undefined array key "id_form" in /Users/apollotriki/Local Sites/chic-dressing/app/public/wp-content/plugins/wysija-newsletters/views/front/widget_nl.php on line 125
+[11-Jul-2024 15:41:09 UTC] PHP Deprecated:  The PSR-0 `Requests_...` class names in the Requests library are deprecated. Switch to the PSR-4 `WpOrg\Requests\...` class names at your earliest convenience. in /Users/apollotriki/Local Sites/chic-dressing/app/public/wp-includes/class-requests.php on line 24
